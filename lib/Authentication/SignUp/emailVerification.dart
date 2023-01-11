@@ -130,7 +130,7 @@ class _EmailVerificationState extends State<EmailVerification> {
 
   @override
   Widget build(BuildContext context) {
-    timer = Timer.periodic(Duration(seconds: 3), (timer) {
+    timer = Timer.periodic(Duration(seconds: 30), (timer) {
       checkEmailVerified();
     });
     return Scaffold(
@@ -143,8 +143,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                 color: Colors.white,
               ),
               onPressed: () => {
-
-                print(">>>>>"),
+                    print(">>>>>"),
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
@@ -161,7 +160,7 @@ class _EmailVerificationState extends State<EmailVerification> {
         title: Text(
           "Verification",
           style: TextStyle(
-            fontSize: 25,
+            fontSize: 22,
             fontFamily: "cute",
           ),
         ),
@@ -176,8 +175,8 @@ class _EmailVerificationState extends State<EmailVerification> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        height: 200,
-                        width: 200,
+                        height: 180,
+                        width: 180,
                         child: RiveAnimation.asset(
                           'images/authLogo.riv',
                         ),
@@ -195,7 +194,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                             style: TextStyle(
                               fontFamily: 'cute',
                               color: Colors.green.shade700,
-                              fontSize: 18,
+                              fontSize: 16,
                             ),
                           ),
                         ),
@@ -225,7 +224,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                             style: TextStyle(
                               fontFamily: 'cute',
                               color: Colors.blue.shade700,
-                              fontSize: 13,
+                              fontSize: 12,
                             ),
                           ),
                         ),
@@ -236,10 +235,25 @@ class _EmailVerificationState extends State<EmailVerification> {
               : Column(
                   children: [
                     Container(
-                      height: 200,
-                      width: 200,
+                      height: 180,
+                      width: 180,
                       child: RiveAnimation.asset(
                         'images/authLogo.riv',
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.blue.shade700,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Text(
+                        "Note: Stay Here",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'cute',
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
                       ),
                     ),
                     Padding(
@@ -251,27 +265,13 @@ class _EmailVerificationState extends State<EmailVerification> {
                           fontFamily: 'cutes',
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 15,
+                          fontSize: 12,
                         ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.blue.shade700,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Text(
-                        "Stay Here",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'cute',
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
+
                     Padding(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.only(left: 20, right: 20, ),
                       child: Text(
                         "A Link sent to your email, kindly open that email and click on link to verify.",
                         textAlign: TextAlign.center,
@@ -293,12 +293,12 @@ class _EmailVerificationState extends State<EmailVerification> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'cute',
-                                color: Colors.white,
+                                color: Colors.greenAccent,
                                 fontSize: 18,
                               ),
                             ),
                             SpinKitCircle(
-                              color: Colors.white,
+                              color: Colors.greenAccent,
                               size: 16,
                             )
                           ],

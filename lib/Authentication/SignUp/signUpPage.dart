@@ -25,16 +25,13 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   bool isLoading = false;
-  TextEditingController passwordTextEditingController = TextEditingController();
-  TextEditingController userNameTextEditingController = TextEditingController();
-
-  TextEditingController emailTextEditingController = TextEditingController();
-  bool _isHidden = true;
+  TextEditingController passController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   FocusNode _passFocusNode = FocusNode();
   FocusNode _emailFocusNode = FocusNode();
   List userList = [];
   List userList2 = [];
-
+  bool _isHidden = true;
   late Map<dynamic, dynamic> values;
   bool userListEmpty = false;
   bool userExists = false;
@@ -50,49 +47,19 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-
-    getAllUsers();
-  }
-
-  getAllUsers() {
-    userRefForSearchRtd.once().then((DataSnapshot snapshot) {
-      values = snapshot.value;
-      List userList = [];
-      if (values == null) {
-        setState(() {
-          userListEmpty = true;
-        });
-      } else {
-        setState(() {
-          values
-              .forEach((index, data) => userList.add({"user": index, ...data}));
-        });
-        setState(() {
-          this.userList = userList;
-        });
-      }
-    });
-  }
-
   void removeSpace() {
-    emailTextEditingController.text =
-        emailTextEditingController.text.replaceAll(" ", "");
+    emailController.text = emailController.text.replaceAll(" ", "");
   }
 
   Future<void> signUp() async {
     removeSpace();
     try {
       final auth = Provider.of<AuthBase>(context, listen: false);
-
       await auth.createUserWithEmailAndPassword(
-          emailTextEditingController.text, passwordTextEditingController.text);
-
+          emailController.text, passController.text);
       setState(() {
         isLoading = false;
-        Constants.pass = passwordTextEditingController.text;
+        Constants.pass = passController.text;
       });
 
       Navigator.of(context).push(
@@ -115,17 +82,16 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Column(
                   children: [
                     Container(
-
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Row(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.center,
-                          mainAxisAlignment:
-                          MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.linear_scale_sharp,
-                              color: Colors.white,),
+                            Icon(
+                              Icons.linear_scale_sharp,
+                              color: Colors.white,
+                            ),
                           ],
                         ),
                       ),
@@ -169,36 +135,11 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  userValidater(String userName) {
-    if (userName.isNotEmpty) {
-      setState(() {
-        userList2 = userList;
-      });
-      int trendIndex = userList.indexWhere((f) =>
-          f['userName'] == userNameTextEditingController.text.toLowerCase());
-
-      if (trendIndex == -1) {
-        print("not exists");
-
-        setState(() {
-          userExists = false;
-        });
-      } else {
-        print("exists");
-        setState(() {
-          userExists = true;
-        });
-      }
-
-      print(userList2.length);
-    } else {
-      print("empty");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.lightBlue,
+
       appBar: AppBar(
         title: Text(
           "",
@@ -255,13 +196,13 @@ class _SignUpPageState extends State<SignUpPage> {
                         fontSize: 12,
                         fontFamily: "Cute",
                       ),
-                      onTap: () => userValidater(
-                          userNameTextEditingController.text.toLowerCase()),
+                      // onTap: () => userValidater(
+                      //     usernameController.text.toLowerCase()),
                       // onChanged: (values) {
 
                       // },
                       focusNode: _emailFocusNode,
-                      controller: emailTextEditingController,
+                      controller: emailController,
                       decoration: InputDecoration(
                         fillColor: Colors.transparent,
                         isDense: true,
@@ -301,7 +242,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         color: Colors.blue.shade900,
                         fontSize: 12,
                       ),
-                      controller: passwordTextEditingController,
+                      controller: passController,
                       onEditingComplete: signUp,
                       decoration: InputDecoration(
                         suffix: InkWell(
@@ -400,6 +341,11 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 35,
                     width: 100,
                     child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          shadowColor: Colors.transparent,
+                          elevation: 0.0,
+                        ),
                         child: isLoading
                             ? SpinKitFadingCircle(
                                 color: Colors.blue.shade700,
@@ -415,8 +361,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                               ),
                         onPressed: () => {
-                              if (emailTextEditingController.text.isEmpty ||
-                                  passwordTextEditingController.text.isEmpty)
+                              if (emailController.text.isEmpty ||
+                                  passController.text.isEmpty)
                                 {
                                   showModalBottomSheet(
                                       useRootNavigator: true,
@@ -490,60 +436,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
 
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Container(
-                //     height: 50,
-                //     padding: EdgeInsets.fromLTRB(60, 0, 60, 0),
-                //     child: TextField(
-                //       obscureText: _isHidden,
-                //
-                //       keyboardType: TextInputType.url,
-                //       textInputAction: TextInputAction.done,
-                //       style: TextStyle(
-                //
-                //         color: Colors.blue.shade900,
-                //         fontSize: 12,
-                //         fontFamily: "Cute",
-                //       ),
-                //       controller: passwordTextEditingController,
-                //       decoration: InputDecoration(
-                //         suffix: InkWell(
-                //           onTap: _togglePasswordView,
-                //           child: Icon(
-                //             _isHidden
-                //                 ? Icons.visibility
-                //                 : Icons.visibility_off,
-                //             size: 16,
-                //           ),
-                //         ),
-                //         fillColor: Colors.transparent,
-                //         isDense: true,
-                //         enabledBorder: OutlineInputBorder(
-                //           borderRadius: BorderRadius.all(
-                //             Radius.circular(20),
-                //           ),
-                //           borderSide:
-                //               new BorderSide(color: Colors.white, width: 2),
-                //         ),
-                //         filled: true,
-                //         focusedBorder: OutlineInputBorder(
-                //           borderRadius: BorderRadius.all(
-                //             Radius.circular(20),
-                //           ),
-                //           borderSide:
-                //               new BorderSide(color: Colors.white, width: 2),
-                //         ),
-                //         labelText: 'Password',
-                //         labelStyle: TextStyle(
-                //             fontFamily: "Cute",
-                //             color: Colors.blue.shade900,
-                //             fontSize: 12),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-
                 Padding(
                   padding: const EdgeInsets.only(top: 25),
                   child: Container(
@@ -557,6 +449,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                       ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            elevation: 0.0,
+                          ),
                           child: Text(
                             'Sign In',
                             style: TextStyle(

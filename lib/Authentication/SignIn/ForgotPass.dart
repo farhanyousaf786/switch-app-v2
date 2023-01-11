@@ -50,8 +50,6 @@ class _ForgotPassState extends State<ForgotPass> {
     print(emailTextEditingController.text);
 
     Future.delayed(const Duration(milliseconds: 100), () async {
-
-
       try {
         await _firebaseAuth.sendPasswordResetEmail(
             email: emailTextEditingController.text);
@@ -74,23 +72,21 @@ class _ForgotPassState extends State<ForgotPass> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Row(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.center,
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.linear_scale_sharp,
-                                color: Colors.white,),
+                              Icon(
+                                Icons.linear_scale_sharp,
+                                color: Colors.white,
+                              ),
                             ],
                           ),
                         ),
                         color: Colors.blue,
                       ),
-
                       Padding(
                         padding: const EdgeInsets.all(15),
                         child: Text(
@@ -102,13 +98,11 @@ class _ForgotPassState extends State<ForgotPass> {
                               color: Colors.blue),
                         ),
                       ),
-
                     ],
                   ),
                 ),
               );
             });
-
       } catch (e) {
         // This is bottom sheet will pop up is any error occurs
         showModalBottomSheet(
@@ -125,17 +119,16 @@ class _ForgotPassState extends State<ForgotPass> {
                   child: Column(
                     children: [
                       Container(
-
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Row(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.center,
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.linear_scale_sharp,
-                                color: Colors.white,),
+                              Icon(
+                                Icons.linear_scale_sharp,
+                                color: Colors.white,
+                              ),
                             ],
                           ),
                         ),
@@ -165,14 +158,7 @@ class _ForgotPassState extends State<ForgotPass> {
               );
             });
       }
-
-
     });
-
-
-
-
-
   }
 
   @override
@@ -183,10 +169,16 @@ class _ForgotPassState extends State<ForgotPass> {
 
     return Scaffold(
       // simple appBar
-      backgroundColor: Constants.isDark == 'true' ? Colors.grey.shade500 : Colors.blue.shade600,
+      backgroundColor: Colors.lightBlue,
       appBar: AppBar(
-        elevation: 6,
-        leading: Text(""),
+        leading: GestureDetector(
+          onTap: () => {Navigator.pop(context)},
+          child: Icon(
+            Icons.arrow_back_ios_new,
+          ),
+        ),
+        backgroundColor: Colors.lightBlue,
+        elevation: 0.0,
         centerTitle: true,
         title: Text(
           "Recovery Mood",
@@ -215,8 +207,9 @@ class _ForgotPassState extends State<ForgotPass> {
                     "Enter Email for reset password",
                     style: TextStyle(
                       fontFamily: "Cute",
-                      color:  Constants.isDark == 'true' ? Colors.white : Colors.white,
-
+                      color: Constants.isDark == 'true'
+                          ? Colors.white
+                          : Colors.white,
                       fontSize: 12,
                     ),
                   ),
@@ -230,8 +223,9 @@ class _ForgotPassState extends State<ForgotPass> {
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       style: TextStyle(
-                        color:  Constants.isDark == 'true' ? Colors.white : Colors.white,
-
+                        color: Constants.isDark == 'true'
+                            ? Colors.white
+                            : Colors.white,
                         fontSize: 12,
                         fontFamily: "Cute",
                       ),
@@ -239,26 +233,31 @@ class _ForgotPassState extends State<ForgotPass> {
                       decoration: InputDecoration(
                         fillColor: Colors.transparent,
                         isDense: true,
-
                         enabledBorder: OutlineInputBorder(
-
                           borderRadius: BorderRadius.all(Radius.circular(20)),
-                          borderSide: new BorderSide(width: 2,
-                            color:  Constants.isDark == 'true' ? Colors.white : Colors.white,
+                          borderSide: new BorderSide(
+                            width: 2,
+                            color: Constants.isDark == 'true'
+                                ? Colors.white
+                                : Colors.white,
                           ),
                         ),
                         filled: true,
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
-                          borderSide: new BorderSide(width: 2,
-                            color:  Constants.isDark == 'true' ? Colors.white : Colors.white,
+                          borderSide: new BorderSide(
+                            width: 2,
+                            color: Constants.isDark == 'true'
+                                ? Colors.white
+                                : Colors.white,
                           ),
                         ),
                         labelText: ' Email',
                         labelStyle: TextStyle(
                           fontFamily: "Cute",
-                          color:  Constants.isDark == 'true' ? Colors.white : Colors.white,
-
+                          color: Constants.isDark == 'true'
+                              ? Colors.white
+                              : Colors.white,
                           fontSize: 12,
                         ),
                       ),
@@ -271,7 +270,9 @@ class _ForgotPassState extends State<ForgotPass> {
                     child: Text(
                       "Reset",
                       style: TextStyle(
-                      color:  Constants.isDark == 'true' ? Colors.white : Colors.white,
+                        color: Constants.isDark == 'true'
+                            ? Colors.white
+                            : Colors.white,
                         fontFamily: "Cute",
                         fontSize: 14,
                       ),
@@ -281,8 +282,8 @@ class _ForgotPassState extends State<ForgotPass> {
               ],
             )
           : SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-            child: Column(
+              scrollDirection: Axis.vertical,
+              child: Column(
                 children: [
                   SizedBox(
                     height: 10,
@@ -295,21 +296,26 @@ class _ForgotPassState extends State<ForgotPass> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                    padding:
+                        const EdgeInsets.only(top: 10, left: 20, right: 20),
                     child: Text(
                       "Note: If email does not receive within 1 minute, then please check your email spam folder.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: "Cute",
                         fontSize: 20,
-                        color:  Constants.isDark == 'true' ? Colors.white : Colors.white,
+                        color: Constants.isDark == 'true'
+                            ? Colors.white
+                            : Colors.white,
                       ),
                     ),
                   ),
                   TextButton(
                     onPressed: () => {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => LandingPage())),
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LandingPage())),
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -321,8 +327,9 @@ class _ForgotPassState extends State<ForgotPass> {
                         child: Text(
                           "Got It",
                           style: TextStyle(
-                            color:  Constants.isDark == 'true' ? Colors.white : Colors.white,
-
+                            color: Constants.isDark == 'true'
+                                ? Colors.white
+                                : Colors.white,
                             fontFamily: "Cute",
                             fontSize: 14,
                           ),
@@ -359,8 +366,9 @@ class _ForgotPassState extends State<ForgotPass> {
                                 style: TextStyle(
                                   fontFamily: "Cute",
                                   fontSize: 16,
-                                  color:  Constants.isDark == 'true' ? Colors.white : Colors.white,
-
+                                  color: Constants.isDark == 'true'
+                                      ? Colors.white
+                                      : Colors.white,
                                 ),
                               ),
                             ),
@@ -373,9 +381,9 @@ class _ForgotPassState extends State<ForgotPass> {
                                 style: TextStyle(
                                   fontFamily: "Cute",
                                   fontSize: 16,
-                                  color:  Constants.isDark == 'true' ? Colors.white : Colors.white,
-
-
+                                  color: Constants.isDark == 'true'
+                                      ? Colors.white
+                                      : Colors.white,
                                 ),
                               ),
                               onPressed: () {},
@@ -387,7 +395,7 @@ class _ForgotPassState extends State<ForgotPass> {
                   ),
                 ],
               ),
-          ),
+            ),
     );
   }
 }

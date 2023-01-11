@@ -176,19 +176,17 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.lightBlue,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          "",
-          style: TextStyle(
-            fontFamily: "Cute",
-            fontSize: 14,
-            color: Colors.white,
-          ),
-        ),
         centerTitle: true,
         backgroundColor: Colors.lightBlue,
         elevation: 0,
+        leading: GestureDetector(
+          onTap: () => {Navigator.pop(context)},
+          child: Icon(
+            Icons.arrow_back_ios_new,
+          ),
+        ),
       ),
       // backgroundColor: Colors.blue.shade100,
       body: Container(
@@ -360,8 +358,11 @@ class _SignInPageState extends State<SignInPage> {
                     height: 35,
                     width: 100,
                     child: ElevatedButton(
-                      // disabledColor: Colors.indigo.shade400,
-
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        shadowColor: Colors.transparent,
+                        elevation: 0.0,
+                      ),
                       child: isLoading
                           ? SpinKitFadingCircle(
                               color: Colors.blue.shade700,
@@ -454,11 +455,18 @@ class _SignInPageState extends State<SignInPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 15),
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      elevation: 0.0,
+                      shadowColor: Colors.transparent,
+                    ),
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ForgotPass()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ForgotPass(),
+                        ),
+                      );
                     },
                     child: Text(
                       'Forgot Password',
@@ -470,16 +478,21 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                 ),
                 Container(
-                    child: Row(
-                  children: <Widget>[
-                    Text(
-                      "Don't have an account?",
-                      style: TextStyle(
-                        color: Colors.blue.shade900,
-                        fontFamily: "Cute",
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        "Don't have an account?",
+                        style: TextStyle(
+                          color: Colors.blue.shade900,
+                          fontFamily: "Cute",
+                        ),
                       ),
-                    ),
-                    ElevatedButton(
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          elevation: 0.0,
+                        ),
                         child: Text(
                           'Sign Up',
                           style: TextStyle(
@@ -489,16 +502,18 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                         ),
                         onPressed: () => {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SignUpPage(),
-                                ),
-                              )
-                            }),
-                  ],
-                  mainAxisAlignment: MainAxisAlignment.center,
-                )),
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignUpPage(),
+                            ),
+                          ),
+                        },
+                      ),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                ),
               ],
             ),
           ),
