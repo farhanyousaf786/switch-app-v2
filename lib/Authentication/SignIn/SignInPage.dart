@@ -83,66 +83,74 @@ class _SignInPageState extends State<SignInPage> {
         Constants.pass = passwordTextEditingController.text;
       });
 
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LandingPage()));
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => LandingPage(),
+        ),
+        (route) => false,
+      );
     } on FirebaseAuthException catch (e) {
       showModalBottomSheet(
           useRootNavigator: true,
           isScrollControlled: true,
           barrierColor: Colors.red.withOpacity(0.2),
           elevation: 0,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
           context: context,
           builder: (context) {
             return Container(
-              height: MediaQuery.of(context).size.height / 2.5,
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
+              height: MediaQuery.of(context).size.height / 2.2,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.linear_scale_sharp),
+                            Icon(
+                              Icons.linear_scale_sharp,
+                              color: Colors.white,
+                            ),
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Container(
-                            height: 150,
-                            width: 150,
-                            child: Lottie.asset("images/error.json")),
+                      color: Colors.blue,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Container(
+                          height: 150,
+                          width: 150,
+                          child: Lottie.asset("images/error.json")),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Email or password is incorrect, or already been taken",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: "cutes",
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "This email or password is incorrect, or already been taken",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: "cutes",
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red),
-                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Note:  Check your internet too.",
+                        style: TextStyle(
+                            fontSize: 10,
+                            fontFamily: "cutes",
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Note:  Check your internet too.",
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontFamily: "cutes",
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );
@@ -150,10 +158,26 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
+  Future<void> _signInWithGoogle() async {
+    final auth = Provider.of<AuthBase>(context, listen: false);
+
+    try {
+      await auth.signInWithGoogle();
+      print("Gooooooooooooooooooooooooooogel: " +
+          auth.currentUser!.displayName.toString());
+
+      print("Gooooooooooooooooooooooooooogel: " +
+          auth.currentUser!.uid.toString());
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           "",
           style: TextStyle(
@@ -335,12 +359,7 @@ class _SignInPageState extends State<SignInPage> {
                   child: SizedBox(
                     height: 35,
                     width: 100,
-                    child: RaisedButton(
-                      elevation: 0.0,
-                      color: Colors.blue.shade50,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          side: BorderSide(color: Colors.blue.shade700)),
+                    child: ElevatedButton(
                       // disabledColor: Colors.indigo.shade400,
 
                       child: isLoading
@@ -373,17 +392,24 @@ class _SignInPageState extends State<SignInPage> {
                                     child: SingleChildScrollView(
                                       child: Column(
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(5.0),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(Icons.linear_scale_sharp),
-                                              ],
+                                          Container(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.linear_scale_sharp,
+                                                    color: Colors.white,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
+                                            color: Colors.blue,
                                           ),
                                           Padding(
                                             padding:
@@ -427,7 +453,7 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 15),
-                  child: FlatButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -453,8 +479,7 @@ class _SignInPageState extends State<SignInPage> {
                         fontFamily: "Cute",
                       ),
                     ),
-                    FlatButton(
-                        textColor: Colors.blue[100],
+                    ElevatedButton(
                         child: Text(
                           'Sign Up',
                           style: TextStyle(
@@ -465,9 +490,11 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                         onPressed: () => {
                               Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SignUpPage()))
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SignUpPage(),
+                                ),
+                              )
                             }),
                   ],
                   mainAxisAlignment: MainAxisAlignment.center,

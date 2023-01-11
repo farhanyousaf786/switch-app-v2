@@ -79,6 +79,11 @@ class _ProfileDecencyState extends State<MemeDecency> {
                   counterForFive));
 
           userMemePercentageDecency = (userMemeDecency / 5) * 100;
+        }else{
+
+          print("mullllllllllllllllllllllllllllllllllllllllllllllllllll");
+
+
         }
 
         widget.onPressedButton2();
@@ -172,10 +177,18 @@ class _ProfileDecencyState extends State<MemeDecency> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
     checkIfDecencyExist();
     getDecencyReport();
+
+    Future.delayed(const Duration(seconds: 1), () {
+      if (mounted)
+        setState(() {
+          isDataReady = true;
+        });
+    });
+
+    super.initState();
+
   }
 
   @override
@@ -192,7 +205,6 @@ class _ProfileDecencyState extends State<MemeDecency> {
                       child: Container(
                         height: 75,
                         width: MediaQuery.of(context).size.width,
-                        color: Colors.white,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 18, right: 10),
                           child: SingleChildScrollView(
@@ -312,6 +324,7 @@ class _ProfileDecencyState extends State<MemeDecency> {
                 )
                 : SizedBox(),
           )
-        : Container();
+        : Container(height: 50,
+    );
   }
 }

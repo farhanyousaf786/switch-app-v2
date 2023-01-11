@@ -26,7 +26,7 @@ class _InAppNotificationState extends State<InAppNotification> {
           padding: const EdgeInsets.only(top: 30, left: 8, right: 8),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.blue.withOpacity(0.9),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.blue),
             ),
@@ -39,7 +39,6 @@ class _InAppNotificationState extends State<InAppNotification> {
                   Text(
                     Constants.notificationType,
                     style: TextStyle(
-                        color: Colors.blue,
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
@@ -49,7 +48,6 @@ class _InAppNotificationState extends State<InAppNotification> {
                   Text(
                     Constants.notificationContent,
                     style: TextStyle(
-                      color: Colors.blue,
                     ),
                   ),
                   SizedBox(
@@ -57,9 +55,8 @@ class _InAppNotificationState extends State<InAppNotification> {
                   ),
                   Text(
                     "Close",
-                    style: TextStyle(
-                        color: Colors.grey, fontSize: 12, fontFamily: 'cutes'),
-                  )
+                    style: TextStyle( fontSize: 12, fontFamily: 'cutes'),
+                  ),
               ],
             ),
                 )),

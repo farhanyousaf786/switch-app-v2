@@ -3,7 +3,7 @@ const admin = require("firebase-admin");
 const { Message } = require("firebase-functions/lib/providers/pubsub");
 admin.initializeApp();
 
-
+//ddwdw
 exports.onCreatMessage = functions.database.ref('/switchChatMessages-786/{chatRoomId}/{messageId}')
     .onCreate( async (snapshot, context) => {
 const CreatedActivityFeedItem = snapshot.val()

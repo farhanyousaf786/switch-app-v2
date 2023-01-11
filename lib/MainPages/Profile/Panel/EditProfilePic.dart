@@ -380,10 +380,7 @@ class _EditProfilePicState extends State<EditProfilePic> {
                 ),
               ),
               Center(
-                child: RaisedButton(
-                  elevation: 0,
-                  textColor: Colors.blue,
-                  color: Colors.blue.withOpacity(0.1),
+                child: ElevatedButton(
                   child: Text(
                     'Done',
                     style: TextStyle(

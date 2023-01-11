@@ -116,8 +116,10 @@ class _MemeCompState extends State<MemeComp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
+        backgroundColor:Constants.isDark == "true" ? Colors.grey.shade700 : Colors.blue.shade500,
         leading: Padding(
-          padding: const EdgeInsets.only(top: 8),
+          padding: const EdgeInsets.only(top: 3),
           child: GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Icon(
@@ -132,7 +134,6 @@ class _MemeCompState extends State<MemeComp> {
         ),
         centerTitle: true,
         elevation: 0,
-        shadowColor: Colors.grey,
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -141,7 +142,7 @@ class _MemeCompState extends State<MemeComp> {
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomRight,
-              colors: [Colors.blue, Colors.lightBlue.shade100]),
+              colors: Constants.isDark == "true" ? [Colors.grey.shade700, Colors.grey.shade500]: [Colors.blue, Colors.lightBlue.shade100]),
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -179,8 +180,7 @@ class _MemeCompState extends State<MemeComp> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Material(
-                  elevation: 2,
-                  shadowColor: Colors.blue.shade700,
+                  elevation: 3,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   child: Container(
@@ -191,7 +191,7 @@ class _MemeCompState extends State<MemeComp> {
                       gradient: LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
-                          colors: [Colors.blue.shade900, Colors.blue.shade700]),
+                          colors: Constants.isDark == "true" ? [Colors.grey.shade800, Colors.grey.shade600]: [Colors.blue.shade900, Colors.lightBlue.shade700]),
                     ),
                     child: isLoading
                         ? Center(
@@ -282,7 +282,7 @@ class _MemeCompState extends State<MemeComp> {
                                   padding: const EdgeInsets.only(left: 6),
                                   child: Center(
                                     child: Text(
-                                      "500 pkr, ",
+                                      "1500 pkr, ",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'cute',
@@ -306,7 +306,7 @@ class _MemeCompState extends State<MemeComp> {
                                   padding: const EdgeInsets.only(left: 6),
                                   child: Center(
                                     child: Text(
-                                      "400 pkr",
+                                      "1000 pkr",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'cute',
@@ -325,7 +325,6 @@ class _MemeCompState extends State<MemeComp> {
                   ? SingleChildScrollView(
                       child: Material(
                         elevation: 2,
-                        shadowColor: Colors.blue.shade700,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
                         child: Container(
@@ -336,10 +335,8 @@ class _MemeCompState extends State<MemeComp> {
                             gradient: LinearGradient(
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
-                                colors: [
-                                  Colors.blue.shade900,
-                                  Colors.blue.shade700
-                                ]),
+                                colors: Constants.isDark == "true" ? [Colors.grey.shade800, Colors.grey.shade600]: [Colors.blue.shade900, Colors.lightBlue.shade700]),
+
                           ),
                           child: SingleChildScrollView(
                             child: Column(
@@ -378,7 +375,6 @@ class _MemeCompState extends State<MemeComp> {
               SingleChildScrollView(
                 child: Material(
                   elevation: 2,
-                  shadowColor: Colors.blue.shade700,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   child: Container(
@@ -389,7 +385,7 @@ class _MemeCompState extends State<MemeComp> {
                       gradient: LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
-                          colors: [Colors.blue.shade900, Colors.blue.shade700]),
+                          colors: Constants.isDark == "true" ? [Colors.grey.shade800, Colors.grey.shade600]: [Colors.blue.shade900, Colors.lightBlue.shade700]),
                     ),
                     child: SingleChildScrollView(
                       child: Column(
@@ -614,7 +610,6 @@ class _MemeCompState extends State<MemeComp> {
               SingleChildScrollView(
                 child: Material(
                   elevation: 2,
-                  shadowColor: Colors.blue.shade700,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   child: Container(
@@ -625,7 +620,7 @@ class _MemeCompState extends State<MemeComp> {
                       gradient: LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
-                          colors: [Colors.blue.shade900, Colors.blue.shade700]),
+                          colors: Constants.isDark == "true" ? [Colors.grey.shade800, Colors.grey.shade600]: [Colors.blue.shade900, Colors.lightBlue.shade700]),
                     ),
                     child: SingleChildScrollView(
                       child: Column(
@@ -712,7 +707,6 @@ class _MemeCompState extends State<MemeComp> {
               SingleChildScrollView(
                 child: Material(
                   elevation: 2,
-                  shadowColor: Colors.blue.shade700,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   child: Container(
@@ -723,7 +717,7 @@ class _MemeCompState extends State<MemeComp> {
                       gradient: LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
-                          colors: [Colors.blue.shade900, Colors.blue.shade700]),
+                          colors: Constants.isDark == "true" ? [Colors.grey.shade800, Colors.grey.shade600]: [Colors.blue.shade900, Colors.lightBlue.shade700]),
                     ),
                     child: SingleChildScrollView(
                       physics: ScrollPhysics(),
@@ -771,7 +765,6 @@ class _MemeCompState extends State<MemeComp> {
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Material(
                   elevation: 2,
-                  shadowColor: Colors.blue.shade700,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   child: Container(
@@ -782,10 +775,8 @@ class _MemeCompState extends State<MemeComp> {
                         gradient: LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
-                            colors: [
-                              Colors.blue.shade900,
-                              Colors.blue.shade700
-                            ]),
+                            colors: Constants.isDark == "true" ? [Colors.grey.shade800, Colors.grey.shade600]: [Colors.blue.shade900, Colors.lightBlue.shade700]),
+
                       ),
                       child: Center(
                           child: Text(

@@ -5,16 +5,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:switchapp/Authentication/Auth.dart';
 import 'package:switchapp/Bridges/landingPage.dart';
 import 'package:switchapp/MainPages/AppSettings/privacyPolicy.dart';
+import 'package:switchapp/MainPages/Profile/memeProfile/Meme-profile.dart';
 import 'package:switchapp/MainPages/ReportAndComplaints/complaintPage.dart';
 import 'package:switchapp/Models/Constans.dart';
+import 'package:switchapp/Themes/switchThemes.dart';
+import 'package:switchapp/Themes/theme_services.dart';
 import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
 import 'package:switchapp/UniversalResources/ThemeMode.dart';
+import 'package:switchapp/main.dart';
 import 'package:timelines/timelines.dart';
 
 import '../ReportAndComplaints/postReportPage.dart';
@@ -29,11 +34,15 @@ class AppSettings extends StatefulWidget {
 }
 
 class _AppSettingsState extends State<AppSettings> {
+  bool isThemeChanging = false;
+
   Future<void> signOut() async {
+    final googleSignIn = GoogleSignIn();
+
     userRefRTD.child(widget.user.uid).update({"isOnline": "false"});
 
     final auth = Provider.of<AuthBase>(context, listen: false);
-
+    await googleSignIn.signOut();
     await auth.signOut();
   }
 
@@ -95,15 +104,21 @@ class _AppSettingsState extends State<AppSettings> {
             scrollDirection: Axis.vertical,
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.linear_scale_sharp),
-                    ],
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.linear_scale_sharp,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
                   ),
+                  color: Colors.blue,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
@@ -150,8 +165,7 @@ class _AppSettingsState extends State<AppSettings> {
                     ),
                   ),
                 ),
-                RaisedButton(
-                  elevation: 0.0,
+                ElevatedButton(
                   onPressed: () => {
                     reportRTD.child(Constants.myId).push().set({
                       "type": "postReport",
@@ -172,7 +186,7 @@ class _AppSettingsState extends State<AppSettings> {
                     Navigator.pop(context),
                   },
                   child: Text("Send"),
-                  color: Colors.blue.shade50,
+                  // color: Colors.blue.shade50,
                 )
               ],
             ),
@@ -182,168 +196,17 @@ class _AppSettingsState extends State<AppSettings> {
     );
   }
 
-  whatsNewSlid() {
-    return showModalBottomSheet(
-        useRootNavigator: true,
-        isScrollControlled: true,
-        barrierColor: Colors.red.withOpacity(0.2),
-        elevation: 0,
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        context: context,
-        builder: (context) {
-          return Container(
-            height: MediaQuery.of(context).size.height / 2,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Whats New?",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: "cute",
-                          color: Colors.green.shade700),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8, bottom: 5, top: 5),
-                    child: Row(
-                      children: [
-                        Container(
-                            child: Flexible(
-                                child: Text(
-                          "Earn Money through Slit points:",
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontFamily: 'cute',
-                              fontSize: 17),
-                        ))),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Row(
-                      children: [
-                        Container(
-                            child: Flexible(
-                                child: Text(
-                          "You can earn money through Slits. Slit points can be earn by upload new meme, When someone like your meme, when you participate on meme competition.",
-                          style: TextStyle(
-                              color: Colors.blue.shade700,
-                              fontFamily: 'cutes',
-                              fontSize: 13),
-                        ))),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8, bottom: 5, top: 5),
-                    child: Row(
-                      children: [
-                        Container(
-                            child: Flexible(
-                                child: Text(
-                          "Meme Competition:",
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontFamily: 'cute',
-                              fontSize: 17),
-                        ))),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Row(
-                      children: [
-                        Container(
-                            child: Flexible(
-                                child: Text(
-                          "Now, every user can participate in meme competition, Directly.",
-                          style: TextStyle(
-                              color: Colors.blue.shade700,
-                              fontFamily: 'cutes',
-                              fontSize: 13),
-                        ))),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8, bottom: 5, top: 5),
-                    child: Row(
-                      children: [
-                        Container(
-                            child: Flexible(
-                                child: Text(
-                          "Monthly prize for top 3 Memers:",
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontFamily: 'cute',
-                              fontSize: 17),
-                        ))),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Row(
-                      children: [
-                        Container(
-                            child: Flexible(
-                                child: Text(
-                          "You can earn monthly prize up to 1000 pkr if you held one of top 3 slot in Switch App as a Memer.",
-                          style: TextStyle(
-                              color: Colors.blue.shade700,
-                              fontFamily: 'cutes',
-                              fontSize: 13),
-                        ))),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Text(
-                        "Version 1.10",
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 9,
-                            fontFamily: 'cutes'),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: Text(""),
+        backgroundColor:
+            Constants.isDark == "true" ? Themes().darkModeColor : Colors.blue,
         elevation: 0,
         title: Text(
-          "Switch",
-          style:
-              TextStyle(color: Colors.white, fontFamily: 'cute', fontSize: 28),
+          "",
         ),
-        backgroundColor: Colors.blue,
         actions: [
           Center(
               child: Text(
@@ -361,242 +224,382 @@ class _AppSettingsState extends State<AppSettings> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
+        child: Stack(
           children: [
-            Container(
-              height: 130,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.blue,
-              child: RiveAnimation.asset(
-                'images/authLogo.riv',
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        // color: Colors.white60,
-                        // borderRadius: BorderRadius.circular(20),
-                        ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Our Goal",
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 18,
-                              fontFamily: 'cute'),
-                        ),
-                      ),
+            Column(
+              children: [
+                Container(
+                  height: 130,
+                  width: MediaQuery.of(context).size.width,
+                  child: Material(
+                    clipBehavior: Clip.antiAlias,
+                    elevation: 10,
+                    color: Constants.isDark == "true"
+                        ? Themes().darkModeColor
+                        : Colors.blue,
+                    borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(15),
+                        bottomLeft: Radius.circular(15)),
+                    child: RiveAnimation.asset(
+                      'images/authLogo.riv',
                     ),
                   ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 1.1,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            // color: Colors.white60,
+                            // borderRadius: BorderRadius.circular(20),
+                            ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              "Memes are holding the advertising industry indirectly and directly."
-                              " Our plan is to make this platform an original meme content genrator."
-                              " First a meme must be generate here and the it should viral to other social platforms."
-                              "Moreover, we want to make this platform an earning source for memers. Hope it will go well.",
-                              textAlign: TextAlign.center,
+                              "Our Goal",
                               style: TextStyle(
                                   color: Colors.blue,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'cutes'),
+                                  fontSize: 18,
+                                  fontFamily: 'cute'),
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            widget.user.uid == Constants.switchIdLaaSY
-                ? SizedBox(
-                    width: 0,
-                    height: 0,
-                  )
-                : Padding(
-                    padding:
-                        const EdgeInsets.only(top: 10, left: 20, right: 20),
-                    child: Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            // color: Colors.white60,
-                            // borderRadius: BorderRadius.circular(20),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width / 1.1,
+                                child: Text(
+                                  "As we know that, currently Memes are holding the advertising industry indirectly and directly."
+                                  " Our plan is to make this platform an original meme content genrator."
+                                  " First a meme must be generate here and the it should viral to other social platforms."
+                                  "Moreover, we want to make this platform an earning source for Memers. Hope it will go well.",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'cutes'),
+                                ),
+                              ),
                             ),
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextButton(
-                              style: ButtonStyle(
-                                  overlayColor: MaterialStateColor.resolveWith(
-                                      (states) =>
-                                          Colors.white.withOpacity(0.5)),
-                                  backgroundColor:
-                                      MaterialStateColor.resolveWith((states) =>
-                                          Colors.green.withOpacity(0.9))),
-                              onPressed: () async {
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                prefs.setInt("intro", 0);
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                  child: Center(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 1.6,
+                      decoration: BoxDecoration(
+                          // color: Colors.white60,
+                          // borderRadius: BorderRadius.circular(20),
+                          ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextButton(
+                            style: ButtonStyle(
+                              overlayColor: MaterialStateColor.resolveWith(
+                                (states) => Constants.isDark == "true"
+                                    ? Colors.grey
+                                    : Colors.blueGrey,
+                              ),
+                              backgroundColor: MaterialStateColor.resolveWith(
+                                (states) => Constants.isDark == "true"
+                                    ? Colors.grey
+                                    : Colors.black12,
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isThemeChanging = true;
+                              });
 
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => LandingPage(),
+                              Future.delayed(const Duration(milliseconds: 100),
+                                  () {
+                                _themeFunction();
+                              });
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  Constants.isDark == "true"
+                                      ? "Light Mode "
+                                      : "Dark Mode ",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'cute',
+                                    color: Constants.isDark == "true"
+                                        ? Colors.white
+                                        : Colors.black,
                                   ),
-                                );
-                              },
-                              child: Text(
-                                "Watch introduction",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontFamily: 'cute'),
-                              ),
+                                ),
+                                Icon(
+                                  Constants.isDark == "true"
+                                      ? Icons.wb_sunny
+                                      : Icons.nightlight_round,
+                                  color: Constants.isDark == "true"
+                                      ? Colors.white
+                                      : Colors.black,
+                                )
+                              ],
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-            widget.user.uid == Constants.switchIdLaaSY
-                ? SizedBox(
-                    width: 0,
-                    height: 0,
-                  )
-                : Padding(
-                    padding:
-                        const EdgeInsets.only(top: 10, left: 20, right: 20),
-                    child: Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            // color: Colors.white60,
-                            // borderRadius: BorderRadius.circular(20),
-                            ),
+                ),
+                widget.user.uid == Constants.switchIdLaaSY
+                    ? SizedBox(
+                        width: 0,
+                        height: 0,
+                      )
+                    : Padding(
+                        padding:
+                            const EdgeInsets.only(top: 0, left: 20, right: 20),
                         child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextButton(
-                              style: ButtonStyle(
-                                  overlayColor: MaterialStateColor.resolveWith(
-                                      (states) =>
-                                          Colors.white.withOpacity(0.5)),
-                                  backgroundColor:
-                                      MaterialStateColor.resolveWith((states) =>
-                                          Colors.blue.withOpacity(0.9))),
-                              onPressed: () => {whatsNewSlid()},
-                              child: Text(
-                                "Whats New",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontFamily: 'cute'),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                // color: Colors.white60,
+                                // borderRadius: BorderRadius.circular(20),
+                                ),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                    overlayColor:
+                                        MaterialStateColor.resolveWith(
+                                            (states) =>
+                                                Colors.white.withOpacity(0.5)),
+                                    backgroundColor:
+                                        MaterialStateColor.resolveWith(
+                                      (states) => Colors.green.withOpacity(0.9),
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    //introForMemeProfile
+                                    SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    prefs.setInt("intro", 0);
+                                    prefs.setInt("introForMemeProfile", 0);
+                                    prefs.setInt("chatListIntro", 0);
+
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            LandingPage(),
+                                      ),
+                                      (route) => false,
+                                    );
+                                  },
+                                  child: Text(
+                                    "Watch introduction",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontFamily: 'cute'),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
+                widget.user.uid == Constants.switchIdLaaSY
+                    ? SizedBox(
+                        width: 0,
+                        height: 0,
+                      )
+                    : Padding(
+                        padding:
+                            const EdgeInsets.only(top: 0, left: 20, right: 20),
+                        child: Center(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                // color: Colors.white60,
+                                // borderRadius: BorderRadius.circular(20),
+                                ),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                      overlayColor:
+                                          MaterialStateColor.resolveWith(
+                                              (states) => Colors.white
+                                                  .withOpacity(0.5)),
+                                      backgroundColor:
+                                          MaterialStateColor.resolveWith(
+                                              (states) => Colors.blue
+                                                  .withOpacity(0.9))),
+                                  onPressed: () =>
+                                      {universalMethods.whatsNew(context)},
+                                  child: Text(
+                                    "Whats New",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontFamily: 'cute'),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ComplaintUs()))
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                            child: Text(
+                          "Send Us Complaint",
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'cutes',
+                              fontSize: 13),
+                        )),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PrivacyPolicy())),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                            child: Text(
+                          "Terms of use & Privacy Policy",
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'cutes',
+                              fontSize: 13),
+                        )),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                      child: Text(
+                    "Switch App",
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 11,
+                        fontFamily: 'cutes'),
+                  )),
+                ),
+                GestureDetector(
+                  onTap: () => {},
+                  child: Center(
+                    child: Text(
+                      "Version 1.5",
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 9,
+                          fontFamily: 'cutes'),
                     ),
                   ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () => {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ComplaintUs()))
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                        child: Text(
-                      "Send Us Complaint",
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'cutes',
-                          fontSize: 13),
-                    )),
-                  ),
                 ),
               ],
             ),
-            SizedBox(
-              height: 0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => PrivacyPolicy())),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                        child: Text(
-                      "Terms of use & Privacy Policy",
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'cutes',
-                          fontSize: 13),
-                    )),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                  child: Text(
-                "Switch App",
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 11,
-                    fontFamily: 'cutes'),
-              )),
-            ),
-            GestureDetector(
-              onTap: () => {},
-              child: Center(
-                child: Text(
-                  "Version 1.10",
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 9,
-                      fontFamily: 'cutes'),
-                ),
-              ),
-            ),
+            // isThemeChanging
+            //     ? Center(
+            //         child: Padding(
+            //         padding: const EdgeInsets.all(8.0),
+            //         child: Container(
+            //           padding: EdgeInsets.all(8),
+            //             decoration: BoxDecoration(
+            //                 color: Colors.white.withOpacity(0.9),
+            //                 borderRadius: BorderRadius.circular(10)),
+            //             width: MediaQuery.of(context).size.width / 1.5,
+            //             child: Center(
+            //               child: Text(
+            //                 "Changing Theme..",
+            //                 style: TextStyle(
+            //                     color: Colors.blue,
+            //                     fontSize: 16,
+            //                     fontFamily: 'cute'),
+            //               ),
+            //             )),
+            //       ),)
+            //     : Container(
+            //         height: 0,
+            //         width: 0,
+            //       ),
           ],
         ),
       ),
     );
+  }
+
+  void _themeFunction() {
+    ThemeService().switchTheme();
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (Constants.isDark == "true") {
+        setState(() {
+          Constants.isDark = "false";
+        });
+      } else {
+        setState(() {
+          Constants.isDark = "true";
+        });
+      }
+    });
+    Future.delayed(const Duration(milliseconds: 200), () {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => MyApp(),
+        ),
+        (route) => false,
+      );
+    });
   }
 }

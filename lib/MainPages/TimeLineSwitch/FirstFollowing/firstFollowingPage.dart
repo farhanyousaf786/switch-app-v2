@@ -259,16 +259,13 @@ class _FirstFollowingState extends State<FirstFollowing> {
                   setState(() {
                     data = dataSnapshot.value;
                   });
-                  print("uid : : : : ${memerList[index]['uid']}");
                   userFollowersCountRtd.child(memerList[index]['uid']).update({
                     "followerCounter": data.length,
                     "uid": memerList[index]['uid'],
                     "username": memerList[index]['username'],
                     "photoUrl": memerList[index]['url'],
                   });
-                  print("yesssssssssssssssssssssss");
                 } else {
-                  print("nooooooooooooooooooooooooooo");
                   userFollowersCountRtd.child(memerList[index]['uid']).update({
                     "followerCounter": 0,
                     "uid": memerList[index]['uid'],

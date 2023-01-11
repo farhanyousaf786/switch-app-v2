@@ -30,7 +30,6 @@ class _SwitchFavState extends State<SwitchFav> {
   Widget build(BuildContext context) {
     return isLoading
         ? Container(
-            color: Colors.white,
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20),

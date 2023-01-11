@@ -67,17 +67,14 @@ class _WorldChatState extends State<WorldChat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Icon(
             Icons.arrow_back_ios_rounded,
-            color: Colors.blue,
             size: 18,
           ),
         ),
-        backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
         title: Column(
@@ -85,14 +82,14 @@ class _WorldChatState extends State<WorldChat> {
             Text(
               "Clusty Chat",
               style:
-                  TextStyle(color: Colors.blue, fontSize: 15, fontFamily: 'cute'),
+                  TextStyle( fontSize: 15, fontFamily: 'cute'),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
                 "Where Worlds Connect",
                 style:
-                TextStyle(color: Colors.grey, fontSize: 9, fontFamily: 'cutes', fontWeight: FontWeight.bold),
+                TextStyle( fontSize: 9, fontFamily: 'cutes', fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -112,7 +109,6 @@ class _WorldChatState extends State<WorldChat> {
                 List list = [];
                 if (data == null) {
                   return Scaffold(
-                    backgroundColor: Colors.white,
                     body: Center(child: Text("")),
                   );
                 } else {
@@ -162,7 +158,6 @@ class _WorldChatState extends State<WorldChat> {
               padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
               height: 60,
               width: double.infinity,
-              color: Colors.white,
               child: Row(
                 children: <Widget>[
                   SizedBox(
@@ -201,7 +196,7 @@ class _WorldChatState extends State<WorldChat> {
                             ),
                             filled: true,
                             hintStyle: new TextStyle(
-                                color: Colors.grey,
+                                color: Colors.grey.shade600,
                                 fontSize: 12,
                                 fontFamily: 'cute'),
                             hintText: "Type here...",
@@ -284,7 +279,7 @@ class _WorldChatState extends State<WorldChat> {
               Container(
                 child: Text(
                   content,
-                  style: TextStyle(color: Colors.black, fontSize: 12),
+                  style: TextStyle( fontSize: 12),
                 ),
                 padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
                 width: content.length <= 8
@@ -301,7 +296,6 @@ class _WorldChatState extends State<WorldChat> {
                   borderRadius: BorderRadius.circular(15.0),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.white,
                       offset: Offset(0.0, .5), //(x,y)
                       blurRadius: 0.0,
                     ),
@@ -323,7 +317,6 @@ class _WorldChatState extends State<WorldChat> {
                 ),
                 style: TextStyle(
                   fontSize: 9,
-                  color: Colors.black54,
                 ),
               ),
               margin: EdgeInsets.only(right: 15.0, top: 5.0, bottom: 2.0),
@@ -379,7 +372,7 @@ class _WorldChatState extends State<WorldChat> {
                     height: 20,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.black, width: 1),
+                      border: Border.all( width: 1),
                       image: DecorationImage(
                         image: NetworkImage(senderAvatar),
                       ),
@@ -392,13 +385,15 @@ class _WorldChatState extends State<WorldChat> {
                     children: [
                       Text(
                         content,
-                        style: TextStyle(color: Colors.black, fontSize: 12),
+                        style: TextStyle( fontSize: 12,
+                        color: Colors.black),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
                         child: Text(
                         "Send by: " +  senderName,
-                          style: TextStyle(color: Colors.black54, fontSize: 9),
+                          style: TextStyle( fontSize: 9,
+                          color: Colors.grey),
                         ),
                       ),
                     ],

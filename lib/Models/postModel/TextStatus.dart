@@ -69,7 +69,7 @@ class _TextStatusState extends State<TextStatus> {
                                   fontSize: 14,
                                   fontFamily: "cutes",
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black),
+                                  ),
                             ),
                           ),
 
@@ -97,7 +97,6 @@ class _TextStatusState extends State<TextStatus> {
               });
         },
         text: widget.description,
-        style: TextStyle(color: Colors.black),
         linkStyle: TextStyle(color: Colors.blue
         ,
             fontWeight: FontWeight.w700),
@@ -127,7 +126,6 @@ class _TextStatusState extends State<TextStatus> {
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 10),
       child: Container(
-        color: Colors.white,
         width: MediaQuery.of(context).size.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

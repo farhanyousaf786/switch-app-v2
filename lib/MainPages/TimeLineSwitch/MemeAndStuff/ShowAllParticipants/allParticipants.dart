@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -147,22 +148,18 @@ class _AllParticipantsState extends State<AllParticipants> {
                 child: Icon(
                   Icons.arrow_back_ios_sharp,
                   size: 20,
-                  color: Colors.blue,
                 )),
           ),
           elevation: 0,
-          backgroundColor: Colors.white,
           title: Text(
-            "Competition Meme",
+            "Current Memes",
             style: TextStyle(
-              color: Colors.blue,
               fontFamily: 'cute',
               fontSize: 18,
             ),
           ),
           centerTitle: true,
         ),
-        backgroundColor: Colors.white,
         body: Column(
           children: [
             memeList!.length == 0
@@ -247,7 +244,6 @@ class _AllParticipantsState extends State<AllParticipants> {
                                   : type == "videoMeme" || type == "videoMemeT"
                                       ? Container(
                                           height: 360.0,
-                                          color: Colors.white,
                                           // decoration: BoxDecoration(
                                           //   color: Colors.white,
                                           //   borderRadius:
@@ -292,23 +288,19 @@ class _AllParticipantsState extends State<AllParticipants> {
                                                   index: index,
                                                 )),
                                           ),
-                                          color: Colors.white,
                                         ),
 
                               type == "thoughts"
                                   ? Container(
                                       height: 10.0,
-                                      color: Colors.white,
                                     )
                                   : Container(
                                       height: 5,
-                                      color: Colors.white,
                                     ),
                               _postFooter(user, postId, ownerId, url, postTheme,
                                   index, type),
                               Container(
                                 height: 10,
-                                color: Colors.white,
                               ),
 
                               type != "thoughts"
@@ -321,7 +313,6 @@ class _AllParticipantsState extends State<AllParticipants> {
 
                               Container(
                                 height: 20,
-                                color: Colors.white,
                               ),
                             ],
                           );
@@ -384,7 +375,6 @@ class _AllParticipantsState extends State<AllParticipants> {
             Map data = snapshot.value;
             return Container(
               width: MediaQuery.of(context).size.width,
-              color: Colors.white,
               child: ListTile(
                 trailing: GestureDetector(
                   onTap: () {
@@ -401,112 +391,142 @@ class _AllParticipantsState extends State<AllParticipants> {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.linear_scale_sharp),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        switchShowCaseRTD
-                                            .child(widget.user.uid)
-                                            .child(postId)
-                                            .once()
-                                            .then((DataSnapshot dataSnapshot) =>
-                                                {
-                                                  if (dataSnapshot.value !=
-                                                      null)
-                                                    {
-                                                      switchShowCaseRTD
-                                                          .child(
-                                                              widget.user.uid)
-                                                          .child(postId)
-                                                          .remove(),
-                                                      Fluttertoast.showToast(
-                                                        msg:
-                                                            "Remove From Your Meme Showcase",
-                                                        toastLength:
-                                                            Toast.LENGTH_LONG,
-                                                        gravity:
-                                                            ToastGravity.TOP,
-                                                        timeInSecForIosWeb: 3,
-                                                        backgroundColor:
-                                                            Colors.blue,
-                                                        textColor: Colors.white,
-                                                        fontSize: 16.0,
-                                                      ),
-                                                    }
-                                                  else
-                                                    {
-                                                      switchShowCaseRTD
-                                                          .child(
-                                                              widget.user.uid)
-                                                          .child(postId)
-                                                          .set({
-                                                        "memeUrl": url,
-                                                        "ownerId": ownerId,
-                                                        'timestamp': DateTime
-                                                                .now()
-                                                            .millisecondsSinceEpoch,
-                                                        'postId': postId,
-                                                      }),
-                                                      Fluttertoast.showToast(
-                                                        msg:
-                                                            "Added to your Meme Showcase",
-                                                        toastLength:
-                                                            Toast.LENGTH_LONG,
-                                                        gravity:
-                                                            ToastGravity.TOP,
-                                                        timeInSecForIosWeb: 3,
-                                                        backgroundColor:
-                                                            Colors.blue,
-                                                        textColor: Colors.white,
-                                                        fontSize: 16.0,
-                                                      ),
-                                                    }
-                                                });
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 4, left: 20),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "Add/Remove from Meme ShowCase ",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontFamily: 'cutes',
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 10),
-                                              child: Icon(
-                                                Icons.apps,
-                                                size: 17,
-                                                // color: selectedIndex == index
-                                                //     ? Colors.pink
-                                                //     : selectedIndex == 121212
-                                                //         ? Colors.grey
-                                                //         : Colors.teal,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                  Container(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.linear_scale_sharp,
+                                            color: Colors.white,
+                                          ),
+                                        ],
                                       ),
                                     ),
+                                    color: Colors.blue,
                                   ),
+                                  type == "videoMemeT"
+                                      ? SizedBox(
+                                          height: 0,
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              switchShowCaseRTD
+                                                  .child(widget.user.uid)
+                                                  .child(postId)
+                                                  .once()
+                                                  .then((DataSnapshot
+                                                          dataSnapshot) =>
+                                                      {
+                                                        if (dataSnapshot
+                                                                .value !=
+                                                            null)
+                                                          {
+                                                            switchShowCaseRTD
+                                                                .child(widget
+                                                                    .user.uid)
+                                                                .child(postId)
+                                                                .remove(),
+                                                            Fluttertoast
+                                                                .showToast(
+                                                              msg:
+                                                                  "Remove From Your Meme Showcase",
+                                                              toastLength: Toast
+                                                                  .LENGTH_LONG,
+                                                              gravity:
+                                                                  ToastGravity
+                                                                      .TOP,
+                                                              timeInSecForIosWeb:
+                                                                  3,
+                                                              backgroundColor:
+                                                                  Colors.blue,
+                                                              textColor:
+                                                                  Colors.white,
+                                                              fontSize: 16.0,
+                                                            ),
+                                                          }
+                                                        else
+                                                          {
+                                                            switchShowCaseRTD
+                                                                .child(widget
+                                                                    .user.uid)
+                                                                .child(postId)
+                                                                .set({
+                                                              "memeUrl": url,
+                                                              "ownerId":
+                                                                  ownerId,
+                                                              'timestamp': DateTime
+                                                                      .now()
+                                                                  .millisecondsSinceEpoch,
+                                                              'postId': postId,
+                                                            }),
+                                                            Fluttertoast
+                                                                .showToast(
+                                                              msg:
+                                                                  "Added to your Meme Showcase",
+                                                              toastLength: Toast
+                                                                  .LENGTH_LONG,
+                                                              gravity:
+                                                                  ToastGravity
+                                                                      .TOP,
+                                                              timeInSecForIosWeb:
+                                                                  3,
+                                                              backgroundColor:
+                                                                  Colors.blue,
+                                                              textColor:
+                                                                  Colors.white,
+                                                              fontSize: 16.0,
+                                                            ),
+                                                          }
+                                                      });
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 4, left: 20),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    "Add/Remove from Meme ShowCase ",
+                                                    style: TextStyle(
+                                                        fontFamily: 'cutes',
+                                                        color:
+                                                            Constants.isDark ==
+                                                                    "true"
+                                                                ? Colors.white
+                                                                : Colors.blue,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 10),
+                                                    child: Icon(
+                                                      Icons.apps,
+                                                      size: 17,
+                                                      color: Constants.isDark ==
+                                                              "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
+                                                      // color: selectedIndex == index
+                                                      //     ? Colors.pink
+                                                      //     : selectedIndex == 121212
+                                                      //         ? Colors.grey
+                                                      //         : Colors.teal,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                   ownerId == Constants.myId
                                       ? Padding(
                                           padding: const EdgeInsets.only(
@@ -517,16 +537,22 @@ class _AllParticipantsState extends State<AllParticipants> {
                                                 Text(
                                                   'Delete Post',
                                                   style: TextStyle(
-                                                      color: Colors.black,
                                                       fontFamily: 'cutes',
                                                       fontSize: 14,
+                                                      color: Constants.isDark ==
+                                                              "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
                                                 Icon(
                                                   Icons.delete_outline,
-                                                  color: Colors.black,
                                                   size: 20,
+                                                  color:
+                                                      Constants.isDark == "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                 ),
                                               ],
                                             ),
@@ -544,7 +570,10 @@ class _AllParticipantsState extends State<AllParticipants> {
                                                 Text(
                                                   'Report Post ',
                                                   style: TextStyle(
-                                                      color: Colors.black,
+                                                      color: Constants.isDark ==
+                                                              "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                       fontFamily: 'cutes',
                                                       fontSize: 14,
                                                       fontWeight:
@@ -552,8 +581,11 @@ class _AllParticipantsState extends State<AllParticipants> {
                                                 ),
                                                 Icon(
                                                   Icons.error_outline,
-                                                  color: Colors.black,
                                                   size: 20,
+                                                  color:
+                                                      Constants.isDark == "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                 ),
                                               ],
                                             ),
@@ -593,7 +625,10 @@ class _AllParticipantsState extends State<AllParticipants> {
                                                 Text(
                                                   'Report User ',
                                                   style: TextStyle(
-                                                      color: Colors.black,
+                                                      color: Constants.isDark ==
+                                                              "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                       fontFamily: 'cutes',
                                                       fontSize: 14,
                                                       fontWeight:
@@ -601,8 +636,11 @@ class _AllParticipantsState extends State<AllParticipants> {
                                                 ),
                                                 Icon(
                                                   Icons.account_circle_outlined,
-                                                  color: Colors.black,
                                                   size: 20,
+                                                  color:
+                                                      Constants.isDark == "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                 ),
                                               ],
                                             ),
@@ -639,16 +677,22 @@ class _AllParticipantsState extends State<AllParticipants> {
                                                 Text(
                                                   'Block User ',
                                                   style: TextStyle(
-                                                      color: Colors.black,
                                                       fontFamily: 'cutes',
                                                       fontSize: 14,
+                                                      color: Constants.isDark ==
+                                                              "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
                                                 Icon(
                                                   Icons.block,
-                                                  color: Colors.black,
                                                   size: 20,
+                                                  color:
+                                                      Constants.isDark == "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                 ),
                                               ],
                                             ),
@@ -691,27 +735,31 @@ class _AllParticipantsState extends State<AllParticipants> {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
-                        Container(
-                          width: 35,
-                          height: 35,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.black, width: 1),
-                            image: DecorationImage(
-                              image: NetworkImage(data['url']),
-                            ),
-                          ),
-                        ),
-                        // CircleAvatar(
-                        //   child: CircleAvatar(
-                        //     radius: 22,
-                        //     backgroundColor: Colors.grey,
-                        //     backgroundImage:
-                        //         CachedNetworkImageProvider(snapShot.data['url']),
+                        // Container(
+                        //   width: 35,
+                        //   height: 35,
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(10),
+                        //     border: Border.all(color: Colors.black, width: 1),
+                        //     image: DecorationImage(
+                        //       image: NetworkImage(data['url']),
+                        //     ),
                         //   ),
-                        //   radius: 23.5,
-                        //   backgroundColor: Colors.grey,
                         // ),
+
+                        CircleAvatar(
+                          child: CircleAvatar(
+
+                            radius: 18,
+                            backgroundColor: Colors.black,
+                            backgroundImage:
+                                CachedNetworkImageProvider(data['url']),
+
+                          ),
+
+                          radius: 20.5,
+                          backgroundColor: Colors.blue,
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: Column(
@@ -728,7 +776,6 @@ class _AllParticipantsState extends State<AllParticipants> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
-                                      color: Colors.black,
                                     ),
                                   ),
                                   data['isVerified'] == "true"
@@ -750,7 +797,7 @@ class _AllParticipantsState extends State<AllParticipants> {
                                         : " share $postTheme",
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: Colors.black54,
+                                      color: Colors.grey,
                                     ),
                                   ),
                                 ],
@@ -808,15 +855,21 @@ class _AllParticipantsState extends State<AllParticipants> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.linear_scale_sharp,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15),
@@ -1134,7 +1187,6 @@ class _AllParticipantsState extends State<AllParticipants> {
                 ),
         ],
       ),
-      color: Colors.white,
     );
   }
 
@@ -1174,10 +1226,13 @@ class _AllParticipantsState extends State<AllParticipants> {
                               "This link (${link.url}) will lead you out of the Switch App.",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: "cutes",
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
+                                fontSize: 14,
+                                fontFamily: "cutes",
+                                fontWeight: FontWeight.bold,
+                                color: Constants.isDark == "true"
+                                    ? Colors.white
+                                    : Colors.blue,
+                              ),
                             ),
                           ),
                           TextButton(
@@ -1204,7 +1259,9 @@ class _AllParticipantsState extends State<AllParticipants> {
               });
         },
         text: description,
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(
+          color: Constants.isDark == "true" ? Colors.white : Colors.blue,
+        ),
         linkStyle: TextStyle(color: Colors.blue, fontWeight: FontWeight.w700),
       ),
     );
@@ -1235,7 +1292,6 @@ class _AllParticipantsState extends State<AllParticipants> {
           )
         : Container(
             width: MediaQuery.of(context).size.width,
-            color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.only(right: 8),
               child: SingleChildScrollView(
@@ -1318,7 +1374,9 @@ class _AllParticipantsState extends State<AllParticipants> {
                                   child: Text(
                                     "Read More...",
                                     style: TextStyle(
-                                        color: Colors.black,
+                                        color: Constants.isDark == "true"
+                                            ? Colors.white
+                                            : Colors.blue,
                                         fontSize: 12,
                                         fontFamily: 'cute'),
                                   ),
@@ -1472,15 +1530,21 @@ class _AllParticipantsState extends State<AllParticipants> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.linear_scale_sharp,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 0, left: 10, right: 10),
@@ -1490,14 +1554,18 @@ class _AllParticipantsState extends State<AllParticipants> {
                           Text(
                             'Copy ',
                             style: TextStyle(
-                                color: Colors.black,
+                                color: Constants.isDark == "true"
+                                    ? Colors.white
+                                    : Colors.blue,
                                 fontFamily: 'cutes',
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold),
                           ),
                           Icon(
                             Icons.copy,
-                            color: Colors.black,
+                            color: Constants.isDark == "true"
+                                ? Colors.white
+                                : Colors.blue,
                             size: 17,
                           ),
                         ],
@@ -1601,9 +1669,7 @@ class _AllParticipantsState extends State<AllParticipants> {
                                     child: Text(
                                       "${reactorList[index]['reactorName']}",
                                       style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: 'cutes',
-                                          fontSize: 14),
+                                          fontFamily: 'cutes', fontSize: 14),
                                     ),
                                   ),
                                 ],
@@ -1674,103 +1740,101 @@ class _AllParticipantsState extends State<AllParticipants> {
       postsRtd.child(ownerId).child("usersPost").child(postId).remove();
       switchAllUserFeedPostsRTD.child("UserPosts").child(postId).remove();
 
-      switchMemeCompRTD
-          .child('live')
-          .child(ownerId)
-          .once()
-          .then((DataSnapshot dataSnapshot) {
-        if (dataSnapshot.exists) {
-          switchMemerSlitsRTD
-              .child(ownerId)
-              .once()
-              .then((DataSnapshot dataSnapshot) {
-            Map data = dataSnapshot.value;
-            int slits = data['totalSlits'];
-            setState(() {
-              slits = slits - (1000 + total);
-            });
-            Future.delayed(const Duration(milliseconds: 100), () {
-              switchMemerSlitsRTD.child(ownerId).update({
-                'totalSlits': slits,
-              });
-            });
+      ///Slit is here
+      // switchMemeCompRTD
+      //     .child('live')
+      //     .child(ownerId)
+      //     .once()
+      //     .then((DataSnapshot dataSnapshot) {
+      //   if (dataSnapshot.exists) {
+      //     switchMemerSlitsRTD
+      //         .child(ownerId)
+      //         .once()
+      //         .then((DataSnapshot dataSnapshot) {
+      //       Map data = dataSnapshot.value;
+      //       int slits = data['totalSlits'];
+      //       setState(() {
+      //         slits = slits - (1000 + total);
+      //       });
+      //       Future.delayed(const Duration(milliseconds: 100), () {
+      //         switchMemerSlitsRTD.child(ownerId).update({
+      //           'totalSlits': slits,
+      //         });
+      //       });
+      //     });
+      //
+      switchMemeCompRTD.child(ownerId).once().then((DataSnapshot dataSnapshot) {
+        Map data = dataSnapshot.value;
+        int takePart = data['takePart'];
+        setState(() {
+          takePart = takePart - 1;
+        });
+
+        Future.delayed(const Duration(milliseconds: 200), () {
+          switchMemeCompRTD.child(ownerId).update({
+            'takePart': takePart,
           });
-
-          switchMemeCompRTD
-              .child(ownerId)
-              .once()
-              .then((DataSnapshot dataSnapshot) {
-            Map data = dataSnapshot.value;
-            int takePart = data['takePart'];
-            setState(() {
-              takePart = takePart - 1;
-            });
-
-            Future.delayed(const Duration(milliseconds: 200), () {
-              switchMemeCompRTD.child(ownerId).update({
-                'takePart': takePart,
-              });
-            });
-          });
-          Future.delayed(const Duration(milliseconds: 400), () {
-            switchMemeCompRTD.child('live').child(ownerId).remove();
-
-            Navigator.pop(context);
-            Fluttertoast.showToast(
-              msg: "Deleted! Refresh App :)",
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.SNACKBAR,
-              timeInSecForIosWeb: 5,
-              backgroundColor: Colors.white,
-              textColor: Colors.blue,
-              fontSize: 16.0,
-            );
-          });
-        } else {
-          if (type == 'meme' ||
-              type == "memeT" ||
-              type == "videoMeme" ||
-              type == "videoMemeT") {
-            switchMemerSlitsRTD
-                .child(ownerId)
-                .once()
-                .then((DataSnapshot dataSnapshot) {
-              Map data = dataSnapshot.value;
-              int slits = data['totalSlits'];
-              setState(() {
-                slits = slits - (20 + total);
-              });
-              Future.delayed(const Duration(milliseconds: 100), () {
-                switchMemerSlitsRTD.child(ownerId).update({
-                  'totalSlits': slits,
-                });
-
-                Navigator.pop(context);
-                Fluttertoast.showToast(
-                  msg: "Deleted! Refresh App :)",
-                  toastLength: Toast.LENGTH_LONG,
-                  gravity: ToastGravity.SNACKBAR,
-                  timeInSecForIosWeb: 5,
-                  backgroundColor: Colors.white,
-                  textColor: Colors.blue,
-                  fontSize: 16.0,
-                );
-              });
-            });
-          } else {
-            Navigator.pop(context);
-            Fluttertoast.showToast(
-              msg: "Deleted! Refresh App :)",
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.SNACKBAR,
-              timeInSecForIosWeb: 5,
-              backgroundColor: Colors.white,
-              textColor: Colors.blue,
-              fontSize: 16.0,
-            );
-          }
-        }
+        });
       });
+      Future.delayed(const Duration(milliseconds: 400), () {
+        switchMemeCompRTD.child('live').child(ownerId).remove();
+
+        Navigator.pop(context);
+        Fluttertoast.showToast(
+          msg: "Deleted! Refresh App :)",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          timeInSecForIosWeb: 5,
+          backgroundColor: Colors.white,
+          textColor: Colors.blue,
+          fontSize: 16.0,
+        );
+      });
+      //   } else {
+      //     if (type == 'meme' ||
+      //         type == "memeT" ||
+      //         type == "videoMeme" ||
+      //         type == "videoMemeT") {
+      //       switchMemerSlitsRTD
+      //           .child(ownerId)
+      //           .once()
+      //           .then((DataSnapshot dataSnapshot) {
+      //         Map data = dataSnapshot.value;
+      //         int slits = data['totalSlits'];
+      //         setState(() {
+      //           slits = slits - (20 + total);
+      //         });
+      //         Future.delayed(const Duration(milliseconds: 100), () {
+      //           switchMemerSlitsRTD.child(ownerId).update({
+      //             'totalSlits': slits,
+      //           });
+      //
+      //           Navigator.pop(context);
+      //           Fluttertoast.showToast(
+      //             msg: "Deleted! Refresh App :)",
+      //             toastLength: Toast.LENGTH_LONG,
+      //             gravity: ToastGravity.SNACKBAR,
+      //             timeInSecForIosWeb: 5,
+      //             backgroundColor: Colors.white,
+      //             textColor: Colors.blue,
+      //             fontSize: 16.0,
+      //           );
+      //         });
+      //       });
+      //     } else {
+      //       Navigator.pop(context);
+      //       Fluttertoast.showToast(
+      //         msg: "Deleted! Refresh App :)",
+      //         toastLength: Toast.LENGTH_LONG,
+      //         gravity: ToastGravity.SNACKBAR,
+      //         timeInSecForIosWeb: 5,
+      //         backgroundColor: Colors.white,
+      //         textColor: Colors.blue,
+      //         fontSize: 16.0,
+      //       );
+      //     }
+      //   }
+      // });
     } on SocketException catch (_) {
       Fluttertoast.showToast(
         msg: "Wifi/Data not connected",
@@ -1783,110 +1847,4 @@ class _AllParticipantsState extends State<AllParticipants> {
       );
     }
   }
-
-// deleteFunc(
-//     String postId,
-//     String ownerId,
-//     String type,
-//     ) {
-//   if (type == 'meme' || type == "memeT") {
-//     reactRtDatabaseReference
-//         .child(postId)
-//         .once()
-//         .then((DataSnapshot dataSnapshot) {
-//       if (dataSnapshot.value != null) {
-//         Map data = dataSnapshot.value;
-//
-//         if (mounted)
-//           setState(() {
-//             like = data['like'];
-//             disLike = data['disLike'];
-//             heartReact = data['heartReact'];
-//           });
-//
-//         total = (like + disLike + heartReact) * 10;
-//
-//         print(
-//             "Yes this React is EXIST total = =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${total.toString()}");
-//       } else {
-//         print("there is no react on this post");
-//       }
-//     });
-//   } else {
-//     print("Not a mememmmmmmmmmmmmmmmmmmmmmmmmmm");
-//   }
-//
-//   print("ownerId : : : : : : : : : : : : : : : ${ownerId}");
-//   postsRtd.child(ownerId).child("usersPost").child(postId).remove();
-//   switchAllUserFeedPostsRTD.child("UserPosts").child(postId).remove();
-//   switchMemeCompRTD
-//       .child('live')
-//       .child(ownerId)
-//       .once()
-//       .then((DataSnapshot dataSnapshot) {
-//     if (dataSnapshot.exists) {
-//       switchMemerSlitsRTD
-//           .child(ownerId)
-//           .once()
-//           .then((DataSnapshot dataSnapshot) {
-//         Map data = dataSnapshot.value;
-//         int slits = data['totalSlits'];
-//         setState(() {
-//           slits = slits - (1000 + total);
-//         });
-//         Future.delayed(const Duration(milliseconds: 100), () {
-//           switchMemerSlitsRTD.child(ownerId).update({
-//             'totalSlits': slits,
-//           });
-//           print("Slitsssssssssssssssssssssssssssssssssssssssss $slits");
-//         });
-//       });
-//
-//       switchMemeCompRTD
-//           .child(ownerId)
-//           .once()
-//           .then((DataSnapshot dataSnapshot) {
-//         Map data = dataSnapshot.value;
-//         int takePart = data['takePart'];
-//         setState(() {
-//           takePart = takePart - 1;
-//         });
-//
-//         Future.delayed(const Duration(milliseconds: 200), () {
-//           switchMemeCompRTD.child(ownerId).update({
-//             'takePart': takePart,
-//           });
-//           print("takepartssssssssssssssssssssssssssssssss $takePart");
-//         });
-//       });
-//       Future.delayed(const Duration(milliseconds: 400), () {
-//         switchMemeCompRTD.child('live').child(ownerId).remove();
-//
-//         Navigator.pop(context);
-//         Fluttertoast.showToast(
-//           msg: "Deleted! Refresh App :)",
-//           toastLength: Toast.LENGTH_LONG,
-//           gravity: ToastGravity.SNACKBAR,
-//           timeInSecForIosWeb: 5,
-//           backgroundColor: Colors.white,
-//           textColor: Colors.blue,
-//           fontSize: 16.0,
-//         );
-//       });
-//     } else {
-//       print("meme comp does not exists");
-//       Navigator.pop(context);
-//       Fluttertoast.showToast(
-//         msg: "Deleted! Refresh App :)",
-//         toastLength: Toast.LENGTH_LONG,
-//         gravity: ToastGravity.SNACKBAR,
-//         timeInSecForIosWeb: 5,
-//         backgroundColor: Colors.white,
-//         textColor: Colors.blue,
-//         fontSize: 16.0,
-//       );
-//     }
-//   });
-// }
-
 }

@@ -1,3 +1,8 @@
+/*
+ *This class will set our profile picture
+ * moreover, user is able to skip that page
+ */
+
 import 'dart:io';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,42 +15,44 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:switchapp/Authentication/welcomePage/welcomepage.dart';
-import 'package:switchapp/Bridges/landingPage.dart';
 import 'package:uuid/uuid.dart';
-
 import '../../UniversalResources/DataBaseRefrences.dart';
 
-String gender = "";
-bool isMale = false;
-bool isFemale = false;
-bool others = false;
-
-TextEditingController about = TextEditingController();
-
 class SetProfilePicture extends StatefulWidget {
-  final DateTime timestamp = DateTime.now();
-
-  SetProfilePicture({required this.user, required this.email});
+  SetProfilePicture(
+      {required this.user, required this.email, required this.users});
 
   final String? user;
   final String? email;
-
+  final User users;
 
   @override
   _SetProfilePictureState createState() => _SetProfilePictureState();
 }
 
 class _SetProfilePictureState extends State<SetProfilePicture> {
+
   File? file;
   bool uploading = false;
   String postId = Uuid().v4();
   String gender = "";
+  bool isMale = false;
+  bool isFemale = false;
+  bool others = false;
+  TextEditingController about = TextEditingController();
 
-  displayUploadScreen(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
+    return file != null
+        ? afterGettingImage()
+        : beforeGettingImage(context);
+  }
+
+  beforeGettingImage(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: Text(""),
-        backgroundColor:  Colors.lightBlue,
+        backgroundColor: Colors.lightBlue,
         elevation: 0.0,
       ),
       body: Container(
@@ -117,11 +124,12 @@ class _SetProfilePictureState extends State<SetProfilePicture> {
                   height: 70,
                 ),
                 GestureDetector(
-                  onTap: (){
-
+                  onTap: () {
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => WelcomePage(user: widget.user!,)),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              WelcomePage(user: widget.users)),
                           (Route<dynamic> route) => false,
                     );
                   },
@@ -146,6 +154,273 @@ class _SetProfilePictureState extends State<SetProfilePicture> {
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  afterGettingImage() {
+    return DelayedDisplay(
+      delay: Duration(seconds: 1),
+      slidingBeginOffset: Offset(0.0, -1),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: Colors.lightBlue,
+          leading: Center(
+            child: Text(""),
+          ),
+          centerTitle: true,
+          title: Text(
+            "Profile Picture",
+            style: TextStyle(
+                color: Colors.white, fontFamily: "Cute", fontSize: 16),
+          ),
+          actions: [
+            ElevatedButton(
+              child: Text(
+                'Next',
+                style: TextStyle(
+                  fontFamily: "Cute",
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () {
+                controlAndUploadData();
+              },
+              style: ElevatedButton.styleFrom(
+                  elevation: 0.0,
+                  primary: Colors.lightBlue,
+                  textStyle:
+                  TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
+        body: Container(
+          color: Colors.lightBlue,
+          child: ListView(
+            children: [
+              uploading
+                  ? LinearProgressIndicator()
+                  : Container(
+                height: 0,
+                width: 0,
+              ),
+              Container(
+                padding: EdgeInsets.all(30),
+                child: CircleAvatar(
+                  backgroundColor: Colors.blue.shade700,
+                  radius: 55,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.blue.shade700,
+                    backgroundImage: FileImage(file!), //NetworkImage
+                    radius: 53,
+                  ), //CircleAvatar
+                ),
+              ),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    "Don't worry You Can change Your Profile Later",
+                    style: TextStyle(
+                        color: Colors.white, fontFamily: "Cute", fontSize: 12),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              DelayedDisplay(
+                delay: Duration(seconds: 1),
+                slidingBeginOffset: Offset(0.0, -1),
+                child: Container(
+                  height: 80,
+                  padding: EdgeInsets.fromLTRB(70, 0, 70, 0),
+                  child: TextField(
+                    maxLength: 50,
+                    style: TextStyle(
+                        color: Colors.blue.shade900, fontFamily: 'cute'),
+                    controller: about,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        borderSide: new BorderSide(
+                          width: 2,
+                          color: Colors.white,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        borderSide: new BorderSide(
+                          width: 2,
+                          color: Colors.white,
+                        ),
+                      ),
+                      labelText: ' About Yourself',
+                      labelStyle: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "Cute",
+                          fontSize: 14),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              DelayedDisplay(
+                delay: Duration(seconds: 1),
+                slidingBeginOffset: Offset(0.0, -1),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Container(
+                      child: Text(
+                        "Gender",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Cute",
+                            fontSize: 15),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                        // color: isMale ? Colors.blue.shade800 : Colors.white,
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(15.0),
+                        //     side: BorderSide(
+                        //       color: Colors.blue,
+                        //     )),
+                        onPressed: () {
+                          setState(() {
+                            isMale = true;
+                            isFemale = false;
+                            others = false;
+                            gender = "Male";
+                          });
+                        },
+                        child: Text(
+                          "Male",
+                          style: TextStyle(
+                              color: Colors.blue.shade300,
+                              fontFamily: "Cute",
+                              fontSize: 12),
+                        )),
+                    ElevatedButton(
+                        // color: isFemale ? Colors.blue.shade800 : Colors.white,
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(15.0),
+                        //     side: BorderSide(
+                        //       color: Colors.blue,
+                        //     )),
+                        onPressed: () {
+                          setState(() {
+                            isFemale = true;
+                            isMale = false;
+                            others = false;
+                            gender = "Female";
+                          });
+                        },
+                        child: Text(
+                          "Female",
+                          style: TextStyle(
+                              color: Colors.blue.shade300,
+                              fontFamily: "Cute",
+                              fontSize: 12),
+                        )),
+                    ElevatedButton(
+                        // color: others ? Colors.blue.shade800 : Colors.white,
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(15.0),
+                        //     side: BorderSide(
+                        //       color: Colors.blue,
+                        //     )),
+                        onPressed: () {
+                          setState(() {
+                            others = true;
+                            isFemale = false;
+                            isMale = false;
+                            gender = "Others";
+                          });
+                        },
+                        child: Text(
+                          "Others",
+                          style: TextStyle(
+                              color: Colors.blue.shade300,
+                              fontFamily: "Cute",
+                              fontSize: 12),
+                        )),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 70,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DelayedDisplay(
+                    delay: Duration(seconds: 1),
+                    slidingBeginOffset: Offset(0.0, -1),
+                    child: Center(
+                      child: Text(
+                        "2 of 2 Steps",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Cute",
+                            fontSize: 16),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 70,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WelcomePage(
+                          user: widget.users,
+                        )),
+                        (Route<dynamic> route) => false,
+                  );
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DelayedDisplay(
+                      delay: Duration(milliseconds: 300),
+                      slidingBeginOffset: Offset(0.0, -1),
+                      child: Center(
+                        child: Text(
+                          "Skip for later",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: "Cute",
+                              fontSize: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -235,271 +510,8 @@ class _SetProfilePictureState extends State<SetProfilePicture> {
   }
 
 
-  displayUploadFromScreen() {
-    return DelayedDisplay(
-      delay: Duration(seconds: 1),
-      slidingBeginOffset: Offset(0.0, -1),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-
-          elevation: 0.0,
-          backgroundColor: Colors.lightBlue,
-          leading: Center(
-            child: Text(""),
-          ),
-          centerTitle: true,
-          title: Text(
-            "Profile Picture",
-            style: TextStyle(
-                color: Colors.white, fontFamily: "Cute", fontSize: 16),
-          ),
-          actions: [
-            ElevatedButton(
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  fontFamily: "Cute",
-                  fontSize: 16,
-                  color:  Colors.white,
-                ),
-              ),
-              onPressed: () {
-                controlAndUploadData();
-              },
-              style: ElevatedButton.styleFrom(
-                  elevation: 0.0,
-                  primary: Colors.lightBlue,
-                  textStyle: TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.bold)),
-            ),
-          ],
-        ),
-        body: Container(
-          color: Colors.lightBlue,
-          child: ListView(
-            children: [
-              uploading ? LinearProgressIndicator() : Container(height: 0,width: 0,),
-              Container(
-                padding: EdgeInsets.all(30),
-                child: CircleAvatar(
-                  backgroundColor: Colors.blue.shade700,
-                  radius: 55,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.blue.shade700,
-                    backgroundImage: FileImage(file!), //NetworkImage
-                    radius: 53,
-                  ), //CircleAvatar
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    "Don't worry You Can change Your Profile Later",
-                    style: TextStyle(
-                        color: Colors.white, fontFamily: "Cute", fontSize: 12),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              DelayedDisplay(
-                delay: Duration(seconds: 1),
-                slidingBeginOffset: Offset(0.0, -1),
-                child: Container(
-                  height: 80,
-                  padding: EdgeInsets.fromLTRB(70, 0, 70, 0),
-                  child: TextField(
-                    maxLength: 50,
-                    style: TextStyle(
-                        color: Colors.blue.shade900, fontFamily: 'cute'),
-                    controller: about,
-                    decoration: InputDecoration(
-                      isDense: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        borderSide: new BorderSide(
-                          width: 2,
-                          color: Colors.white,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        borderSide: new BorderSide(
-                          width: 2,
-                          color: Colors.white,
-                        ),
-                      ),
-                      labelText: ' About Yourself',
-                      labelStyle: TextStyle(
-                          color: Colors.white,
-                          fontFamily: "Cute",
-                          fontSize: 14),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              DelayedDisplay(
-                delay: Duration(seconds: 1),
-                slidingBeginOffset: Offset(0.0, -1),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Container(
-                      child: Text(
-                        "Gender",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: "Cute",
-                            fontSize: 15),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    FlatButton(
-                        color: isMale ? Colors.blue.shade800 : Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                            side: BorderSide(
-                              color: Colors.blue,
-                            )),
-                        onPressed: () {
-                          setState(() {
-                            isMale = true;
-                            isFemale = false;
-                            others = false;
-                            gender = "Male";
-                          });
-                        },
-                        child: Text(
-                          "Male",
-                          style: TextStyle(
-                              color: Colors.blue.shade300,
-                              fontFamily: "Cute",
-                              fontSize: 12),
-                        )),
-                    FlatButton(
-                        color: isFemale ? Colors.blue.shade800 : Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                            side: BorderSide(
-                              color: Colors.blue,
-                            )),
-                        onPressed: () {
-                          setState(() {
-                            isFemale = true;
-                            isMale = false;
-                            others = false;
-                            gender = "Female";
-                          });
-                        },
-                        child: Text(
-                          "Female",
-                          style: TextStyle(
-                              color: Colors.blue.shade300,
-                              fontFamily: "Cute",
-                              fontSize: 12),
-                        )),
-                    FlatButton(
-                        color: others ? Colors.blue.shade800 : Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                            side: BorderSide(
-                              color: Colors.blue,
-                            )),
-                        onPressed: () {
-                          setState(() {
-                            others = true;
-                            isFemale = false;
-                            isMale = false;
-                            gender = "Others";
-                          });
-                        },
-                        child: Text(
-                          "Others",
-                          style: TextStyle(
-                              color: Colors.blue.shade300,
-                              fontFamily: "Cute",
-                              fontSize: 12),
-                        )),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 70,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DelayedDisplay(
-                    delay: Duration(seconds: 1),
-                    slidingBeginOffset: Offset(0.0, -1),
-                    child: Center(
-                      child: Text(
-                        "2 of 2 Steps",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: "Cute",
-                            fontSize: 16),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 70,
-              ),
-              GestureDetector(
-                onTap: (){
-
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => WelcomePage(user: widget.user!,)),
-                        (Route<dynamic> route) => false,
-                  );
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    DelayedDisplay(
-                      delay: Duration(milliseconds: 300),
-                      slidingBeginOffset: Offset(0.0, -1),
-                      child: Center(
-                        child: Text(
-                          "Skip for later",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: "Cute",
-                              fontSize: 16),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   controlAndUploadData() async {
-
-    if(gender == ""){
-
+    if (gender == "") {
       Fluttertoast.showToast(
         msg: "Select Gender",
         toastLength: Toast.LENGTH_LONG,
@@ -509,19 +521,14 @@ class _SetProfilePictureState extends State<SetProfilePicture> {
         textColor: Colors.blue,
         fontSize: 16.0,
       );
-
-    }else{
+    } else {
       setState(() {
         uploading = true;
       });
       await compressImage();
 
       uploadPhoto(file);
-
     }
-
-
-
   }
 
   savePostInfoToFirebase({required String url, required String about}) async {
@@ -545,12 +552,12 @@ class _SetProfilePictureState extends State<SetProfilePicture> {
   }
 
   uploadPhoto(mImageFile) async {
-
     FirebaseStorage storage = FirebaseStorage.instance;
-    Reference ref = storage.ref().child("ProfilePictures/${widget.user}/${widget.email}/_$postId.jpg/");
+    Reference ref = storage
+        .ref()
+        .child("ProfilePictures/${widget.user}/${widget.email}/_$postId.jpg/");
     UploadTask uploadTask = ref.putFile(mImageFile);
     uploadTask.whenComplete(() async {
-
       String uploadUrl = await ref.getDownloadURL();
       savePostInfoToFirebase(
         url: uploadUrl,
@@ -563,18 +570,14 @@ class _SetProfilePictureState extends State<SetProfilePicture> {
         File? file;
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => WelcomePage(user: widget.user!,)),
-              (Route<dynamic> route) => false,
+          MaterialPageRoute(
+              builder: (context) => WelcomePage(
+                    user: widget.users,
+                  )),
+          (Route<dynamic> route) => false,
         );
       });
     });
-
-
-
-
-
-
-
   }
 
   compressImage() async {
@@ -588,10 +591,5 @@ class _SetProfilePictureState extends State<SetProfilePicture> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return file != null
-        ? displayUploadFromScreen()
-        : displayUploadScreen(context);
-  }
+
 }

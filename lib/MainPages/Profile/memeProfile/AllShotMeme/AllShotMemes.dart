@@ -690,15 +690,22 @@ class _AllProfileMemesState extends State<AllProfileMemes> {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.linear_scale_sharp),
-                                      ],
+                                  Container(
+
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.linear_scale_sharp,
+                                            color: Colors.white,),
+                                        ],
+                                      ),
                                     ),
+                                    color: Colors.blue,
                                   ),
 
                                   ownerId == Constants.myId
@@ -755,16 +762,20 @@ class _AllProfileMemesState extends State<AllProfileMemes> {
                                                 Text(
                                                   'Report Post ',
                                                   style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontFamily: 'cutes',
+                                                      color: Constants.isDark ==
+                                                          "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,                                                      fontFamily: 'cutes',
                                                       fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
                                                 Icon(
                                                   Icons.error_outline,
-                                                  color: Colors.black,
-                                                  size: 20,
+                                                  color: Constants.isDark ==
+                                                      "true"
+                                                      ? Colors.white
+                                                      : Colors.blue,                                                  size: 20,
                                                 ),
                                               ],
                                             ),

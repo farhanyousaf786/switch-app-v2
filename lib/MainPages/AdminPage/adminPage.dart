@@ -56,7 +56,7 @@ class _AdminPageState extends State<AdminPage> {
       values = snapshot.value;
       List userList = [];
       if (values == null) {
-        print("emty");
+
         setState(() {
           userListEmpty = true;
         });
@@ -84,7 +84,6 @@ class _AdminPageState extends State<AdminPage> {
         userList = userList2;
       });
     } else {
-      print("empty");
     }
   }
 
@@ -93,7 +92,6 @@ class _AdminPageState extends State<AdminPage> {
 
     setState(() {
       groupChatId = prefs.getString('groupChatId')!;
-      print("GroupChatId =>>>>>>>>>" + groupChatId);
     });
   }
 
@@ -124,15 +122,22 @@ class _AdminPageState extends State<AdminPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.linear_scale_sharp,
+                            color: Colors.white,),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -460,7 +465,6 @@ class _AdminPageState extends State<AdminPage> {
           IconButton(
             icon: Icon(
               Icons.search,
-              color: Colors.black38,
             ),
             onPressed: () => {
               getUser(searchTextEditingController.text),
@@ -469,7 +473,6 @@ class _AdminPageState extends State<AdminPage> {
         ],
         leadingWidth: 30,
         elevation: 1,
-        backgroundColor: Colors.white,
         centerTitle: true,
         title: Row(
           children: [
@@ -477,7 +480,6 @@ class _AdminPageState extends State<AdminPage> {
               child: Container(
                 height: 35,
                 decoration: BoxDecoration(
-                  color: Colors.black12,
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: TextField(
@@ -494,7 +496,6 @@ class _AdminPageState extends State<AdminPage> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                   ),
-                  cursorColor: Colors.black.withOpacity(0.9),
                   controller: searchTextEditingController,
                 ),
               ),
@@ -535,9 +536,8 @@ class _AdminPageState extends State<AdminPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "Add/Remove Meme Topic",
+                          "Add/Remove App Topic",
                           style: TextStyle(
-                            color: Colors.black54,
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
                             fontFamily: 'Names',
@@ -561,7 +561,6 @@ class _AdminPageState extends State<AdminPage> {
                         child: Text(
                           "Add/Remove Comp. Topic",
                           style: TextStyle(
-                            color: Colors.black54,
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
                             fontFamily: 'Names',
@@ -585,7 +584,6 @@ class _AdminPageState extends State<AdminPage> {
                         child: Text(
                           "Remove Fav Memers",
                           style: TextStyle(
-                            color: Colors.black54,
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
                             fontFamily: 'Names',
@@ -608,7 +606,6 @@ class _AdminPageState extends State<AdminPage> {
                         child: Text(
                           "Remove Comp. Winner",
                           style: TextStyle(
-                            color: Colors.black54,
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
                             fontFamily: 'Names',
@@ -653,7 +650,6 @@ class _AdminPageState extends State<AdminPage> {
                               Future.delayed(
                                 const Duration(milliseconds: 600),
                                 () {
-                                  print("Length : : : : :${userLists.length}");
 
                                   for (int i = 0;
                                       i <= userLists.length - 1;
@@ -663,8 +659,6 @@ class _AdminPageState extends State<AdminPage> {
                                         .update({
                                       "ownerId": userLists[i]['ownerId'],
                                     });
-
-                                    print("$i >" + userLists[i]['username']);
                                   }
                                 },
                               );
@@ -687,7 +681,6 @@ class _AdminPageState extends State<AdminPage> {
                         child: Text(
                           "Update User List",
                           style: TextStyle(
-                            color: Colors.black54,
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
                             fontFamily: 'Names',
@@ -712,7 +705,6 @@ class _AdminPageState extends State<AdminPage> {
                         child: Text(
                           "App Control",
                           style: TextStyle(
-                            color: Colors.black54,
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
                             fontFamily: 'Names',

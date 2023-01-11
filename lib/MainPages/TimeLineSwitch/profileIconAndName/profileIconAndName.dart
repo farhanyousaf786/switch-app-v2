@@ -316,7 +316,6 @@ class _ProfileIconAndNameState extends State<ProfileIconAndName> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 8,
-                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -337,7 +336,6 @@ class _ProfileIconAndNameState extends State<ProfileIconAndName> {
                                           ? "Miss ${data['firstName']}"
                                           : "${data['firstName']}",
                                   style: TextStyle(
-                                      color: Colors.black,
                                       fontSize: 9,
                                       fontFamily: 'Names',
                                       fontWeight: FontWeight.w600),

@@ -400,7 +400,13 @@ class _MainSearchPageState extends State<MainSearchPage> {
 
   @override
   void initState() {
+
+    setState(() {
+
+    });
+
     getAllUsers();
+
     loadNativeAd();
 
     super.initState();
@@ -622,7 +628,6 @@ class _MainSearchPageState extends State<MainSearchPage> {
                   Text(
                     receiverName.characters.take(12).toString(),
                     style: TextStyle(
-                      color: Colors.black,
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
                       fontFamily: 'Names',
@@ -641,7 +646,7 @@ class _MainSearchPageState extends State<MainSearchPage> {
                           child: Text(
                             userName,
                             style: TextStyle(
-                              color: Colors.black54,
+                              color: Colors.grey,
                               fontWeight: FontWeight.w500,
                               fontSize: 10,
                               fontFamily: 'Names',
@@ -813,7 +818,8 @@ class _MainSearchPageState extends State<MainSearchPage> {
               child: Icon(
                 Icons.arrow_back_ios_sharp,
                 size: 18,
-                color: widget.navigateThrough == "direct" ? Colors.white :  Colors.black38,
+
+                color: widget.navigateThrough == "direct" ? Colors.transparent :  Colors.grey.shade200,
               ),
             ),
           ),
@@ -821,7 +827,6 @@ class _MainSearchPageState extends State<MainSearchPage> {
             IconButton(
               icon: Icon(
                 Icons.search,
-                color: Colors.black38,
               ),
               onPressed: () => {
                 getUser(searchTextEditingController.text),
@@ -830,7 +835,6 @@ class _MainSearchPageState extends State<MainSearchPage> {
           ],
           leadingWidth: 30,
           elevation: 1,
-          backgroundColor: Colors.white,
           centerTitle: true,
           title: Row(
             children: [
@@ -841,12 +845,14 @@ class _MainSearchPageState extends State<MainSearchPage> {
                     color: Colors.black12,
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: TextField(
+                  child: TextFormField(
+
                     textInputAction: TextInputAction.search,
                     onEditingComplete: onSearchComplete,
                     decoration: new InputDecoration(
                       hintText: "Search...",
-                      hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                      hintStyle: TextStyle(fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade200),
                       border: InputBorder.none,
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,

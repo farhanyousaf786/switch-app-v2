@@ -1147,16 +1147,23 @@
 import 'dart:ffi';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:switchapp/Bridges/landingPage.dart';
 import 'package:switchapp/MainPages/Profile/MemePosts/MemePosts.dart';
 import 'package:switchapp/MainPages/Profile/memeProfile/rankingHorizontalList/rankingList.dart';
+import 'package:switchapp/MainPages/TimeLineSwitch/MainFeed/MainFeed.dart';
+import 'package:switchapp/Models/surpriseMeme.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../Models/Constans.dart';
@@ -1170,6 +1177,8 @@ import 'memerRanking/memeDecency.dart';
 import 'memerRanking/wwRanking.dart';
 import 'memerSearch/memerSearch.dart';
 import '../../TimeLineSwitch/MemeAndStuff/memeCompetition/memeComp.dart';
+
+UniversalMethods universalMethods = UniversalMethods();
 
 class MemeProfile extends StatefulWidget {
   final String profileOwner;
@@ -1212,6 +1221,9 @@ class _MemeProfileState extends State<MemeProfile> {
   String shortSlit = "0";
   int withdrawnSlits = 0;
   int availible = 0;
+  String levelLink = "";
+  String levelLogo = "";
+  String postId = Uuid().v4();
 
   UniversalMethods universalMethods = UniversalMethods();
   late Map slitData;
@@ -1220,72 +1232,132 @@ class _MemeProfileState extends State<MemeProfile> {
   @override
   void initState() {
     super.initState();
+
     checkIfFollowedByYou();
+
     getMemeDecencyReport();
+
     _getMemerDetail();
+
     controlNotificationToastForMessages();
-    checkMemeCompAndSlits();
-    Future.delayed(const Duration(milliseconds: 200), () {
+
+    _getMemerLevel();
+
+    ///Slit is here
+    // checkMemeCompAndSlits();
+
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      if (Constants.isIntroForMemeProfile == "true") {
+        showIntro();
+      }
       setState(() {
         isLoading = false;
       });
     });
   }
 
-  checkMemeCompAndSlits() {
-    switchMemerSlitsRTD
+  _getMemerLevel() {
+    userFollowersRtd
         .child(widget.profileOwner)
         .once()
         .then((DataSnapshot dataSnapshot) {
+      Map followerCount = dataSnapshot.value;
+
       if (dataSnapshot.exists) {
-        switchMemerSlitsRTD
-            .child(widget.profileOwner)
-            .once()
-            .then((DataSnapshot dataSnapshot) {
-          slitData = dataSnapshot.value;
-          slits = slitData['totalSlits'];
+        print(
+            " followers.................................. ${followerCount.length}");
 
-          shortSlit =
-              universalMethods.shortNumberGenrator(slitData['totalSlits']);
-
-          if (slitData['withdrawn'] == null) {
-            switchMemerSlitsRTD.child(widget.profileOwner).update({
-              'withdrawn': 0,
-            });
-          } else {
-            withdrawnSlits = slitData['withdrawn'];
-          }
-
-          setState(() {});
-        });
-
-        switchMemeCompRTD
-            .child(widget.profileOwner)
-            .once()
-            .then((DataSnapshot dataSnapshot) {
-          if (dataSnapshot.exists) {
-            compData = dataSnapshot.value;
-            takePart = compData['takePart'];
-            setState(() {
-              takePart = takePart;
-            });
-          }
-        });
-
-        Future.delayed(const Duration(milliseconds: 1000), () {
+        if (followerCount.length >= 0 && followerCount.length < 100) {
           setState(() {
-            availible = slits - withdrawnSlits;
-            print("availible : : : : : :  $availible");
+            levelLink =
+                "https://switchappimages.nyc3.digitaloceanspaces.com/MemerTags/levelZero.png";
+            levelLogo = "images/level_images/level_zero.json";
           });
-        });
+        } else if (followerCount.length >= 100 && followerCount.length < 1000) {
+          setState(() {
+            levelLink =
+                "https://switchappimages.nyc3.digitaloceanspaces.com/MemerTags/levelPlanet.png";
+            levelLogo = "images/level_images/level_planet.json";
+          });
+        } else if (followerCount.length >= 1000 &&
+            followerCount.length < 10000) {
+          setState(() {
+            levelLink =
+                "https://switchappimages.nyc3.digitaloceanspaces.com/MemerTags/levelSolar.png";
+            levelLogo = "images/level_images/level_solar.json";
+          });
+        } else if (followerCount.length >= 10000) {
+          setState(() {
+            levelLink =
+                "https://switchappimages.nyc3.digitaloceanspaces.com/MemerTags/levelGalaxy.png";
+            levelLogo = "images/level_images/level_galaxy.json";
+          });
+        }
       } else {
-        switchMemerSlitsRTD.child(widget.profileOwner).set({
-          'withdrawn': 0,
-          'totalSlits': 0,
+        setState(() {
+          levelLink =
+              "https://switchappimages.nyc3.digitaloceanspaces.com/MemerTags/levelZero.png";
+          levelLogo = "images/level_images/level_zero.json";
         });
       }
     });
   }
+
+  ///Slit is here
+  // checkMemeCompAndSlits() {
+  //   switchMemerSlitsRTD
+  //       .child(widget.profileOwner)
+  //       .once()
+  //       .then((DataSnapshot dataSnapshot) {
+  //     if (dataSnapshot.exists) {
+  //       switchMemerSlitsRTD
+  //           .child(widget.profileOwner)
+  //           .once()
+  //           .then((DataSnapshot dataSnapshot) {
+  //         slitData = dataSnapshot.value;
+  //         slits = slitData['totalSlits'];
+  //
+  //         shortSlit =
+  //             universalMethods.shortNumberGenrator(slitData['totalSlits']);
+  //
+  //         if (slitData['withdrawn'] == null) {
+  //           switchMemerSlitsRTD.child(widget.profileOwner).update({
+  //             'withdrawn': 0,
+  //           });
+  //         } else {
+  //           withdrawnSlits = slitData['withdrawn'];
+  //         }
+  //
+  //         setState(() {});
+  //       });
+  //
+  //       switchMemeCompRTD
+  //           .child(widget.profileOwner)
+  //           .once()
+  //           .then((DataSnapshot dataSnapshot) {
+  //         if (dataSnapshot.exists) {
+  //           compData = dataSnapshot.value;
+  //           takePart = compData['takePart'];
+  //           setState(() {
+  //             takePart = takePart;
+  //           });
+  //         }
+  //       });
+  //
+  //       Future.delayed(const Duration(milliseconds: 1000), () {
+  //         setState(() {
+  //           availible = slits - withdrawnSlits;
+  //           print("availible : : : : : :  $availible");
+  //         });
+  //       });
+  //     } else {
+  //       switchMemerSlitsRTD.child(widget.profileOwner).set({
+  //         'withdrawn': 0,
+  //         'totalSlits': 0,
+  //       });
+  //     }
+  //   });
+  // }
 
   controlNotificationToastForMessages() {
     setState(() {
@@ -1313,8 +1385,6 @@ class _MemeProfileState extends State<MemeProfile> {
 
         Random random = new Random();
         int limitForUser = random.nextInt(100);
-
-        print("Nameeeeeeeeeeeeeeee" + allMemerList[limitForUser]['username']);
         if (Constants.switchId == allMemerList[0]['uid']) {
           allMemerList.removeAt(0);
         }
@@ -1345,6 +1415,59 @@ class _MemeProfileState extends State<MemeProfile> {
           "username": widget.username,
           "photoUrl": widget.mainProfileUrl,
         });
+
+        if (data.length == 100) {
+          feedRtDatabaseReference
+              .child(widget.profileOwner)
+              .child("feedItems")
+              .child(postId)
+              .set({
+            "type": "planetLevel",
+            "firstName": Constants.myName,
+            "secondName": Constants.mySecondName,
+            "comment": "",
+            "timestamp": DateTime.now().millisecondsSinceEpoch,
+            "url": Constants.myPhotoUrl,
+            "postId": postId,
+            "ownerId": widget.currentUserId,
+            "photourl": "",
+            "isRead": false,
+          });
+        } else if (data.length == 1000) {
+          feedRtDatabaseReference
+              .child(widget.profileOwner)
+              .child("feedItems")
+              .child(postId)
+              .set({
+            "type": "solarLevel",
+            "firstName": Constants.myName,
+            "secondName": Constants.mySecondName,
+            "comment": "",
+            "timestamp": DateTime.now().millisecondsSinceEpoch,
+            "url": Constants.myPhotoUrl,
+            "postId": postId,
+            "ownerId": widget.currentUserId,
+            "photourl": "",
+            "isRead": false,
+          });
+        } else if (data.length == 10000) {
+          feedRtDatabaseReference
+              .child(widget.profileOwner)
+              .child("feedItems")
+              .child(postId)
+              .set({
+            "type": "galaxyLevel",
+            "firstName": Constants.myName,
+            "secondName": Constants.mySecondName,
+            "comment": "",
+            "timestamp": DateTime.now().millisecondsSinceEpoch,
+            "url": Constants.myPhotoUrl,
+            "postId": postId,
+            "ownerId": widget.currentUserId,
+            "photourl": "",
+            "isRead": false,
+          });
+        }
       } else {
         userFollowersCountRtd.child(widget.profileOwner).update({
           "followerCounter": 0,
@@ -1422,7 +1545,9 @@ class _MemeProfileState extends State<MemeProfile> {
                           borderRadius: BorderRadius.circular(40),
                           border: Border.all(color: Colors.white, width: 1),
                           image: DecorationImage(
-                            image: NetworkImage(widget.mainProfileUrl),
+                            image: NetworkImage(widget.mainProfileUrl != null
+                                ? widget.mainProfileUrl
+                                : "https://switchappimages.nyc3.digitaloceanspaces.com/StaticUse/1646080905939.jpg"),
                           ),
                         ),
                       ),
@@ -1431,174 +1556,38 @@ class _MemeProfileState extends State<MemeProfile> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 10, bottom: 10),
-              child: Text(
-                "Art of ${widget.mainFirstName}",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontFamily: 'cute',
-                  fontSize: 15,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () => {
+                    _whatIf(),
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "What If?",
+                      style: TextStyle(
+                          color: Colors.blue, fontSize: 16, fontFamily: 'cute'),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
+            // Padding(
+            //   padding: EdgeInsets.only(top: 10, bottom: 10),
+            //   child: Text(
+            //     "Art of ${widget.mainFirstName}",
+            //     style: TextStyle(
+            //       color: Colors.blue,
+            //       fontFamily: 'cute',
+            //       fontSize: 15,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       );
-    }
-
-    _whatIf() {
-      return showModalBottomSheet<void>(
-          useRootNavigator: true,
-          isScrollControlled: true,
-          barrierColor: Colors.red.withOpacity(0.2),
-          elevation: 0,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          context: context,
-          builder: (context) {
-            return Container(
-              height: MediaQuery.of(context).size.height / 1.5,
-              child: Scaffold(
-                appBar: AppBar(
-                    backgroundColor: Colors.blue,
-                    elevation: 2.0,
-                    title: Text(
-                      "What if.",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontFamily: 'cute'),
-                    ),
-                    centerTitle: true,
-                    leading: Text("")),
-                body: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      DelayedDisplay(
-                        fadeIn: true,
-                        delay: Duration(milliseconds: 300),
-                        slidingBeginOffset: Offset(0.0, 0.40),
-                        child: Container(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8, bottom: 5, top: 5),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                          child: Flexible(
-                                              child: Text(
-                                        "What if my Meme is not showing after Post it?",
-                                        style: TextStyle(
-                                            color: Colors.blue,
-                                            fontFamily: 'cute',
-                                            fontSize: 17),
-                                      ))),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                          child: Flexible(
-                                              child: Text(
-                                        "If your Meme is not showing after posting it, You may visit your Meme Profile through, Timeline > Profile Picture > Meme Profile.",
-                                        style: TextStyle(
-                                            color: Colors.blue.shade700,
-                                            fontFamily: 'cutes',
-                                            fontSize: 13),
-                                      ))),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8, bottom: 5, top: 5),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                          child: Flexible(
-                                              child: Text(
-                                        "Limitations for MEMER:",
-                                        style: TextStyle(
-                                            color: Colors.blue,
-                                            fontFamily: 'cute',
-                                            fontSize: 17),
-                                      ))),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                          child: Flexible(
-                                              child: Text(
-                                        "1) A meme profile with copied meme will not be ranked on TOP MEMERS. 2) Original Meme Content will be appreciated separably in this app. 3) If a meme being reported (copied meme), then the reported profile will be deleted after 1 or 2 warnings."
-                                        "4) Such Meme Profile that disrespect any Religion, will be terminated w/o any warning.",
-                                        style: TextStyle(
-                                            color: Colors.blue.shade700,
-                                            fontFamily: 'cutes',
-                                            fontSize: 13),
-                                      ))),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8, bottom: 5, top: 5),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                          child: Flexible(
-                                              child: Text(
-                                        "Meme Decency:",
-                                        style: TextStyle(
-                                            color: Colors.blue,
-                                            fontFamily: 'cute',
-                                            fontSize: 17),
-                                      ))),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                          child: Flexible(
-                                              child: Text(
-                                        "In Future Updates, We will Rank Profiles with respect to (Meme Decency + Total Following).",
-                                        style: TextStyle(
-                                            color: Colors.blue.shade700,
-                                            fontFamily: 'cutes',
-                                            fontSize: 13),
-                                      ))),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          });
     }
 
     _decencyMeter() {
@@ -1664,6 +1653,7 @@ class _MemeProfileState extends State<MemeProfile> {
     _upperPage() {
       return Material(
         elevation: 10,
+        color: Constants.isDark == "true" ? Colors.grey.shade900 : Colors.white,
         borderRadius: BorderRadius.circular(20),
         child: Column(
           children: [
@@ -1676,25 +1666,11 @@ class _MemeProfileState extends State<MemeProfile> {
                     width: 0,
                   )
                 : appBar(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () => {
-                    _whatIf(),
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "What If?",
-                      style: TextStyle(
-                          color: Colors.blue, fontSize: 16, fontFamily: 'cute'),
-                    ),
-                  ),
-                ),
-              ],
+            SizedBox(
+              height: 20,
             ),
             Row(
+              key: memeDecencyIntro,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [_decencyMeter()],
             ),
@@ -1704,7 +1680,6 @@ class _MemeProfileState extends State<MemeProfile> {
                 "Meme Decency",
                 style: TextStyle(
                   fontFamily: "Cute",
-                  color: Colors.black54,
                   fontSize: 12,
                 ),
               ),
@@ -1723,7 +1698,6 @@ class _MemeProfileState extends State<MemeProfile> {
                   Material(
                     borderRadius: BorderRadius.circular(5),
                     elevation: 2,
-                    shadowColor: Colors.grey,
                     child: Container(
                       width: 90,
                       decoration: BoxDecoration(
@@ -1736,10 +1710,7 @@ class _MemeProfileState extends State<MemeProfile> {
                           children: [
                             Text(
                               "Followers",
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontFamily: 'cute',
-                                  fontSize: 8),
+                              style: TextStyle(fontFamily: 'cute', fontSize: 8),
                             ),
                             StreamBuilder(
                                 stream: userFollowersRtd
@@ -1758,7 +1729,6 @@ class _MemeProfileState extends State<MemeProfile> {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'cutes',
-                                            color: Colors.blue,
                                             fontSize: 10),
                                       );
                                     } else {
@@ -1770,7 +1740,6 @@ class _MemeProfileState extends State<MemeProfile> {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'cutes',
-                                            color: Colors.blue,
                                             fontSize: 10),
                                       );
                                     }
@@ -1780,7 +1749,6 @@ class _MemeProfileState extends State<MemeProfile> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontFamily: 'cutes',
-                                          color: Colors.blue,
                                           fontSize: 12),
                                     );
                                   }
@@ -1790,224 +1758,150 @@ class _MemeProfileState extends State<MemeProfile> {
                       ),
                     ),
                   ),
+
                   TextButton(
                     onPressed: () => {
-                      widget.user.uid == widget.profileOwner
-                          ? showModalBottomSheet(
-                              useRootNavigator: true,
-                              isScrollControlled: true,
-                              barrierColor: Colors.red.withOpacity(0.2),
-                              elevation: 0,
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              context: context,
-                              builder: (context) {
-                                return Container(
-                                    height: MediaQuery.of(context).size.height /
-                                        1.5,
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(5.0),
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Icon(
-                                                      Icons.linear_scale_sharp),
-                                                ],
+                      showModalBottomSheet(
+                          useRootNavigator: true,
+                          isScrollControlled: true,
+                          barrierColor: Colors.red.withOpacity(0.2),
+                          elevation: 0,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                                height:
+                                    MediaQuery.of(context).size.height / 1.3,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.linear_scale_sharp,
+                                                color: Colors.white,
                                               ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                          "Total Slits: ",
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 18,
-                                                            fontFamily: 'cute',
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                          slits.toString(),
-                                                          style: TextStyle(
-                                                              fontFamily:
-                                                                  'cutes',
-                                                              fontSize: 15),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                          "Withdrawn: ",
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 18,
-                                                            fontFamily: 'cute',
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                          withdrawnSlits
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              fontFamily:
-                                                                  'cutes',
-                                                              fontSize: 15),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                          "Available: ",
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 18,
-                                                            fontFamily: 'cute',
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                          availible.toString(),
-                                                          style: TextStyle(
-                                                              fontFamily:
-                                                                  'cutes',
-                                                              fontSize: 15),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Center(
-                                                child: TextButton(
-                                                    onPressed: () => {
-                                                          bottomSheetForWithdraw(),
-                                                        },
-                                                    child: Text(
-                                                      "Tap to Withdraw",
-                                                      style: TextStyle(
-                                                          fontFamily: 'cute',
-                                                          color: Colors
-                                                              .green.shade700,
-                                                          fontSize: 16),
-                                                    ))),
-                                            Divider(
-                                              thickness: 1,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 20, top: 8),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    "Important:",
-                                                    style: TextStyle(
-                                                        fontFamily: 'cute',
-                                                        color: Colors.blue,
-                                                        fontSize: 20),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: Row(
-                                                  children: [
-                                                    Container(
-                                                      child: Center(
-                                                          child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                          "1) 100 Slits = 1 PKR.\n\n"
-                                                          "2) Minimum Withdrawal will be 10,000 Slits.\n\n"
-                                                          "3) 1 post on Meme competition = 1000 slit.\n\n"
-                                                          "4) 1 up react on meme post = 1 slit.\n\n"
-                                                          "5) Down react will not count for slit.\n\n"
-                                                          "6) If You delete any Meme after post, it may cause -10 slits.\n\n"
+                                            ],
+                                          ),
+                                        ),
+                                        color: Colors.blue,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Monthly Prize",
+                                          style: TextStyle(
+                                            fontSize: 22,
+                                            color: Colors.blue,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Monthly prize will be distribute to only TOP 3 memers on day 10 of every month.",
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: 'cutes',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      universalMethods.prizeDistribution(),
 
-                                                          //"6) Read Al-Quran verse = 10 slits, in Islam Section.\n\n"
-                                                          "7) Slits conversion to pkr can vary according to scenarios.\n\n"
-                                                          "8) Switch team will verify through our super database and user activity if it has legal slits or just user tricked to earn slits.\n\n"
-                                                          "9) If we catch any user, playing any trick to earn Slits, will Ban permanently.\n\n"
-                                                          "10) Switch App has rights to make changes in Slit policy anytime.\n\n",
-                                                          softWrap: true,
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 12,
-                                                            fontFamily: 'cutes',
-                                                          ),
-                                                        ),
-                                                      )),
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                    ),
-                                                  ],
+                                      ///
+
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Divider(
+                                          thickness: 2,
+                                          height: 2,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Competition Prize",
+                                          style: TextStyle(
+                                            fontSize: 22,
+                                            color: Colors.blue,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Weekly prize will be distribute to those 2 memer who get more reacts on their memes through meme competition.",
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: 'cutes',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              child: Flexible(
+                                                child: Text(
+                                                  "Prize for winner # 1  = 1500 pkr",
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontFamily: 'cute',
+                                                      fontSize: 18),
                                                 ),
                                               ),
                                             ),
-                                          ]),
-                                    ));
-                              })
-                          : Container(
-                              height: 0,
-                              width: 0,
-                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                                child: Flexible(
+                                                    child: Text(
+                                              "Prize for winner # 2  = 1000 pkr",
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontFamily: 'cute',
+                                                  fontSize: 18),
+                                            ))),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Note: Currently, Memers can withdraw prize money through JAZZCASH. Winners will be announce at the end of competition.",
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            fontFamily: 'cutes',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ));
+                          })
                     },
                     child: Material(
                       borderRadius: BorderRadius.circular(5),
                       elevation: 2,
-                      shadowColor: Colors.grey,
                       child: Container(
                         width: 90,
                         decoration: BoxDecoration(
@@ -2019,19 +1913,16 @@ class _MemeProfileState extends State<MemeProfile> {
                           child: Column(
                             children: [
                               Text(
-                                "Total Slits",
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontFamily: 'cute',
-                                    fontSize: 8),
+                                "Memers",
+                                style:
+                                    TextStyle(fontFamily: 'cute', fontSize: 9),
                               ),
                               Text(
-                                shortSlit,
+                                "Prize",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'cutes',
-                                    color: Colors.blue,
-                                    fontSize: 10),
+                                    fontSize: 9),
                               ),
                             ],
                           ),
@@ -2039,158 +1930,338 @@ class _MemeProfileState extends State<MemeProfile> {
                       ),
                     ),
                   ),
+
+                  ///This is slit button
+                  // TextButton(
+                  //   onPressed: () => {
+                  //     widget.user.uid == widget.profileOwner
+                  //         ? showModalBottomSheet(
+                  //             useRootNavigator: true,
+                  //             isScrollControlled: true,
+                  //             barrierColor: Colors.red.withOpacity(0.2),
+                  //             elevation: 0,
+                  //             clipBehavior: Clip.antiAliasWithSaveLayer,
+                  //             context: context,
+                  //             builder: (context) {
+                  //               return Container(
+                  //                   height: MediaQuery.of(context).size.height /
+                  //                       1.5,
+                  //                   child: SingleChildScrollView(
+                  //                     child: Column(
+                  //                         mainAxisAlignment:
+                  //                             MainAxisAlignment.center,
+                  //                         children: [
+                  //                           Padding(
+                  //                             padding:
+                  //                                 const EdgeInsets.all(5.0),
+                  //                             child: Row(
+                  //                               crossAxisAlignment:
+                  //                                   CrossAxisAlignment.center,
+                  //                               mainAxisAlignment:
+                  //                                   MainAxisAlignment.center,
+                  //                               children: [
+                  //                                 Icon(
+                  //                                     Icons.linear_scale_sharp),
+                  //                               ],
+                  //                             ),
+                  //                           ),
+                  //                           Padding(
+                  //                             padding:
+                  //                                 const EdgeInsets.all(8.0),
+                  //                             child: Column(
+                  //                               children: [
+                  //                                 Row(
+                  //                                   children: [
+                  //                                     Padding(
+                  //                                       padding:
+                  //                                           const EdgeInsets
+                  //                                               .all(8.0),
+                  //                                       child: Text(
+                  //                                         "Total Slits: ",
+                  //                                         style: TextStyle(
+                  //                                           fontSize: 18,
+                  //                                           fontFamily: 'cute',
+                  //                                         ),
+                  //                                       ),
+                  //                                     ),
+                  //                                     Padding(
+                  //                                       padding:
+                  //                                           const EdgeInsets
+                  //                                               .all(8.0),
+                  //                                       child: Text(
+                  //                                         slits.toString(),
+                  //                                         style: TextStyle(
+                  //                                             fontFamily:
+                  //                                                 'cutes',
+                  //                                             fontSize: 15),
+                  //                                       ),
+                  //                                     )
+                  //                                   ],
+                  //                                 ),
+                  //                                 Row(
+                  //                                   children: [
+                  //                                     Padding(
+                  //                                       padding:
+                  //                                           const EdgeInsets
+                  //                                               .all(8.0),
+                  //                                       child: Text(
+                  //                                         "Withdrawn: ",
+                  //                                         style: TextStyle(
+                  //                                           fontSize: 18,
+                  //                                           fontFamily: 'cute',
+                  //                                         ),
+                  //                                       ),
+                  //                                     ),
+                  //                                     Padding(
+                  //                                       padding:
+                  //                                           const EdgeInsets
+                  //                                               .all(8.0),
+                  //                                       child: Text(
+                  //                                         withdrawnSlits
+                  //                                             .toString(),
+                  //                                         style: TextStyle(
+                  //                                             fontFamily:
+                  //                                                 'cutes',
+                  //                                             fontSize: 15),
+                  //                                       ),
+                  //                                     )
+                  //                                   ],
+                  //                                 ),
+                  //                                 Row(
+                  //                                   children: [
+                  //                                     Padding(
+                  //                                       padding:
+                  //                                           const EdgeInsets
+                  //                                               .all(8.0),
+                  //                                       child: Text(
+                  //                                         "Available: ",
+                  //                                         style: TextStyle(
+                  //                                           fontSize: 18,
+                  //                                           fontFamily: 'cute',
+                  //                                         ),
+                  //                                       ),
+                  //                                     ),
+                  //                                     Padding(
+                  //                                       padding:
+                  //                                           const EdgeInsets
+                  //                                               .all(8.0),
+                  //                                       child: Text(
+                  //                                         availible.toString(),
+                  //                                         style: TextStyle(
+                  //                                             fontFamily:
+                  //                                                 'cutes',
+                  //                                             fontSize: 15),
+                  //                                       ),
+                  //                                     )
+                  //                                   ],
+                  //                                 )
+                  //                               ],
+                  //                             ),
+                  //                           ),
+                  //                           Center(
+                  //                               child: TextButton(
+                  //                                   onPressed: () => {
+                  //                                         bottomSheetForWithdraw(),
+                  //                                       },
+                  //                                   child: Text(
+                  //                                     "Tap to Withdraw",
+                  //                                     style: TextStyle(
+                  //                                         fontFamily: 'cute',
+                  //                                         color: Colors
+                  //                                             .green.shade700,
+                  //                                         fontSize: 16),
+                  //                                   ))),
+                  //                           Divider(
+                  //                             thickness: 1,
+                  //                           ),
+                  //                           Padding(
+                  //                             padding: const EdgeInsets.only(
+                  //                                 left: 20, top: 8),
+                  //                             child: Row(
+                  //                               children: [
+                  //                                 Text(
+                  //                                   "Important:",
+                  //                                   style: TextStyle(
+                  //                                       fontFamily: 'cute',
+                  //                                       color: Colors.blue,
+                  //                                       fontSize: 20),
+                  //                                 )
+                  //                               ],
+                  //                             ),
+                  //                           ),
+                  //                           Padding(
+                  //                             padding:
+                  //                                 const EdgeInsets.all(8.0),
+                  //                             child: SingleChildScrollView(
+                  //                               scrollDirection:
+                  //                                   Axis.horizontal,
+                  //                               child: Row(
+                  //                                 children: [
+                  //                                   Container(
+                  //                                     child: Center(
+                  //                                         child: Padding(
+                  //                                       padding:
+                  //                                           const EdgeInsets
+                  //                                               .all(8.0),
+                  //                                       child: Text(
+                  //                                         "1) 100 Slits = 1 PKR.\n\n"
+                  //                                         "2) Minimum Withdrawal will be 10,000 Slits.\n\n"
+                  //                                         "3) 1 post on Meme competition = 1000 slit.\n\n"
+                  //                                         "4) 1 up react on meme post = 1 slit.\n\n"
+                  //                                         "5) Down react will not count for slit.\n\n"
+                  //                                         "6) If You delete any Meme after post, it may cause -10 slits.\n\n"
+                  //
+                  //                                         //"6) Read Al-Quran verse = 10 slits, in Islam Section.\n\n"
+                  //                                         "7) Slits conversion to pkr can vary according to scenarios.\n\n"
+                  //                                         "8) Switch team will verify through our super database and user activity if it has legal slits or just user tricked to earn slits.\n\n"
+                  //                                         "9) If we catch any user, playing any trick to earn Slits, will Ban permanently.\n\n"
+                  //                                         "10) Switch App has rights to make changes in Slit policy anytime.\n\n",
+                  //                                         softWrap: true,
+                  //                                         textAlign:
+                  //                                             TextAlign.left,
+                  //                                         style: TextStyle(
+                  //                                           fontSize: 12,
+                  //                                           fontFamily: 'cutes',
+                  //                                         ),
+                  //                                       ),
+                  //                                     )),
+                  //                                     width:
+                  //                                         MediaQuery.of(context)
+                  //                                             .size
+                  //                                             .width,
+                  //                                   ),
+                  //                                 ],
+                  //                               ),
+                  //                             ),
+                  //                           ),
+                  //                         ]),
+                  //                   ));
+                  //             })
+                  //         : Container(
+                  //             height: 0,
+                  //             width: 0,
+                  //           ),
+                  //   },
+                  //   child: Material(
+                  //     key: slitsIntro,
+                  //     borderRadius: BorderRadius.circular(5),
+                  //     elevation: 2,
+                  //     child: Container(
+                  //       width: 90,
+                  //       decoration: BoxDecoration(
+                  //           color: Colors.blue.shade100.withOpacity(0.4),
+                  //           borderRadius: BorderRadius.circular(5)),
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.only(
+                  //             left: 8, right: 8, top: 5, bottom: 5),
+                  //         child: Column(
+                  //           children: [
+                  //             Text(
+                  //               "Total Slits",
+                  //               style: TextStyle(
+                  //                   fontFamily: 'cute',
+                  //                   fontSize: 8),
+                  //             ),
+                  //             Text(
+                  //               shortSlit,
+                  //               style: TextStyle(
+                  //                   fontWeight: FontWeight.bold,
+                  //                   fontFamily: 'cutes',
+                  //                   fontSize: 10),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 25),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                      child: Material(
-                        borderRadius: BorderRadius.circular(15),
-                        elevation: 2,
-                        shadowColor: Colors.grey,
-                        child: Container(
-                          padding: EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.blue,
-                          ),
-                          height: 40,
-                          width: MediaQuery.of(context).size.width / 2.5,
-                          child: Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: Center(
-                              child: Text(
-                                "Meme Competition",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'cute',
-                                    color: Colors.white),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      onPressed: () => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Provider<User>.value(
-                                      value: widget.user,
-                                      child: MemeComp(
-                                        user: widget.user,
-                                      ),
-                                    ))),
-                      },
+              padding: const EdgeInsets.only(top: 4, bottom: 10),
+              child: TextButton(
+                child: Material(
+                  borderRadius: BorderRadius.circular(10),
+                  elevation: 3,
+                  key: memeCompetitionIntro,
+                  color: Constants.isDark == "true"
+                      ? Colors.grey.shade800
+                      : Colors.blue,
+                  child: Container(
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    TextButton(
-                      onPressed: () => {
-                        showModalBottomSheet(
-                            useRootNavigator: true,
-                            isScrollControlled: true,
-                            barrierColor: Colors.red.withOpacity(0.2),
-                            elevation: 0,
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            context: context,
-                            builder: (context) {
-                              return Container(
-                                height: MediaQuery.of(context).size.height / 3,
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(Icons.linear_scale_sharp),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "Meme Crown will open when we reach 5000+ user in Switch App & Participant must have 100+ follower.",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontFamily: "cutes",
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.blue),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "What is Meme Crown?",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontFamily: "cutes",
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.green),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "Meme Crow will Show the activity of Switch App Memers, For Example: Top Memers, Memer of the week, Pro Tags etc",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontFamily: "cutes",
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }),
-                      },
-                      child: Material(
-                        borderRadius: BorderRadius.circular(15),
-                        elevation: 2,
-                        shadowColor: Colors.grey,
-                        child: Container(
-                          padding: EdgeInsets.all(4),
-                          height: 40,
-                          width: MediaQuery.of(context).size.width / 2.5,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.blue,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: Center(
-                              child: Text(
-                                "Meme Crown",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'cute',
-                                    color: Colors.white),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
+                    height: 38,
+                    width: MediaQuery.of(context).size.width / 1.35,
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Center(
+                        child: Text(
+                          "<< Memes Competition >>",
+                          style: TextStyle(
+                              fontSize: 11,
+                              fontFamily: 'cute',
+                              color: Colors.white),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
+                onPressed: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Provider<User>.value(
+                        value: widget.user,
+                        child: MemeComp(
+                          user: widget.user,
+                        ),
+                      ),
+                    ),
+                  ),
+                },
+              ),
+            ),
+            TextButton(
+              onPressed: () => {
+                bottomSheetForMemerLevels(),
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  levelLink == ""
+                      ? Text("")
+                      : Shimmer.fromColors(
+                          baseColor: Colors.purpleAccent.shade200,
+                          highlightColor: Colors.purple.shade700,
+                          child: CachedNetworkImage(
+                            key: levelIntro,
+                            imageUrl: levelLink,
+                            placeholder: (context, url) => Container(
+                              child: Text(""),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                            height: 60,
+                            width: 100,
+                          ),
+                        ),
+                  levelLogo == ""
+                      ? Text("")
+                      : Padding(
+                          padding: const EdgeInsets.only(bottom: 5),
+                          child: SizedBox(
+                            child: Lottie.asset(
+                              levelLogo,
+                            ),
+                            height: 70,
+                            width: 70,
+                          ),
+                        ),
+                ],
               ),
             ),
           ],
@@ -2201,6 +2272,7 @@ class _MemeProfileState extends State<MemeProfile> {
     _lowerPage() {
       return Column(
         children: [
+
           // Padding(
           //   padding: const EdgeInsets.only(top: 20, bottom: 0),
           //   child: SingleChildScrollView(
@@ -2355,6 +2427,7 @@ class _MemeProfileState extends State<MemeProfile> {
           ),
           widget.navigateThrough == "direct"
               ? Padding(
+                  key: topMemersIntro,
                   padding: const EdgeInsets.only(
                       bottom: 8, right: 5, left: 5, top: 10),
                   child: Text(
@@ -2501,7 +2574,6 @@ class _MemeProfileState extends State<MemeProfile> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -2601,8 +2673,11 @@ class _MemeProfileState extends State<MemeProfile> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 50,
-                color: Colors.blue,
+                color: Constants.isDark == "true"
+                    ? Colors.grey.shade900
+                    : Colors.blue,
                 child: Row(
+                  key: rankingIntro,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
@@ -2619,8 +2694,13 @@ class _MemeProfileState extends State<MemeProfile> {
                       padding: const EdgeInsets.all(4.0),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12)),
+                            color: Constants.isDark == "true"
+                                ? Colors.grey.shade900
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(
+                              12,
+                            ),
+                            border: Border.all(color: Colors.grey.shade800)),
                         height: 35,
                         width: 80,
                         child: WorldRanking(
@@ -2991,100 +3071,100 @@ class _MemeProfileState extends State<MemeProfile> {
                               ),
                               TextButton(
                                 onPressed: () => {
-                                  showModalBottomSheet(
-                                      useRootNavigator: true,
-                                      isScrollControlled: true,
-                                      barrierColor: Colors.red.withOpacity(0.2),
-                                      elevation: 0,
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      context: context,
-                                      builder: (context) {
-                                        return Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              3,
-                                          child: SingleChildScrollView(
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(5.0),
-                                                  child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Icon(Icons
-                                                          .linear_scale_sharp),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "Video Meme only available in Meme competition. If this Switch App will perform well, we will allow this option here too.",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontFamily: "cutes",
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.blue),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "Why?",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontFamily: "cutes",
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors
-                                                            .red.shade700),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "Database for videos is very Expensive. And our budget is not enough to bear the cost yet. Hope we will allow it in future, very soon. ",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontFamily: "cutes",
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.grey),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      }),
+                                  // showModalBottomSheet(
+                                  //     useRootNavigator: true,
+                                  //     isScrollControlled: true,
+                                  //     barrierColor: Colors.red.withOpacity(0.2),
+                                  //     elevation: 0,
+                                  //     clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  //     context: context,
+                                  //     builder: (context) {
+                                  //       return Container(
+                                  //         height: MediaQuery.of(context)
+                                  //                 .size
+                                  //                 .height /
+                                  //             3,
+                                  //         child: SingleChildScrollView(
+                                  //           child: Column(
+                                  //             children: [
+                                  //               Padding(
+                                  //                 padding:
+                                  //                     const EdgeInsets.all(5.0),
+                                  //                 child: Row(
+                                  //                   crossAxisAlignment:
+                                  //                       CrossAxisAlignment
+                                  //                           .center,
+                                  //                   mainAxisAlignment:
+                                  //                       MainAxisAlignment
+                                  //                           .center,
+                                  //                   children: [
+                                  //                     Icon(Icons
+                                  //                         .linear_scale_sharp),
+                                  //                   ],
+                                  //                 ),
+                                  //               ),
+                                  //               Padding(
+                                  //                 padding:
+                                  //                     const EdgeInsets.all(8.0),
+                                  //                 child: Text(
+                                  //                   "Video Meme only available in Meme competition. If this Switch App will perform well, we will allow this option here too.",
+                                  //                   textAlign: TextAlign.center,
+                                  //                   style: TextStyle(
+                                  //                       fontSize: 15,
+                                  //                       fontFamily: "cutes",
+                                  //                       fontWeight:
+                                  //                           FontWeight.bold,
+                                  //                       color: Colors.blue),
+                                  //                 ),
+                                  //               ),
+                                  //               Padding(
+                                  //                 padding:
+                                  //                     const EdgeInsets.all(8.0),
+                                  //                 child: Text(
+                                  //                   "Why?",
+                                  //                   textAlign: TextAlign.center,
+                                  //                   style: TextStyle(
+                                  //                       fontSize: 15,
+                                  //                       fontFamily: "cutes",
+                                  //                       fontWeight:
+                                  //                           FontWeight.bold,
+                                  //                       color: Colors
+                                  //                           .red.shade700),
+                                  //                 ),
+                                  //               ),
+                                  //               Padding(
+                                  //                 padding:
+                                  //                     const EdgeInsets.all(8.0),
+                                  //                 child: Text(
+                                  //                   "Database for videos is very Expensive. And our budget is not enough to bear the cost yet. Hope we will allow it in future, very soon. ",
+                                  //                   textAlign: TextAlign.center,
+                                  //                   style: TextStyle(
+                                  //                       fontSize: 15,
+                                  //                       fontFamily: "cutes",
+                                  //                       fontWeight:
+                                  //                           FontWeight.bold,
+                                  //                       color: Colors.grey),
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //         ),
+                                  //       );
+                                  //     }),
 
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) =>
-                                  //         Provider<User>.value(
-                                  //       value: user,
-                                  //       child: VideoStatus(
-                                  //         type: "videoMeme",
-                                  //         user: widget.user,
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          Provider<User>.value(
+                                        value: user,
+                                        child: VideoStatus(
+                                          type: "videoMeme",
+                                          user: widget.user,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -3102,7 +3182,7 @@ class _MemeProfileState extends State<MemeProfile> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              "Flick Meme",
+                                              "Video Meme",
                                               style: TextStyle(
                                                   fontFamily: 'cute',
                                                   fontSize: 14,
@@ -3166,7 +3246,7 @@ class _MemeProfileState extends State<MemeProfile> {
                                     Container(
                                         child: Flexible(
                                             child: Text(
-                                      "What is Shot Meme:",
+                                      "What is Photo Meme:",
                                       style: TextStyle(
                                           color: Colors.blue,
                                           fontFamily: 'cute',
@@ -3199,7 +3279,7 @@ class _MemeProfileState extends State<MemeProfile> {
                                     Container(
                                         child: Flexible(
                                             child: Text(
-                                      "What is Flick Meme:",
+                                      "What is Video Meme:",
                                       style: TextStyle(
                                           color: Colors.blue,
                                           fontFamily: 'cute',
@@ -3483,26 +3563,23 @@ class _MemeProfileState extends State<MemeProfile> {
 
   _addMeme() {
     return Container(
+      key: uploadMemeIntro,
       height: 28,
       child: ElevatedButton(
         child: Text(
           "Upload Meme",
           softWrap: true,
-          style: TextStyle(
-              color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold),
         ),
         onPressed: () {
           _statusPage(widget.user);
         },
         style: ElevatedButton.styleFrom(
             elevation: 2,
-            primary: Colors.blue,
             textStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
       ),
     );
   }
-
-  String postId = Uuid().v4();
 
   _followingButton() {
     return SizedBox(
@@ -3680,6 +3757,7 @@ class _MemeProfileState extends State<MemeProfile> {
 
   memeGallery() {
     return Padding(
+      key: memeShowCaseIntro,
       padding: const EdgeInsets.all(8.0),
       child: MemeShowCase(
         user: widget.user,
@@ -3760,10 +3838,10 @@ class _MemeProfileState extends State<MemeProfile> {
                     padding: const EdgeInsets.only(right: 8, left: 2),
                     child: Text("View All",
                         style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'cutes',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54)),
+                          fontSize: 12,
+                          fontFamily: 'cutes',
+                          fontWeight: FontWeight.bold,
+                        )),
                   ),
                 )
               ],
@@ -3841,15 +3919,21 @@ class _MemeProfileState extends State<MemeProfile> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.linear_scale_sharp,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   availible >= 10000
                       ? Padding(
@@ -3869,7 +3953,7 @@ class _MemeProfileState extends State<MemeProfile> {
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
                             child: Text(
-                              "Available Balance is not 10,000 or above 10,000 slits. You can only Withdraw when available balance will cross 1000 slits.",
+                              "Available Balance is not 10,000 or above 10,000 slits. You can only Withdraw when available balance will cross 10,000 slits.",
                               style: TextStyle(
                                   color: Colors.blue,
                                   fontFamily: 'cutes',
@@ -3883,5 +3967,495 @@ class _MemeProfileState extends State<MemeProfile> {
             ),
           );
         });
+  }
+
+  late TutorialCoachMark tutorialCoachMark;
+  List<TargetFocus> targets = <TargetFocus>[];
+  GlobalKey rankingIntro = GlobalKey();
+  GlobalKey memeDecencyIntro = GlobalKey();
+  GlobalKey uploadMemeIntro = GlobalKey();
+  GlobalKey levelIntro = GlobalKey();
+  GlobalKey memeCompetitionIntro = GlobalKey();
+  GlobalKey topMemersIntro = GlobalKey();
+  GlobalKey memeShowCaseIntro = GlobalKey();
+  final surpriseMeme = new SurpriseMeme(url: "", play: false, miliSec: 0);
+
+  void showIntro() {
+    initTargets();
+
+    tutorialCoachMark = TutorialCoachMark(
+      context,
+      targets: targets,
+      colorShadow: Colors.blue,
+      textSkip: "Skip",
+      paddingFocus: 4,
+      pulseAnimationDuration: Duration(milliseconds: 1000),
+      focusAnimationDuration: Duration(milliseconds: 500),
+      opacityShadow: 0.9,
+      textStyleSkip:
+          TextStyle(fontFamily: 'cute', fontSize: 20, color: Colors.white),
+      onFinish: () async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setInt("introForMemeProfile", 1);
+        if (mounted)
+          setState(() {
+            Constants.isIntroForMemeProfile = "";
+          });
+
+        surpriseMeme.createState().bottomSheetToShowMeme(
+            context,
+            "https://c.tenor.com/DZJacvvBw7EAAAAd/paisa-hi-paisa-hoga-excited.gif",
+            "Le Top 3 Memers:");
+      },
+      onClickTarget: (target) {
+        print('onClickTarget: ${target.keyTarget}');
+      },
+      onSkip: () {
+        appIntro.createState().bottomSheetForMemeProfileSkipButton(context);
+      },
+      onClickOverlay: (target) {
+        print('onClickOverlay: $target');
+      },
+    )..show();
+  }
+
+  void initTargets() {
+    targets.clear();
+    targets.add(
+      TargetFocus(
+        identify: "Target2",
+        keyTarget: rankingIntro,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "This is your ranking as a Memer.",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'cute',
+                          fontSize: 18.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        "",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+        shape: ShapeLightFocus.RRect,
+        radius: 15,
+      ),
+    );
+
+    targets.add(TargetFocus(
+        identify: "Target",
+        keyTarget: memeDecencyIntro,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Your rating out of 5 and % decency as a Memer will show here.",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 18.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        "",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+        shape: ShapeLightFocus.RRect,
+        radius: 15));
+
+    targets.add(
+      TargetFocus(
+          identify: "Target",
+          keyTarget: uploadMemeIntro,
+          contents: [
+            TargetContent(
+              align: ContentAlign.bottom,
+              builder: (context, controller) {
+                return Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Upload your meme through this button.",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 18.0),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          "",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+          shape: ShapeLightFocus.RRect,
+          radius: 15),
+    );
+    targets.add(TargetFocus(
+        identify: "Target",
+        keyTarget: levelIntro,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "This is memer tag. Click here for more information.",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 18.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        "",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+        shape: ShapeLightFocus.RRect,
+        radius: 15));
+    targets.add(TargetFocus(
+        identify: "Target",
+        keyTarget: memeCompetitionIntro,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Button that will lead you towards meme competition page. You can visit this page and watch if competition is live or not.",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 18.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        "",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+        shape: ShapeLightFocus.RRect,
+        radius: 15));
+    targets.add(TargetFocus(
+        identify: "Target",
+        keyTarget: topMemersIntro,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Section that tells you about top 100 memers of Switch App. These memers are Ranked according to their following counts. Get more following to reach top ranking.",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 18.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        "Note: top 3 memers will get up to 500-1000 pkr per month",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: Colors.yellow,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+        shape: ShapeLightFocus.RRect,
+        radius: 15));
+    targets.add(TargetFocus(
+        identify: "Target",
+        keyTarget: memeShowCaseIntro,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "You can pin your favourites memes and posts here. To pin here, you just have to click the right corner of any post and select (add/remove from showCase) button.",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 18.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        "",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+        shape: ShapeLightFocus.RRect,
+        radius: 15));
+  }
+
+  _whatIf() {
+    return showModalBottomSheet<void>(
+        useRootNavigator: true,
+        isScrollControlled: true,
+        barrierColor: Colors.red.withOpacity(0.2),
+        elevation: 0,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        context: context,
+        builder: (context) {
+          return Container(
+            height: MediaQuery.of(context).size.height / 1.5,
+            child: Scaffold(
+              appBar: AppBar(
+                  backgroundColor: Colors.blue,
+                  elevation: 2.0,
+                  title: Text(
+                    "What if.",
+                    style: TextStyle(
+                        color: Colors.white, fontSize: 20, fontFamily: 'cute'),
+                  ),
+                  centerTitle: true,
+                  leading: Text("")),
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    DelayedDisplay(
+                      fadeIn: true,
+                      delay: Duration(milliseconds: 300),
+                      slidingBeginOffset: Offset(0.0, 0.40),
+                      child: Container(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8, bottom: 5, top: 5),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                        child: Flexible(
+                                            child: Text(
+                                      "What if my Meme is not showing after Post it?",
+                                      style: TextStyle(
+                                          color: Colors.blue,
+                                          fontFamily: 'cute',
+                                          fontSize: 17),
+                                    ))),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                        child: Flexible(
+                                            child: Text(
+                                      "If your Meme is not showing after posting it, You may visit your Meme Profile through, Timeline > Profile Picture > Meme Profile.",
+                                      style: TextStyle(
+                                          color: Colors.blue.shade700,
+                                          fontFamily: 'cutes',
+                                          fontSize: 13),
+                                    ))),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8, bottom: 5, top: 5),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                        child: Flexible(
+                                            child: Text(
+                                      "Limitations for MEMER:",
+                                      style: TextStyle(
+                                          color: Colors.blue,
+                                          fontFamily: 'cute',
+                                          fontSize: 17),
+                                    ))),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                        child: Flexible(
+                                            child: Text(
+                                      "1) A meme profile with copied meme will not be ranked on TOP MEMERS. 2) Original Meme Content will be appreciated separably in this app. 3) If a meme being reported (copied meme), then the reported profile will be deleted after 1 or 2 warnings."
+                                      "4) Such Meme Profile that disrespect any Religion, will be terminated w/o any warning.",
+                                      style: TextStyle(
+                                          color: Colors.blue.shade700,
+                                          fontFamily: 'cutes',
+                                          fontSize: 13),
+                                    ))),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8, bottom: 5, top: 5),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                        child: Flexible(
+                                            child: Text(
+                                      "Meme Decency:",
+                                      style: TextStyle(
+                                          color: Colors.blue,
+                                          fontFamily: 'cute',
+                                          fontSize: 17),
+                                    ))),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                        child: Flexible(
+                                            child: Text(
+                                      "In Future Updates, We will Rank Profiles with respect to (Meme Decency + Total Following).",
+                                      style: TextStyle(
+                                          color: Colors.blue.shade700,
+                                          fontFamily: 'cutes',
+                                          fontSize: 13),
+                                    ))),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  bottomSheetForMemerLevels() {
+    universalMethods.bottomSheetForMemerLevel(context);
   }
 }

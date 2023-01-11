@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:switchapp/Models/Constans.dart';
 import '../../../../Models/postModel/SinglePostDetail.dart';
 import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
 
@@ -54,12 +55,11 @@ class _MemeShowCaseState extends State<MemeShowCase> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      shadowColor: Colors.grey,
       borderRadius: BorderRadius.circular(25),
       elevation: 6,
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.blue,
+            color: Constants.isDark == "true" ? Colors.grey.shade900 : Colors.blue,
             borderRadius: BorderRadius.circular(15)),
         height: imageList.isEmpty ? 130 : 195,
         child: SingleChildScrollView(
@@ -77,7 +77,6 @@ class _MemeShowCaseState extends State<MemeShowCase> {
               imageList.isEmpty
                   ? Container(
                 decoration: BoxDecoration(
-                    color: Colors.blue,
 
                   borderRadius: BorderRadius.circular(15)
                 ),

@@ -61,15 +61,22 @@ class _RemoveFavMemersState extends State<RemoveFavMemers> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.linear_scale_sharp,
+                            color: Colors.white,),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

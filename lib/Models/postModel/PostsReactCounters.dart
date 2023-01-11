@@ -37,13 +37,10 @@ class _PostReactCounterState extends State<PostReactCounter> {
   void initState() {
     super.initState();
 
-    print("this is postReactPage");
     getCurrentReactCount();
   }
 
   addReact(String reactType) async {
-
-
     try {
       final result = await InternetAddress.lookup('example.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
@@ -97,31 +94,35 @@ class _PostReactCounterState extends State<PostReactCounter> {
                 'reactorPhoto': Constants.myPhotoUrl,
               });
 
-              if (widget.type == "meme" ||
-                  widget.type == "memeT" ||
-                  widget.type == "videoMemeT" ||
-                  widget.type == "videoMeme") {
-                switchMemerSlitsRTD
-                    .child(widget.ownerId)
-                    .once()
-                    .then((DataSnapshot dataSnapshot) {
-                  Map data = dataSnapshot.value;
-                  int slits = data['totalSlits'];
-                  setState(() {
-                    slits = slits + 1;
-                  });
-                  Future.delayed(const Duration(milliseconds: 200), () {
-                    switchMemerSlitsRTD.child(widget.ownerId).update({
-                      'totalSlits': slits,
-                    });
-                    print(
-                        "Slitsssssssssssssssssssssssssssssssssssssssss $slits");
-                  });
-                });
-              } else {
-                print(
-                    "noooooooooooooooooooooot memeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-              }
+              ///Slit is here
+
+              //
+              //     if (widget.type == "meme" ||
+              //         widget.type == "memeT" ||
+              //         widget.type == "videoMemeT" ||
+              //         widget.type == "videoMeme") {
+              //       switchMemerSlitsRTD
+              //           .child(widget.ownerId)
+              //           .once()
+              //           .then((DataSnapshot dataSnapshot) {
+              //         Map data = dataSnapshot.value;
+              //         int slits = data['totalSlits'];
+              //         setState(() {
+              //           slits = slits + 1;
+              //         });
+              //         Future.delayed(const Duration(milliseconds: 200), () {
+              //           switchMemerSlitsRTD.child(widget.ownerId).update({
+              //             'totalSlits': slits,
+              //           });
+              //           print(
+              //               "Slitsssssssssssssssssssssssssssssssssssssssss $slits");
+              //         });
+              //       });
+              //     } else {
+              //       print(
+              //           "noooooooooooooooooooooot memeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+              //     }
+              //   }
             }
           });
 
@@ -452,7 +453,6 @@ class _PostReactCounterState extends State<PostReactCounter> {
               onPressed: () => {
                 if (isDislike)
                   {
-                    print("Already DislikedLiked"),
 
                     // removeReact('disLike');
                     // getCurrentReactCount();

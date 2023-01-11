@@ -52,7 +52,7 @@ class _ButtonForFiveState extends State<MemeButtonForFive> {
       onTap: () {
         if (!widget.isFive) {
           memeProfileRtd.child(widget.profileId).update({
-            "numberOfFive": widget.counterForFive + (1),
+            "numberOfFive": (widget.counterForFive) + (1),
           });
           memeProfileRtd
               .child(widget.mainId)

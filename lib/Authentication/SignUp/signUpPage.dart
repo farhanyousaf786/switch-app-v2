@@ -77,13 +77,13 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
-  void formatNickname() {
+  void removeSpace() {
     emailTextEditingController.text =
         emailTextEditingController.text.replaceAll(" ", "");
   }
 
   Future<void> signUp() async {
-    formatNickname();
+    removeSpace();
     try {
       final auth = Provider.of<AuthBase>(context, listen: false);
 
@@ -114,15 +114,22 @@ class _SignUpPageState extends State<SignUpPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.linear_scale_sharp),
-                        ],
+                    Container(
+
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Row(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.center,
+                          mainAxisAlignment:
+                          MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.linear_scale_sharp,
+                              color: Colors.white,),
+                          ],
+                        ),
                       ),
+                      color: Colors.blue,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
@@ -392,14 +399,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: SizedBox(
                     height: 35,
                     width: 100,
-                    child: RaisedButton(
-                        elevation: 0.0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                            side: BorderSide(
-                              color: Colors.blue.shade700,
-                            )),
-                        color: Colors.blue.shade50,
+                    child: ElevatedButton(
                         child: isLoading
                             ? SpinKitFadingCircle(
                                 color: Colors.blue.shade700,
@@ -556,8 +556,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           fontFamily: "Cute",
                         ),
                       ),
-                      FlatButton(
-                          textColor: Colors.blue,
+                      ElevatedButton(
                           child: Text(
                             'Sign In',
                             style: TextStyle(

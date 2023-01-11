@@ -13,14 +13,17 @@ import 'package:switchapp/MainPages/SearchPages/MainSearchPage.dart';
 import 'package:switchapp/MainPages/switchChat/SwitchChat.dart';
 import 'package:switchapp/MainPages/switchChat/SwitchChatHelper.dart';
 import 'package:switchapp/Models/Marquee.dart';
+import 'package:switchapp/Models/appIntro.dart';
 import 'package:switchapp/UniversalResources/ConnectivityChecker.dart';
 import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:switchapp/Models/Constans.dart';
 import 'package:time_formatter/time_formatter.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 late String receiverIdForLoveNote;
+final appIntro = new AppIntro();
 
 class SwitchChatList extends StatefulWidget {
   final User user;
@@ -45,8 +48,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
   List listForSendButton = new List.from([]); // line 1894
 
   Widget chatRoomList(String uid, Map listMap) {
-
-
     List list = [];
     listMap.forEach((index, data) => list.add({"key": index, ...data}));
     list.sort((a, b) {
@@ -109,12 +110,18 @@ class _SwitchChatListState extends State<SwitchChatList> {
   @override
   void initState() {
     super.initState();
+
+
+
     controlNotificationToastForMessages();
     setState(() {
       loadingScreen = true;
     });
     hasNetwork();
     Future.delayed(const Duration(milliseconds: 600), () async {
+      if (Constants.introForChatListPage == "true") {
+        showIntro();
+      } else {}
       setState(() {
         loadingScreen = false;
         Constants.messageIconActive = false;
@@ -127,7 +134,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
     });
     super.initState();
   }
-
 
   Future<bool> hasNetwork() async {
     try {
@@ -162,10 +168,7 @@ class _SwitchChatListState extends State<SwitchChatList> {
           Text(
             receiverName.characters.take(13).toString() + " ",
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 17,
-                color: Colors.black,
-                fontFamily: 'cutes'),
+                fontWeight: FontWeight.bold, fontSize: 17, fontFamily: 'cutes'),
           ),
           Container(
             height: 18,
@@ -182,10 +185,7 @@ class _SwitchChatListState extends State<SwitchChatList> {
           Text(
             senderName.characters.take(13).toString() + " ",
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 17,
-                color: Colors.black,
-                fontFamily: 'cutes'),
+                fontWeight: FontWeight.bold, fontSize: 17, fontFamily: 'cutes'),
           ),
           Container(
             height: 18,
@@ -207,10 +207,7 @@ class _SwitchChatListState extends State<SwitchChatList> {
           Text(
             receiverName.characters.take(13).toString() + " ",
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 17,
-                color: Colors.black,
-                fontFamily: 'cutes'),
+                fontWeight: FontWeight.bold, fontSize: 17, fontFamily: 'cutes'),
           ),
           StreamBuilder(
               stream: userRefRTD.child(receiverId).onValue,
@@ -249,10 +246,7 @@ class _SwitchChatListState extends State<SwitchChatList> {
           Text(
             senderName.characters.take(13).toString() + " ",
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 17,
-                color: Colors.black,
-                fontFamily: 'cutes'),
+                fontWeight: FontWeight.bold, fontSize: 17, fontFamily: 'cutes'),
           ),
           StreamBuilder(
               stream: userRefRTD.child(receiverId).onValue,
@@ -381,7 +375,7 @@ class _SwitchChatListState extends State<SwitchChatList> {
           Map relationShipData = snapshot.value;
 
           if (relationShipData == null) {
-            print("empty data");
+
           } else {
             return relationShipData['inRelationshipWithId'] != receiverId
                 ? Container(
@@ -389,7 +383,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
                       onLongPress: () {
                         _openBottomSheet(groupChatId, receiverId);
                       },
-                      tileColor: Colors.white,
                       trailing: SingleChildScrollView(
                         child: Padding(
                           padding: const EdgeInsets.only(right: 10),
@@ -413,7 +406,7 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                       formatted,
                                       style: TextStyle(
                                         fontSize: 9,
-                                        color: Colors.black54,
+                                        color: Colors.grey,
                                       ),
                                     ),
                                   ],
@@ -482,7 +475,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                       userToken['androidNotificationToken']
                                           .toString();
                                 });
-                                print("token:  >>>>>>>> ${Constants.token}");
                               }
                             }),
                             FirebaseDatabase.instance
@@ -501,8 +493,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                 .child(Constants.myId)
                                 .child(receiverId)
                                 .update({"isRead": true}),
-                            print("11111111111111111111"),
-                            print("groupChatId   " + groupChatId),
                             Future.delayed(const Duration(milliseconds: 600),
                                 () {
                               Navigator.push(
@@ -543,7 +533,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                       userToken['androidNotificationToken']
                                           .toString();
                                 });
-                                print("token:  >>>>>>>> ${Constants.token}");
                               }
                             }),
                             FirebaseDatabase.instance
@@ -562,7 +551,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                 .child(Constants.myId)
                                 .child(receiverId)
                                 .update({"isRead": true}),
-                            print("22222222222222222222222222"),
                             Future.delayed(const Duration(milliseconds: 600),
                                 () {
                               Navigator.push(
@@ -670,7 +658,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
           DataSnapshot snapshot = dataSnapShot.data.snapshot;
           Map data = snapshot.value;
           if (snapshot == null) {
-            print("empty data");
           } else {
             return MarqueeWidget(
               animationDuration: const Duration(seconds: 3),
@@ -681,7 +668,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
                 style: TextStyle(
                   fontSize: 15,
                   fontFamily: 'cute',
-                  color: Colors.black87,
                 ),
               ),
             );
@@ -693,7 +679,7 @@ class _SwitchChatListState extends State<SwitchChatList> {
             "Noting Here...",
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: Colors.black54,
+                color: Colors.grey,
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
                 fontFamily: 'cutes'),
@@ -716,14 +702,22 @@ class _SwitchChatListState extends State<SwitchChatList> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.linear_scale_sharp,
+                            color: Colors.white,),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding:
@@ -863,7 +857,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
           Map relationShipData = snapshot.value;
 
           if (relationShipData == null) {
-            print("empty data");
           } else {
             receiverIdForLoveNote = relationShipData['inRelationshipWithId'];
             return relationShipData['inRelationshipWithId'] == receiverId
@@ -876,7 +869,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
                             receiverId,
                           );
                         },
-                        tileColor: Colors.white,
                         trailing: SingleChildScrollView(
                           child: Column(
                             children: [
@@ -897,7 +889,7 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                     ),
                                     style: TextStyle(
                                       fontSize: 8,
-                                      color: Colors.black54,
+                                      color: Colors.grey,
                                     ),
                                   ),
                                 ),
@@ -964,7 +956,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                         userToken['androidNotificationToken']
                                             .toString();
                                   });
-                                  print("token:  >>>>>>>> ${Constants.token}");
                                 }
                               }),
                               FirebaseDatabase.instance
@@ -978,7 +969,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                     .toString(),
                                 'isRead': true,
                               }),
-                              print("3333333333333333333333"),
                               chatListRtDatabaseReference
                                   .child(Constants.myId)
                                   .child(receiverId)
@@ -1038,7 +1028,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                         userToken['androidNotificationToken']
                                             .toString();
                                   });
-                                  print("token:  >>>>>>>> ${Constants.token}");
 
                                   // we want this token because we want token of receiver end
 
@@ -1048,7 +1037,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                   .child(Constants.myId)
                                   .child(receiverId)
                                   .update({"isRead": true}),
-                              print("44444444444444444444444"),
                               Future.delayed(const Duration(milliseconds: 400),
                                   () {
                                 Navigator.push(
@@ -1083,7 +1071,7 @@ class _SwitchChatListState extends State<SwitchChatList> {
                       ),
                       SizedBox(
                         width: 150,
-                        child: FlatButton(
+                        child: ElevatedButton(
                           onPressed: () {
                             showModalBottomSheet(
                               isScrollControlled: true,
@@ -1098,17 +1086,22 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                     scrollDirection: Axis.vertical,
                                     child: Column(
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(Icons.linear_scale_sharp),
-                                            ],
+                                        Container(
+
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              children: [
+                                                Icon(Icons.linear_scale_sharp,
+                                                  color: Colors.white,),
+                                              ],
+                                            ),
                                           ),
+                                          color: Colors.blue,
                                         ),
                                         Padding(
                                           padding:
@@ -1165,8 +1158,7 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                             ),
                                           ),
                                         ),
-                                        RaisedButton(
-                                          elevation: 0.0,
+                                        ElevatedButton(
                                           onPressed: () => {
                                             chatMoodReferenceRtd
                                                 .child(Constants.myId)
@@ -1187,7 +1179,7 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                             Navigator.pop(context),
                                           },
                                           child: Text("Done"),
-                                          color: Colors.blue.shade50,
+                                          // color: Colors.blue.shade50,
                                         )
                                       ],
                                     ),
@@ -1241,8 +1233,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context, listen: false);
@@ -1250,10 +1240,8 @@ class _SwitchChatListState extends State<SwitchChatList> {
       children: [
         !isOnline
             ? Scaffold(
-                backgroundColor: Colors.white,
                 appBar: AppBar(
                   elevation: 0.0,
-                  backgroundColor: Colors.white,
                 ),
                 body: Container(
                   child: Center(
@@ -1287,7 +1275,7 @@ class _SwitchChatListState extends State<SwitchChatList> {
             : Scaffold(
                 floatingActionButton: FloatingActionButton(
                   elevation: 0.0,
-                  backgroundColor: Colors.black38,
+                  backgroundColor: Colors.grey,
                   onPressed: () => {
                     Navigator.push(
                       context,
@@ -1305,10 +1293,8 @@ class _SwitchChatListState extends State<SwitchChatList> {
                   },
                   child: Icon(
                     Icons.search,
-                    color: Colors.white,
                   ),
                 ),
-                backgroundColor: Colors.white,
                 body: SafeArea(
                   child: StreamBuilder(
                     stream: chatListRtDatabaseReference
@@ -1328,32 +1314,29 @@ class _SwitchChatListState extends State<SwitchChatList> {
                             : Column(
                                 children: [
                                   _loveChat(data),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.lightBlue.shade300,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.shade400,
-                                          offset: Offset(0.0, 2.0), //(x,y)
-                                          blurRadius: 2.0,
+                                  Material(
+                                    child: Container(
+
+                                      decoration: BoxDecoration(
+                                        color: Colors.lightBlue.shade300,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, top: 5, bottom: 5),
+                                        child: Container(
+                                          child: Text(
+                                            "Other Chats",
+                                            style: TextStyle(
+                                                fontFamily: 'cute',
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w100),
+                                          ),
+                                          alignment: Alignment.centerLeft,
                                         ),
-                                      ],
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, top: 5, bottom: 5),
-                                      child: Container(
-                                        child: Text(
-                                          "Other Chats",
-                                          style: TextStyle(
-                                              fontFamily: 'cute',
-                                              fontSize: 20,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w100),
-                                        ),
-                                        alignment: Alignment.centerLeft,
                                       ),
                                     ),
+                                    elevation: 6,
                                   ),
                                   SizedBox(
                                     height: 5,
@@ -1376,11 +1359,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
           },
           child: loadingScreen == true
               ? Scaffold(
-                  appBar: AppBar(
-                    backgroundColor: Colors.white,
-                    elevation: 0,
-                  ),
-                  backgroundColor: Colors.white,
                   body: Container(
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(
@@ -1392,7 +1370,7 @@ class _SwitchChatListState extends State<SwitchChatList> {
                           // SizedBox(height: MediaQuery.of(context).size.height /5,),
 
                           SizedBox(
-                            height: MediaQuery.of(context).size.height/2.5,
+                            height: MediaQuery.of(context).size.height / 2.5,
                           ),
 
                           Shimmer.fromColors(
@@ -1424,6 +1402,8 @@ class _SwitchChatListState extends State<SwitchChatList> {
   _loveChat(Map listMap) {
     if (widget.isInRelationShipMap?['inRelationShip'] == true) {
       return Container(
+        // key: loveChat,
+
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -1467,17 +1447,22 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                   scrollDirection: Axis.vertical,
                                   child: Column(
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(Icons.linear_scale_sharp),
-                                          ],
+                                      Container(
+
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                            children: [
+                                              Icon(Icons.linear_scale_sharp,
+                                                color: Colors.white,),
+                                            ],
+                                          ),
                                         ),
+                                        color: Colors.blue,
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 20),
@@ -1532,7 +1517,7 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                           ),
                                         ),
                                       ),
-                                      RaisedButton(
+                                      ElevatedButton(
                                         onPressed: () => {
                                           chatMoodReferenceRtd
                                               .child(Constants.myId)
@@ -1553,7 +1538,6 @@ class _SwitchChatListState extends State<SwitchChatList> {
                                           Navigator.pop(context),
                                         },
                                         child: Text("Done"),
-                                        color: Colors.blue.shade50,
                                       )
                                     ],
                                   ),
@@ -1606,34 +1590,32 @@ class _SwitchChatListState extends State<SwitchChatList> {
       );
     } else if (widget.isInRelationShipMap?['inRelationShip'] == false) {
       return Container(
+        key: loveChat,
+
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                child: Row(
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 10, bottom: 5, top: 5),
-                      child: Text(
-                        "Love Chat",
-                        style: TextStyle(
-                            fontFamily: 'cute',
-                            fontSize: 20,
-                            color: Colors.white),
+              Material(
+                elevation: 6,
+                child: Container(
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, bottom: 5, top: 5),
+                        child: Text(
+                          "Love Chat",
+                          style: TextStyle(
+                              fontFamily: 'cute',
+                              fontSize: 20,
+                              color: Colors.white),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.pinkAccent.shade100,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade400,
-                      offset: Offset(0.0, 2.0), //(x,y)
-                      blurRadius: 2.0,
-                    ),
-                  ],
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.pinkAccent.shade100,
+                  ),
                 ),
               ),
               Column(
@@ -1670,87 +1652,83 @@ class _SwitchChatListState extends State<SwitchChatList> {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    child: Row(
+          Material(
+            elevation: 6,
+            child: Container(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10, bottom: 5, top: 5),
+                            child: Text(
+                              "Love Chat",
+                              style: TextStyle(
+                                  fontFamily: 'cute',
+                                  fontSize: 20,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.pinkAccent.shade100,
+                      ),
+                    ),
+                    Column(
                       children: [
+                        SizedBox(
+                          key: loveChat,
+
+                          child: Lottie.asset(
+                            'images/dating.json',
+                          ),
+                          height: 120,
+                          width: 120,
+                        ),
                         Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, bottom: 5, top: 5),
+                          padding: const EdgeInsets.only(bottom: 10),
                           child: Text(
-                            "Love Chat",
+                            "The Luckiest Person Will Be Here! Click Search Icon to find That Person",
                             style: TextStyle(
                                 fontFamily: 'cute',
-                                fontSize: 20,
-                                color: Colors.white),
+                                fontSize: 10,
+                                color: Colors.grey),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ],
+                      mainAxisAlignment: MainAxisAlignment.center,
                     ),
-                    decoration: BoxDecoration(
-                      color: Colors.pinkAccent.shade100,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.shade400,
-                          offset: Offset(0.0, 2.0), //(x,y)
-                          blurRadius: 2.0,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        child: Lottie.asset(
-                          'images/dating.json',
-                        ),
-                        height: 120,
-                        width: 120,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Text(
-                          "The Luckiest Person Will Be Here! Click Search Icon to find That Person",
-                          style: TextStyle(
-                              fontFamily: 'cute',
-                              fontSize: 10,
-                              color: Colors.grey),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                    mainAxisAlignment: MainAxisAlignment.center,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.lightBlue.shade300,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.shade400,
-                  offset: Offset(0.0, 2.0), //(x,y)
-                  blurRadius: 2.0,
+          Material(
+            elevation: 6,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.lightBlue.shade300,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                child: Container(
+                  key: otherChat,
+
+                  child: Text(
+                    "Other Chats",
+                    style: TextStyle(
+                        fontFamily: 'cute',
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w100),
+                  ),
+                  alignment: Alignment.centerLeft,
                 ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5),
-              child: Container(
-                child: Text(
-                  "Other Chats",
-                  style: TextStyle(
-                      fontFamily: 'cute',
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w100),
-                ),
-                alignment: Alignment.centerLeft,
               ),
             ),
           ),
@@ -1769,5 +1747,159 @@ class _SwitchChatListState extends State<SwitchChatList> {
         ],
       )),
     );
+  }
+
+  late TutorialCoachMark tutorialCoachMark;
+  List<TargetFocus> targets = <TargetFocus>[];
+  GlobalKey loveChat = GlobalKey();
+  GlobalKey otherChat = GlobalKey();
+
+  void showIntro() {
+    initTargets();
+    tutorialCoachMark = TutorialCoachMark(
+      context,
+      targets: targets,
+      colorShadow: Colors.blue,
+      textSkip: "Skip",
+      paddingFocus: 4,
+      pulseAnimationDuration: Duration(milliseconds: 1000),
+      focusAnimationDuration: Duration(milliseconds: 500),
+      opacityShadow: 0.9,
+      textStyleSkip:
+          TextStyle(fontFamily: 'cute', fontSize: 20, color: Colors.white),
+      onFinish: () async {
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setInt("chatListIntro", 1);
+        if (mounted)
+          setState(() {
+            Constants.introForChatListPage = "";
+          });
+
+
+
+      },
+      onClickTarget: (target) {
+        print('onClickTarget: ${target.keyTarget}');
+      },
+      onSkip: () {
+        appIntro.createState().bottomSheetForChatListSkipButton(context);
+      },
+      onClickOverlay: (target) {
+        print('onClickOverlay: $target');
+      },
+    )..show();
+  }
+
+  void initTargets() {
+    targets.clear();
+    targets.add(
+      TargetFocus(
+        identify: "Target",
+        keyTarget: loveChat,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "When you are in relationship with someone, this section will show the chat of that person with you in this section.",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'cute',
+                          fontSize: 18.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        "",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Text(
+                          "1 of 2",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+        shape: ShapeLightFocus.RRect,
+        radius: 15,
+      ),
+    );
+
+    targets.add(TargetFocus(
+        identify: "Target",
+        keyTarget: otherChat,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "This is simple chat list of all users.",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 18.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        "",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Text(
+                          "2 of 2",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+        shape: ShapeLightFocus.RRect,
+        radius: 15));
   }
 }

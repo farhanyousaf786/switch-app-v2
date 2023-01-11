@@ -966,7 +966,6 @@ class _PanelState extends State<Panel> {
 
     setState(() {
       groupChatId = prefs.getString('groupChatId')!;
-      print("GroupChatId =>>>>>>>>>" + groupChatId);
     });
   }
 
@@ -979,16 +978,15 @@ class _PanelState extends State<Panel> {
           Map relationShipData = snapshot.value;
 
           if (relationShipData == null) {
-            print("empty data");
           } else {
             return SizedBox(
                 width: 90,
                 height: 45,
-                child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        side: BorderSide(color: Colors.white)),
-                    color: Colors.blue.withOpacity(0.05),
+                child: ElevatedButton(
+                    // shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.circular(8.0),
+                    //     side: BorderSide(color: Colors.white)),
+                    // color: Colors.blue.withOpacity(0.05),
                     onPressed: () => {
                           FirebaseDatabase.instance
                               .reference()
@@ -1123,15 +1121,14 @@ class _PanelState extends State<Panel> {
       height: 45,
       width: 90,
       child: isFollowedByYou
-          ? FlatButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  side: BorderSide(color: Colors.white)),
-              color: Colors.blue.withOpacity(0.3),
+          ? ElevatedButton(
+              // shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(8.0),
+              //     side: BorderSide(color: Colors.white)),
+              // color: Colors.blue.withOpacity(0.3),
               child: Text(
                 "Following",
                 style: TextStyle(
-                    color: Colors.black,
                     fontSize: 13,
                     fontWeight: FontWeight.bold),
               ),
@@ -1178,11 +1175,11 @@ class _PanelState extends State<Panel> {
                     .remove()
               },
             )
-          : FlatButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  side: BorderSide(color: Colors.white)),
-              color: Colors.blue.withOpacity(0.05),
+          : ElevatedButton(
+              // shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(8.0),
+              //     side: BorderSide(color: Colors.white)),
+              // color: Colors.blue.withOpacity(0.05),
               onPressed: () => {
                 setState(() {
                   isFollowedByYou = true;
@@ -1315,7 +1312,7 @@ class _PanelState extends State<Panel> {
                         height: 38,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: Colors.blue.shade700,
+                          color: Colors.blue.shade500,
                         ),
                         child: GestureDetector(
                           onTap: () {
@@ -1366,8 +1363,11 @@ class _PanelState extends State<Panel> {
                                               child: Text(
                                                 "0",
                                                 style: TextStyle(
-                                                    fontFamily: 'cutes',
-                                                    color: Colors.white),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'cutes',
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                ),
                                               ),
                                             );
                                           } else {
@@ -1379,9 +1379,11 @@ class _PanelState extends State<Panel> {
                                               child: Text(
                                                 following,
                                                 style: TextStyle(
-                                                    fontFamily: 'cutes',
-                                                    color: Colors.white,
-                                                    fontSize: 12),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'cutes',
+                                                  fontSize: 12,
+                                                  color: Colors.white
+                                                ),
                                               ),
                                             );
                                           }
@@ -1392,13 +1394,14 @@ class _PanelState extends State<Panel> {
                                             child: Text(
                                               "0",
                                               style: TextStyle(
-                                                  fontFamily: 'cutes',
-                                                  color: Colors.white,
-                                                  fontSize: 12),
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'cutes',
+                                                fontSize: 12,
+                                              ),
                                             ),
                                           );
                                         }
-                                      }),
+                                      },),
                                 ],
                               ),
                             ),
@@ -1410,7 +1413,7 @@ class _PanelState extends State<Panel> {
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: Colors.blue.shade700,
+                          color: Colors.blue.shade500,
                         ),
                         width: MediaQuery.of(context).size.width / 4.5,
                         height: 38,
@@ -1497,8 +1500,8 @@ class _PanelState extends State<Panel> {
                             child: Text(
                               "  Meme Profile  ",
                               style: TextStyle(
-                                  color: Colors.white,
                                   fontFamily: 'cutes',
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 9),
                             ),
@@ -1752,7 +1755,7 @@ class _PanelState extends State<Panel> {
                     child: Text(
                       "Add Bestie",
                       style: TextStyle(
-                          color: Colors.black54,
+                          color: Colors.grey,
                           fontFamily: 'cute',
                           fontSize: 12),
                     ),

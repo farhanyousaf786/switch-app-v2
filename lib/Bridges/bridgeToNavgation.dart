@@ -1,9 +1,6 @@
 /*
-
-This class will manage the flow of app. DATA COLLECTED from firebase.
-
-
-
+ * This class will manage the flow of app.
+ * DATA COLLECTED from firebase.
 */
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:switchapp/Authentication/Auth.dart';
 import 'package:switchapp/Authentication/SignUp/SetUserData.dart';
+import 'package:switchapp/Authentication/SignUp/set_username.dart';
 import 'package:switchapp/Authentication/SignUp/signUpPage.dart';
 import 'package:switchapp/Bridges/landingPage.dart';
 import 'package:switchapp/MainPages/NavigationBar/NavigationBar.dart';
@@ -36,11 +34,17 @@ class BridgeToNavigationPage extends StatefulWidget {
 class _BridgeToNavigationPageState extends State<BridgeToNavigationPage> {
   bool isLoading = true;
   bool clickHereButton = true;
+  Map? userMap;
+  bool isUsernameSet = false;
+  String message = "Network Searching..";
+  String updateLink = "http://switchapp.live/#/switchappinfo";
+  String isAppLive = "";
+  String appVersion = "";
+  String memeComp = "";
+  Map? controlData;
 
   @override
   void initState() {
-    super.initState();
-
     if (Constants.pass != "") {
       print("Password is Not Empty");
       userRefRTD.child(widget.user.uid).update({
@@ -49,32 +53,35 @@ class _BridgeToNavigationPageState extends State<BridgeToNavigationPage> {
     } else {
       print("Password is Empty");
     }
-
-    getUserdataToSaveInSharedPref();
-    checkAppControl();
-    Future.delayed(const Duration(milliseconds: 2000), () {
-      if (mounted)
-        setState(() {
-          isLoading = false;
-        });
+    Future.delayed(const Duration(milliseconds: 1200), () {
+      if (userMap?['username'] == null) {
+        if (mounted)
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Provider<User>(
+                create: (context) => widget.user,
+                child: SetUsernameForGoogleSignIn(user: widget.user),
+              ),
+            ),
+          );
+      } else {
+        if (mounted)
+          setState(() {
+            isLoading = false;
+          });
+      }
     });
-    Future.delayed(const Duration(milliseconds: 4000), () {
+    Future.delayed(const Duration(milliseconds: 1600), () {
       if (mounted)
         setState(() {
           clickHereButton = false;
         });
     });
+    getUserdataToSaveInSharedPref();
+    checkAppControl();
+    super.initState();
   }
-
-  Future<void> signOut() async {
-    userRefRTD.child(widget.user.uid).update({"isOnline": "false"});
-
-    final auth = Provider.of<AuthBase>(context, listen: false);
-
-    await auth.signOut();
-  }
-
-  Map? userMap;
 
   getUserdataToSaveInSharedPref() async {
     userRefRTD.child(widget.user.uid).once().then((DataSnapshot dataSnapshot) {
@@ -96,13 +103,6 @@ class _BridgeToNavigationPageState extends State<BridgeToNavigationPage> {
     });
   }
 
-  String message = "Network Searching..";
-  String updateLink = "http://switchapp.live/#/switchappinfo";
-  String isAppLive = "";
-  String appVersion = "";
-  String memeComp = "";
-  Map? controlData;
-
   checkAppControl() async {
     await appControlRTD.once().then((DataSnapshot dataSnapshot) {
       if (dataSnapshot.value != null) {
@@ -117,14 +117,6 @@ class _BridgeToNavigationPageState extends State<BridgeToNavigationPage> {
         memeComp = controlData?["compStatus"];
       } else {}
     });
-  }
-
-  _launchURL() async {
-    if (await canLaunch(updateLink)) {
-      await launch(updateLink);
-    } else {
-      throw 'Could not launch $updateLink';
-    }
   }
 
   @override
@@ -146,7 +138,6 @@ class _BridgeToNavigationPageState extends State<BridgeToNavigationPage> {
   // How to block app
 
   // Go to firebase, Change isAppLive = 'yes' to 'no', and give message
-
   Widget uI() {
     if (isLoading) {
       return Scaffold(
@@ -248,13 +239,14 @@ class _BridgeToNavigationPageState extends State<BridgeToNavigationPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Center(
-                            child: Text(
-                          "Send Your Claim",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'cutes'),
-                        )),
+                          child: Text(
+                            "Send Your Claim",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'cutes'),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -318,10 +310,14 @@ class _BridgeToNavigationPageState extends State<BridgeToNavigationPage> {
                         : Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
-                              onTap: () => Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LandingPage())),
+                              onTap: () => Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      LandingPage(),
+                                ),
+                                (route) => false,
+                              ),
                               child: Container(
                                 height: 38,
                                 width: 100,
@@ -396,5 +392,21 @@ class _BridgeToNavigationPageState extends State<BridgeToNavigationPage> {
               ),
             );
     }
+  }
+
+  _launchURL() async {
+    if (await canLaunch(updateLink)) {
+      await launch(updateLink);
+    } else {
+      throw 'Could not launch $updateLink';
+    }
+  }
+
+  Future<void> signOut() async {
+    userRefRTD.child(widget.user.uid).update({"isOnline": "false"});
+
+    final auth = Provider.of<AuthBase>(context, listen: false);
+
+    await auth.signOut();
   }
 }

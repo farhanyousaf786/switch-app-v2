@@ -105,8 +105,13 @@ final switchAllUserIdRTD =
 final switchAllUserFeedPostsRTD =
     FirebaseDatabase.instance.reference().child("AllUserFeedPosts-786");
 
-final switchMemerSlitsRTD =
-    FirebaseDatabase.instance.reference().child("Memers-Slits-786");
+
+/// This is slit function, All we need is to search "Slit is here" and uncomment
+/// the comments, And at the end we need to unComment and place Total slit button
+/// and to find that button we need to search this "This is slit button"
+
+// final switchMemerSlitsRTD =
+//     FirebaseDatabase.instance.reference().child("Memers-Slits-786");
 
 final switchMemeCompRTD =
     FirebaseDatabase.instance.reference().child("switchMemeComp-786");
@@ -116,3 +121,8 @@ final topWinnerRTD =
 
 final switchCompTopicListRTD =
     FirebaseDatabase.instance.reference().child("switchCompTopicListRTD-786");
+
+
+final switchHelpLinkListRTD =
+FirebaseDatabase.instance.reference().child("switchHelpLinkListRTD-786");
+

@@ -1,4 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+/*
+ * This is very important page of our app
+ * this page will load after we verify our
+ * email. and will set some defualt values in DB
+ * about our user.
+ */
+
 import 'package:country_picker/country_picker.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,10 +19,11 @@ import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
 import 'SetProfilePicture.dart';
 
 timeStamp() => DateTime.now().toIso8601String();
+
 class SetUserData extends StatefulWidget {
   final User? user;
 
-  const SetUserData({ required this.user});
+  const SetUserData({required this.user});
 
   @override
   _SetUserDataState createState() => _SetUserDataState();
@@ -27,30 +34,49 @@ class _SetUserDataState extends State<SetUserData> {
   TextEditingController lastName = TextEditingController();
   TextEditingController userNameTextEditingController = TextEditingController();
   FocusNode firstNameFocusNode = FocusNode();
-
-  late String dob;
+  late String dateOfBirth;
   String countryName = 'Select Country';
-
   final formKey = GlobalKey<FormState>();
+  List userList = [];
+  List userList2 = [];
+  late Map<dynamic, dynamic> values;
+  bool userListEmpty = false;
+  bool userExists = false;
+  bool userNameLengthExceeded = false;
+  bool userExistsText = false;
 
-  void formatUsername() {
-    userNameTextEditingController.text =
-        userNameTextEditingController.text.replaceAll(" ", "");
+  @override
+  void initState() {
+    super.initState();
+    getAllUsers();
   }
 
-
-  signOut() {
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    auth.signOut();
-    Navigator.pop(context);
+  void getAllUsers() {
+    userRefForSearchRtd.once().then((DataSnapshot snapshot) {
+      values = snapshot.value;
+      List tempList = [];
+      if (values == null) {
+        setState(() {
+          userListEmpty = true;
+        });
+      } else {
+        setState(() {
+          values
+              .forEach((index, data) => tempList.add({"user": index, ...data}));
+        });
+        setState(() {
+          this.userList = tempList;
+        });
+      }
+    });
   }
 
-  setUserInfo() async {
+  void setUserInfo() async {
     formatUsername();
-
     if (firstName.text.isEmpty ||
-        lastName.text.isEmpty || userNameTextEditingController.text.length >29 ||
-        dob.isEmpty ||
+        lastName.text.isEmpty ||
+        userNameTextEditingController.text.length > 29 ||
+        dateOfBirth.isEmpty ||
         userNameTextEditingController.text.isEmpty ||
         userExists == true) {
       showModalBottomSheet(
@@ -66,15 +92,21 @@ class _SetUserDataState extends State<SetUserData> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.linear_scale_sharp),
-                        ],
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.linear_scale_sharp,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
                       ),
+                      color: Colors.blue,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
@@ -138,7 +170,7 @@ class _SetUserDataState extends State<SetUserData> {
             lastName.text[0].toUpperCase() + lastName.text.substring(1),
         "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
         "email": user.email,
-        "dob": dob,
+        "dob": dateOfBirth,
         "gender": "Not Set Yet",
         "country": countryName,
         'url':
@@ -170,115 +202,31 @@ class _SetUserDataState extends State<SetUserData> {
         "followerCounter": 0,
         "uid": user.uid,
         "username": userNameTextEditingController.text.toLowerCase(),
-        "photoUrl":             "https://firebasestorage.googleapis.com/v0/b/double-slit-world.appspot.com/o/StaticFiles%2Flogo.png?alt=media&token=45a8c220-a473-431f-934d-335527ce3a86",
-
+        "photoUrl":
+            "https://firebasestorage.googleapis.com/v0/b/double-slit-world.appspot.com/o/StaticFiles%2Flogo.png?alt=media&token=45a8c220-a473-431f-934d-335527ce3a86",
       });
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => Provider<AuthBase>(
             create: (context) => Auth(),
-            child: SetProfilePicture(user: user.uid, email: user.email),
+            child: SetProfilePicture(
+              user: user.uid,
+              email: user.email,
+              users: widget.user!,
+            ),
           ),
         ),
       );
     }
   }
 
-  defaultUserInfo() async {
-    final user = Provider.of<User>(context, listen: false);
-    userRefRTD.child(user.uid).update({
-      "androidNotificationToken": "",
-      "ownerId": user.uid,
-      "firstName": "Not set",
-      "secondName": "",
-      "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
-      "email": user.email,
-      "dob": "01/01/2000",
-      "country": countryName,
-      'isBan': "false",
-      'postId': "N/A",
-      'url':
-          "https://firebasestorage.googleapis.com/v0/b/double-slit-world.appspot.com/o/StaticFiles%2Flogo.png?alt=media&token=45a8c220-a473-431f-934d-335527ce3a86",
-      "currentMood": "Happy",
-      "about": "Not Set",
-      'gender': "Not set",
-      'inRelationship': "false",
-    });
-    userProfileDecencyReport.child(user.uid).update({
-      "numberOfOne": 0,
-      "numberOfTwo": 0,
-      "numberOfThree": 0,
-      "numberOfFour": 0,
-      "numberOfFive": 0,
-    });
-    memeProfileRtd.child(user.uid).set({
-      "isMemer": "Yes",
-      "totalMemes": 0,
-      "numberOfOne": 0,
-      "numberOfTwo": 0,
-      "numberOfThree": 0,
-      "numberOfFour": 0,
-      "numberOfFive": 0,
-    });
-    memerPercentageDecencyRtd.child(user.uid).set({
-      "PercentageDecency": 0,
-      'uid': user.uid,
-    });
-    userRefForSearchRtd.child(user.uid).update({
-      "ownerId": user.uid,
-      "firstName": "Not Set",
-      "secondName": "Not Set",
-      "url":
-          "https://firebasestorage.googleapis.com/v0/b/double-slit-world.appspot.com/o/StaticFiles%2Flogo.png?alt=media&token=45a8c220-a473-431f-934d-335527ce3a86",
-    });
-    relationShipReferenceRtd.child(user.uid).set({
-      "inRelationshipWithId": "",
-      "inRelationshipWithSecondName": "",
-      "inRelationshipWithFirstName": "",
-      "inRelationShip": false,
-      "pendingRelationShip": false,
-      "inRelationshipWith": "",
-    });
+  void formatUsername() {
+    userNameTextEditingController.text =
+        userNameTextEditingController.text.replaceAll(" ", "");
   }
 
-  @override
-  void initState() {
-    super.initState();
-    getAllUsers();
-  }
-
-  getAllUsers() {
-    userRefForSearchRtd.once().then((DataSnapshot snapshot) {
-      values = snapshot.value;
-      List userList = [];
-      if (values == null) {
-        setState(() {
-          userListEmpty = true;
-        });
-      } else {
-        setState(() {
-          values
-              .forEach((index, data) => userList.add({"user": index, ...data}));
-        });
-        setState(() {
-          this.userList = userList;
-        });
-
-      }
-    });
-  }
-
-  List userList = [];
-  List userList2 = [];
-
-  late Map<dynamic, dynamic> values;
-  bool userListEmpty = false;
-  bool userExists = false;
-  bool userNameLengthExceeded = false;
-  bool userExistsText = false;
-
-  userValidater(String userName) {
+  void userValidator(String userName) {
     if (userName.isNotEmpty) {
       if (userName.length > 29) {
         showModalBottomSheet(
@@ -294,15 +242,21 @@ class _SetUserDataState extends State<SetUserData> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.linear_scale_sharp),
-                          ],
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.linear_scale_sharp,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
                         ),
+                        color: Colors.blue,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10),
@@ -314,8 +268,7 @@ class _SetUserDataState extends State<SetUserData> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                              "Username Must be less than 30 characters",
-
+                          "Username Must be less than 30 characters",
                           style: TextStyle(
                               fontSize: 15,
                               fontFamily: "cutes",
@@ -339,15 +292,12 @@ class _SetUserDataState extends State<SetUserData> {
               );
             });
       } else {
-
         setState(() {
           userList2 = userList;
         });
         int trendIndex = userList.indexWhere((f) =>
             f['username'] == userNameTextEditingController.text.toLowerCase());
-
         if (trendIndex == -1) {
-
           setState(() {
             userExists = false;
           });
@@ -356,28 +306,19 @@ class _SetUserDataState extends State<SetUserData> {
             userExists = true;
           });
         }
-
       }
-    } else {
-      print("empty");
     }
   }
 
   void _userNameEditingComplete() {
     formatUsername();
-
-    userValidater(userNameTextEditingController.text.toLowerCase());
+    userValidator(userNameTextEditingController.text.toLowerCase());
     FocusScope.of(context).requestFocus(firstNameFocusNode);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context, listen: false);
-
     return Scaffold(
-// backgroundColor: Colors.white,
       appBar: AppBar(
         leading: Text(""),
         backgroundColor: Colors.lightBlue,
@@ -412,7 +353,6 @@ class _SetUserDataState extends State<SetUserData> {
         centerTitle: true,
         elevation: 0,
       ),
-
       body: Container(
         color: Colors.lightBlue,
         child: DelayedDisplay(
@@ -427,7 +367,7 @@ class _SetUserDataState extends State<SetUserData> {
                   ? userExists
                       ? Center(
                           child: Text(
-                           "This username Already taken",
+                            "This username Already taken",
                             style: TextStyle(
                                 color: Colors.red.shade700,
                                 fontSize: 12,
@@ -452,11 +392,10 @@ class _SetUserDataState extends State<SetUserData> {
                   // height: 65,
                   padding: EdgeInsets.fromLTRB(60, 0, 60, 0),
                   child: TextField(
-                    inputFormatters: [
-                    ],
+                    inputFormatters: [],
                     onEditingComplete: _userNameEditingComplete,
                     onChanged: (values) {
-                      userValidater(
+                      userValidator(
                           userNameTextEditingController.text.toLowerCase());
                     },
                     keyboardType: TextInputType.emailAddress,
@@ -496,7 +435,6 @@ class _SetUserDataState extends State<SetUserData> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: DelayedDisplay(
@@ -597,7 +535,7 @@ class _SetUserDataState extends State<SetUserData> {
                   padding: EdgeInsets.fromLTRB(80, 0, 80, 0),
                   child: TextFormField(
                     maxLength: 10,
-                    maxLengthEnforced: false,
+                    // maxLengthEnforced: false,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                     style: TextStyle(
@@ -606,7 +544,7 @@ class _SetUserDataState extends State<SetUserData> {
                         fontWeight: FontWeight.bold,
                         fontSize: 12),
                     onChanged: (value) => {
-                      dob = value,
+                      dateOfBirth = value,
                     },
                     decoration: InputDecoration(
                       fillColor: Colors.transparent,
@@ -633,23 +571,6 @@ class _SetUserDataState extends State<SetUserData> {
                   ),
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 50, right: 50, top: 10),
-              //   child: Container(
-              //     decoration: BoxDecoration(
-              //         color: Colors.white10,
-              //         borderRadius: BorderRadius.circular(20)),
-              //     height: 150,
-              //     child: CupertinoDatePicker(
-              //       mode: CupertinoDatePickerMode.date,
-              //       initialDateTime: DateTime(1996, 10, 10),
-              //       onDateTimeChanged: (DateTime newDateTime) {
-              //         _selectedDate = newDateTime;
-              //         print(_selectedDate);
-              //       },
-              //     ),
-              //   ),
-              // ),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Center(
@@ -663,51 +584,9 @@ class _SetUserDataState extends State<SetUserData> {
                   ),
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: Container(
-              //     child: CountryListPick(
-              //       // pickerBuilder: (context, CountryCode countryCode) {
-              //       //   return Row(
-              //       //     children: [
-              //       //       Image.asset(
-              //       //         countryCode.flagUri,
-              //       //         package: 'country_list_pick',
-              //       //       ),
-              //       //       Text(countryCode.code),
-              //       //       Text(countryCode.dialCode),
-              //       //     ],
-              //       //   );
-              //       // },
-              //       theme: CountryTheme(
-              //           isShowFlag: true,
-              //           isShowTitle: true,
-              //           isShowCode: false,
-              //           isDownIcon: true,
-              //           showEnglishName: true,
-              //           alphabetTextColor: Colors.white,
-              //           alphabetSelectedBackgroundColor: Colors.white),
-              //       initialSelection: '+92',
-              //
-              //       onChanged: (CountryCode code) {
-              //         print(code.name);
-              //         print(code.code);
-              //         print(code.dialCode);
-              //         print(code.flagUri);
-              //         setState(() {
-              //           countryName = code.name;
-              //         });
-              //       },
-              //     ),
-              //   ),
-              // ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
-                child: FlatButton(
-
-                    // shape: RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.circular(15.0),
-                    //     side: BorderSide(color: Colors.grey, width: 2)),
+                child: ElevatedButton(
                     child: Container(
                       padding: EdgeInsets.only(
                           top: 11, left: 8, right: 8, bottom: 10),
@@ -738,7 +617,7 @@ class _SetUserDataState extends State<SetUserData> {
                                 countryName = country.name;
                               });
                             },
-                          )
+                          ),
                         }),
               ),
               SizedBox(
@@ -760,28 +639,6 @@ class _SetUserDataState extends State<SetUserData> {
                           color: Colors.white,
                         ),
                       ),
-
-                      // Flexible(
-                      //   child: Container(
-                      //     padding: EdgeInsets.only(top: 60, left: 20, right: 20),
-                      //     child: RaisedButton(
-                      //       focusColor: Colors.white,
-                      //       highlightColor: Colors.white,
-                      //       elevation: 0,
-                      //       textColor: Colors.blue.shade700,
-                      //       color: Colors.blue.withOpacity(0.1),
-                      //       child: Text(
-                      //         'Next',
-                      //         style: TextStyle(
-                      //           fontFamily: "Cute",
-                      //           fontSize: 16,
-                      //           color: Colors.white,
-                      //         ),
-                      //       ),
-                      //       onPressed: setUserInfo,
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),

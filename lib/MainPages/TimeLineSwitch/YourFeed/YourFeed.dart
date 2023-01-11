@@ -107,15 +107,22 @@ class _YourFeedState extends State<YourFeed> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.linear_scale_sharp,
+                            color: Colors.white,),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -194,7 +201,7 @@ class _YourFeedState extends State<YourFeed> {
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
                       child: Text(
-                        "Version 1.10",
+                        "Version 1.5",
                         style: TextStyle(
                             color: Colors.grey,
                             fontWeight: FontWeight.bold,
@@ -633,14 +640,7 @@ class _YourFeedState extends State<YourFeed> {
               mainDateOfBirth: data['dob'],
             ),
           ),
-          //     Provider<User>.value(
-          //   value: user,
-          //   child: MainSearchPage(
-          //     user: user,
-          //     userId: user.uid,
-          //   ),
-          // ),
-        ),
+         ),
       );
     });
   }
@@ -755,23 +755,6 @@ class _YourFeedState extends State<YourFeed> {
         linkStyle: TextStyle(color: Colors.blue, fontWeight: FontWeight.w700),
       ),
     );
-
-    // return LinkifyText(
-    // widget.description,
-    // textAlign: TextAlign.left,
-    // linkTypes: [
-    // LinkType.url,
-    // LinkType.hashTag,
-    // ],
-    // linkStyle: TextStyle(
-    // fontSize: 13,
-    // fontFamily: "cutes",
-    // fontWeight: FontWeight.bold,
-    // color: Colors.blue),
-    // onTap: (link) => {
-    // url = link.value.toString(),
-    // },
-    // );
   }
 
   _description(String description) {
@@ -782,7 +765,6 @@ class _YourFeedState extends State<YourFeed> {
           )
         : Container(
             width: MediaQuery.of(context).size.width,
-            color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.only(right: 8),
               child: SingleChildScrollView(
@@ -865,7 +847,6 @@ class _YourFeedState extends State<YourFeed> {
                                   child: Text(
                                     "Read More...",
                                     style: TextStyle(
-                                        color: Colors.black,
                                         fontSize: 12,
                                         fontFamily: 'cute'),
                                   ),
@@ -1444,15 +1425,22 @@ class _YourFeedState extends State<YourFeed> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.linear_scale_sharp,
+                            color: Colors.white,),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15),
@@ -1546,17 +1534,22 @@ class _YourFeedState extends State<YourFeed> {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.linear_scale_sharp),
-                                      ],
+                                  Container(
+
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.linear_scale_sharp,
+                                            color: Colors.white,),
+                                        ],
+                                      ),
                                     ),
+                                    color: Colors.blue,
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -1628,10 +1621,13 @@ class _YourFeedState extends State<YourFeed> {
                                             Text(
                                               "Add/Remove from Meme ShowCase ",
                                               style: TextStyle(
-                                                  color: Colors.black,
                                                   fontFamily: 'cutes',
                                                   fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
+                                                  fontWeight: FontWeight.bold,
+                                                color: Constants.isDark ==
+                                                    "true"
+                                                    ? Colors.white
+                                                    : Colors.blue,),
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
@@ -1639,12 +1635,15 @@ class _YourFeedState extends State<YourFeed> {
                                               child: Icon(
                                                 Icons.apps,
                                                 size: 17,
+                                                color: Constants.isDark ==
+                                                    "true"
+                                                    ? Colors.white
+                                                    : Colors.blue,
                                                 // color: selectedIndex == index
                                                 //     ? Colors.pink
                                                 //     : selectedIndex == 121212
                                                 //         ? Colors.grey
                                                 //         : Colors.teal,
-                                                color: Colors.black,
                                               ),
                                             ),
                                           ],
@@ -1662,16 +1661,22 @@ class _YourFeedState extends State<YourFeed> {
                                                 Text(
                                                   'Delete Post',
                                                   style: TextStyle(
-                                                      color: Colors.black,
                                                       fontFamily: 'cutes',
                                                       fontSize: 14,
+                                                      color: Constants.isDark ==
+                                                          "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
                                                 Icon(
                                                   Icons.delete_outline,
-                                                  color: Colors.black,
                                                   size: 20,
+                                                  color: Constants.isDark ==
+                                                      "true"
+                                                      ? Colors.white
+                                                      : Colors.blue,
                                                 ),
                                               ],
                                             ),
@@ -1696,7 +1701,10 @@ class _YourFeedState extends State<YourFeed> {
                                                 Text(
                                                   'Report Post ',
                                                   style: TextStyle(
-                                                      color: Colors.black,
+                                                      color: Constants.isDark ==
+                                                          "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                       fontFamily: 'cutes',
                                                       fontSize: 14,
                                                       fontWeight:
@@ -1704,8 +1712,11 @@ class _YourFeedState extends State<YourFeed> {
                                                 ),
                                                 Icon(
                                                   Icons.error_outline,
-                                                  color: Colors.black,
                                                   size: 20,
+                                                  color: Constants.isDark ==
+                                                      "true"
+                                                      ? Colors.white
+                                                      : Colors.blue,
                                                 ),
                                               ],
                                             ),
@@ -1745,7 +1756,10 @@ class _YourFeedState extends State<YourFeed> {
                                                 Text(
                                                   'Report User ',
                                                   style: TextStyle(
-                                                      color: Colors.black,
+                                                      color: Constants.isDark ==
+                                                          "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                       fontFamily: 'cutes',
                                                       fontSize: 14,
                                                       fontWeight:
@@ -1753,7 +1767,10 @@ class _YourFeedState extends State<YourFeed> {
                                                 ),
                                                 Icon(
                                                   Icons.account_circle_outlined,
-                                                  color: Colors.black,
+                                                  color: Constants.isDark ==
+                                                      "true"
+                                                      ? Colors.white
+                                                      : Colors.blue,
                                                   size: 20,
                                                 ),
                                               ],
@@ -1791,7 +1808,10 @@ class _YourFeedState extends State<YourFeed> {
                                                 Text(
                                                   'Block User ',
                                                   style: TextStyle(
-                                                      color: Colors.black,
+                                                      color: Constants.isDark ==
+                                                          "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                       fontFamily: 'cutes',
                                                       fontSize: 14,
                                                       fontWeight:
@@ -1799,8 +1819,11 @@ class _YourFeedState extends State<YourFeed> {
                                                 ),
                                                 Icon(
                                                   Icons.block,
-                                                  color: Colors.black,
                                                   size: 20,
+                                                  color: Constants.isDark ==
+                                                      "true"
+                                                      ? Colors.white
+                                                      : Colors.blue,
                                                 ),
                                               ],
                                             ),
@@ -1880,7 +1903,6 @@ class _YourFeedState extends State<YourFeed> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
-                                      color: Colors.black,
                                     ),
                                   ),
                                   data['isVerified'] == "true"
@@ -1902,7 +1924,7 @@ class _YourFeedState extends State<YourFeed> {
                                         : " share $postTheme",
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: Colors.black54,
+                                      color: Colors.grey,
                                     ),
                                   ),
                                 ],
@@ -2017,15 +2039,22 @@ class _YourFeedState extends State<YourFeed> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.linear_scale_sharp,
+                            color: Colors.white,),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 0, left: 10, right: 10),
@@ -2146,7 +2175,6 @@ class _YourFeedState extends State<YourFeed> {
                                     child: Text(
                                       "${reactorList[index]['reactorName']}",
                                       style: TextStyle(
-                                          color: Colors.black,
                                           fontFamily: 'cutes',
                                           fontSize: 14),
                                     ),
@@ -2217,28 +2245,29 @@ class _YourFeedState extends State<YourFeed> {
       postsRtd.child(ownerId).child("usersPost").child(postId).remove();
       switchAllUserFeedPostsRTD.child("UserPosts").child(postId).remove();
 
-      switchMemeCompRTD
-          .child('live')
-          .child(ownerId)
-          .once()
-          .then((DataSnapshot dataSnapshot) {
-        if (dataSnapshot.exists) {
-          switchMemerSlitsRTD
-              .child(ownerId)
-              .once()
-              .then((DataSnapshot dataSnapshot) {
-            Map data = dataSnapshot.value;
-            int slits = data['totalSlits'];
-            setState(() {
-              slits = slits - (1000 + total);
-            });
-            Future.delayed(const Duration(milliseconds: 100), () {
-              switchMemerSlitsRTD.child(ownerId).update({
-                'totalSlits': slits,
-              });
-            });
-          });
-
+      ///Slit is here
+      // switchMemeCompRTD
+      //     .child('live')
+      //     .child(ownerId)
+      //     .once()
+      //     .then((DataSnapshot dataSnapshot) {
+      //   if (dataSnapshot.exists) {
+      //     switchMemerSlitsRTD
+      //         .child(ownerId)
+      //         .once()
+      //         .then((DataSnapshot dataSnapshot) {
+      //       Map data = dataSnapshot.value;
+      //       int slits = data['totalSlits'];
+      //       setState(() {
+      //         slits = slits - (1000 + total);
+      //       });
+      //       Future.delayed(const Duration(milliseconds: 100), () {
+      //         switchMemerSlitsRTD.child(ownerId).update({
+      //           'totalSlits': slits,
+      //         });
+      //       });
+      //     });
+      //
           switchMemeCompRTD
               .child(ownerId)
               .once()
@@ -2269,51 +2298,51 @@ class _YourFeedState extends State<YourFeed> {
               fontSize: 16.0,
             );
           });
-        } else {
-          if (type == 'meme' ||
-              type == "memeT" ||
-              type == "videoMeme" ||
-              type == "videoMemeT") {
-            switchMemerSlitsRTD
-                .child(ownerId)
-                .once()
-                .then((DataSnapshot dataSnapshot) {
-              Map data = dataSnapshot.value;
-              int slits = data['totalSlits'];
-              setState(() {
-                slits = slits - (20 + total);
-              });
-              Future.delayed(const Duration(milliseconds: 100), () {
-                switchMemerSlitsRTD.child(ownerId).update({
-                  'totalSlits': slits,
-                });
-
-                Navigator.pop(context);
-                Fluttertoast.showToast(
-                  msg: "Deleted! Refresh App :)",
-                  toastLength: Toast.LENGTH_LONG,
-                  gravity: ToastGravity.SNACKBAR,
-                  timeInSecForIosWeb: 5,
-                  backgroundColor: Colors.white,
-                  textColor: Colors.blue,
-                  fontSize: 16.0,
-                );
-              });
-            });
-          } else {
-            Navigator.pop(context);
-            Fluttertoast.showToast(
-              msg: "Deleted! Refresh App :)",
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.SNACKBAR,
-              timeInSecForIosWeb: 5,
-              backgroundColor: Colors.white,
-              textColor: Colors.blue,
-              fontSize: 16.0,
-            );
-          }
-        }
-      });
+      //   } else {
+      //     if (type == 'meme' ||
+      //         type == "memeT" ||
+      //         type == "videoMeme" ||
+      //         type == "videoMemeT") {
+      //       switchMemerSlitsRTD
+      //           .child(ownerId)
+      //           .once()
+      //           .then((DataSnapshot dataSnapshot) {
+      //         Map data = dataSnapshot.value;
+      //         int slits = data['totalSlits'];
+      //         setState(() {
+      //           slits = slits - (20 + total);
+      //         });
+      //         Future.delayed(const Duration(milliseconds: 100), () {
+      //           switchMemerSlitsRTD.child(ownerId).update({
+      //             'totalSlits': slits,
+      //           });
+      //
+      //           Navigator.pop(context);
+      //           Fluttertoast.showToast(
+      //             msg: "Deleted! Refresh App :)",
+      //             toastLength: Toast.LENGTH_LONG,
+      //             gravity: ToastGravity.SNACKBAR,
+      //             timeInSecForIosWeb: 5,
+      //             backgroundColor: Colors.white,
+      //             textColor: Colors.blue,
+      //             fontSize: 16.0,
+      //           );
+      //         });
+      //       });
+      //     } else {
+      //       Navigator.pop(context);
+      //       Fluttertoast.showToast(
+      //         msg: "Deleted! Refresh App :)",
+      //         toastLength: Toast.LENGTH_LONG,
+      //         gravity: ToastGravity.SNACKBAR,
+      //         timeInSecForIosWeb: 5,
+      //         backgroundColor: Colors.white,
+      //         textColor: Colors.blue,
+      //         fontSize: 16.0,
+      //       );
+      //     }
+      //   }
+      // });
     } on SocketException catch (_) {
       Fluttertoast.showToast(
         msg: "Wifi/Data not connected",
@@ -2327,110 +2356,6 @@ class _YourFeedState extends State<YourFeed> {
     }
   }
 
-// deleteFunc(
-//     String postId,
-//     String ownerId,
-//     String type,
-//     ) {
-//   if (type == 'meme' || type == "memeT") {
-//     reactRtDatabaseReference
-//         .child(postId)
-//         .once()
-//         .then((DataSnapshot dataSnapshot) {
-//       if (dataSnapshot.value != null) {
-//         Map data = dataSnapshot.value;
-//
-//         if (mounted)
-//           setState(() {
-//             like = data['like'];
-//             disLike = data['disLike'];
-//             heartReact = data['heartReact'];
-//           });
-//
-//         total = (like + disLike + heartReact) * 10;
-//
-//         print(
-//             "Yes this React is EXIST total = =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${total.toString()}");
-//       } else {
-//         print("there is no react on this post");
-//       }
-//     });
-//   } else {
-//     print("Not a mememmmmmmmmmmmmmmmmmmmmmmmmmm");
-//   }
-//
-//   print("ownerId : : : : : : : : : : : : : : : ${ownerId}");
-//   postsRtd.child(ownerId).child("usersPost").child(postId).remove();
-//   switchAllUserFeedPostsRTD.child("UserPosts").child(postId).remove();
-//   switchMemeCompRTD
-//       .child('live')
-//       .child(ownerId)
-//       .once()
-//       .then((DataSnapshot dataSnapshot) {
-//     if (dataSnapshot.exists) {
-//       switchMemerSlitsRTD
-//           .child(ownerId)
-//           .once()
-//           .then((DataSnapshot dataSnapshot) {
-//         Map data = dataSnapshot.value;
-//         int slits = data['totalSlits'];
-//         setState(() {
-//           slits = slits - (1000 + total);
-//         });
-//         Future.delayed(const Duration(milliseconds: 100), () {
-//           switchMemerSlitsRTD.child(ownerId).update({
-//             'totalSlits': slits,
-//           });
-//           print("Slitsssssssssssssssssssssssssssssssssssssssss $slits");
-//         });
-//       });
-//
-//       switchMemeCompRTD
-//           .child(ownerId)
-//           .once()
-//           .then((DataSnapshot dataSnapshot) {
-//         Map data = dataSnapshot.value;
-//         int takePart = data['takePart'];
-//         setState(() {
-//           takePart = takePart - 1;
-//         });
-//
-//         Future.delayed(const Duration(milliseconds: 200), () {
-//           switchMemeCompRTD.child(ownerId).update({
-//             'takePart': takePart,
-//           });
-//           print("takepartssssssssssssssssssssssssssssssss $takePart");
-//         });
-//       });
-//       Future.delayed(const Duration(milliseconds: 400), () {
-//         switchMemeCompRTD.child('live').child(ownerId).remove();
-//
-//         Navigator.pop(context);
-//         Fluttertoast.showToast(
-//           msg: "Deleted! Refresh App :)",
-//           toastLength: Toast.LENGTH_LONG,
-//           gravity: ToastGravity.SNACKBAR,
-//           timeInSecForIosWeb: 5,
-//           backgroundColor: Colors.white,
-//           textColor: Colors.blue,
-//           fontSize: 16.0,
-//         );
-//       });
-//     } else {
-//       print("meme comp does not exists");
-//       Navigator.pop(context);
-//       Fluttertoast.showToast(
-//         msg: "Deleted! Refresh App :)",
-//         toastLength: Toast.LENGTH_LONG,
-//         gravity: ToastGravity.SNACKBAR,
-//         timeInSecForIosWeb: 5,
-//         backgroundColor: Colors.white,
-//         textColor: Colors.blue,
-//         fontSize: 16.0,
-//       );
-//     }
-//   });
-// }
-//
+
 
 }

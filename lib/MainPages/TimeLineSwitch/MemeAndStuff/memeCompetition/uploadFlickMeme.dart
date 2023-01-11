@@ -78,15 +78,22 @@ class _UploadFlickMemeState extends State<UploadFlickMeme> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.linear_scale_sharp),
-                            ],
+                        Container(
+
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Row(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.center,
+                              mainAxisAlignment:
+                              MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.linear_scale_sharp,
+                                  color: Colors.white,),
+                              ],
+                            ),
                           ),
+                          color: Colors.blue,
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -327,22 +334,24 @@ class _UploadFlickMemeState extends State<UploadFlickMeme> {
         .once()
         .then((DataSnapshot dataSnapshot) {
       if (dataSnapshot.exists) {
-        switchMemerSlitsRTD
-            .child(widget.user.uid)
-            .once()
-            .then((DataSnapshot dataSnapshot) {
-          Map data = dataSnapshot.value;
-          int slits = data['totalSlits'];
-          setState(() {
-            slits = slits + 1000;
-          });
-          Future.delayed(const Duration(milliseconds: 100), () {
-            switchMemerSlitsRTD.child(widget.user.uid).update({
-              'totalSlits': slits,
-            });
-            print("Slitsssssssssssssssssssssssssssssssssssssssss $slits");
-          });
-        });
+
+        ///Slit is here
+        // switchMemerSlitsRTD
+        //     .child(widget.user.uid)
+        //     .once()
+        //     .then((DataSnapshot dataSnapshot) {
+        //   Map data = dataSnapshot.value;
+        //   int slits = data['totalSlits'];
+        //   setState(() {
+        //     slits = slits + 1000;
+        //   });
+        //   Future.delayed(const Duration(milliseconds: 100), () {
+        //     switchMemerSlitsRTD.child(widget.user.uid).update({
+        //       'totalSlits': slits,
+        //     });
+        //     print("Slitsssssssssssssssssssssssssssssssssssssssss $slits");
+        //   });
+        // });
 
         switchMemeCompRTD
             .child(widget.user.uid)
@@ -381,9 +390,11 @@ class _UploadFlickMemeState extends State<UploadFlickMeme> {
           updateSuccessful();
         });
       } else {
-        switchMemerSlitsRTD.child(widget.user.uid).set({
-          'totalSlits': 1000,
-        });
+
+        ///Slit is here
+        // switchMemerSlitsRTD.child(widget.user.uid).set({
+        //   'totalSlits': 1000,
+        // });
 
         switchMemeCompRTD.child(widget.user.uid).set({
           'takePart': 1,
@@ -809,15 +820,22 @@ class _UploadFlickMemeState extends State<UploadFlickMeme> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.linear_scale_sharp,
+                            color: Colors.white,),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   SizedBox(
                     height: 10,
@@ -836,9 +854,12 @@ class _UploadFlickMemeState extends State<UploadFlickMeme> {
                   SizedBox(
                     height: 10,
                   ),
-                  CongratsForSlits(
-                    text: "You earn 1000 slits",
-                  ),
+
+                  ///Slit is here
+
+                  // CongratsForSlits(
+                  //   text: "You earn 1000 slits",
+                  // ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
@@ -847,7 +868,6 @@ class _UploadFlickMemeState extends State<UploadFlickMeme> {
 
                           _interstitialAd.show();
                         }
-                        Navigator.pop(context);
                         Navigator.pop(context);
                         Navigator.pop(context);
                       },
@@ -887,7 +907,7 @@ class _UploadFlickMemeState extends State<UploadFlickMeme> {
                         Container(
                             child: Flexible(
                                 child: Text(
-                          "Where to find my uploaded MEME(Shot/Flick)?",
+                          "Where to find my uploaded MEME?",
                           style: TextStyle(
                               color: Colors.blue,
                               fontFamily: 'cute',

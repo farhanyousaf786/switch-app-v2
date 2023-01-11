@@ -46,22 +46,20 @@ class _MoodState extends State<Mood> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
+
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Icon(
             Icons.arrow_back_ios_sharp,
             size: 18,
-            color: Colors.blue,
           ),
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
+        elevation: 6,
         title: Text(
           "Mood",
           style:
-              TextStyle(color: Colors.blue, fontFamily: 'cute', fontSize: 30),
+              TextStyle( fontFamily: 'cute', fontSize: 30),
         ),
         centerTitle: true,
       ),
@@ -79,7 +77,6 @@ class _MoodState extends State<Mood> {
                     "This feature will update in future. And it will be an amazing experience for you all. Stay Tuned",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: Colors.blue,
                         fontFamily: 'cutes',
                         fontWeight: FontWeight.bold,
                         fontSize: 12),

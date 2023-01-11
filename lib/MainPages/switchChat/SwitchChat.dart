@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:switchapp/MainPages/Profile/Panelandbody.dart';
+import 'package:switchapp/Models/Marquee.dart';
 import 'package:time_formatter/time_formatter.dart';
 
 import 'SwitchChatComposer.dart';
@@ -117,15 +118,22 @@ class _SwitchChatState extends State<SwitchChat> {
             height: MediaQuery.of(context).size.height / 2.2,
             child: SingleChildScrollView(
               child: Stack(children: [
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.linear_scale_sharp),
-                    ],
+                Container(
+
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                      crossAxisAlignment:
+                      CrossAxisAlignment.center,
+                      mainAxisAlignment:
+                      MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.linear_scale_sharp,
+                          color: Colors.white,),
+                      ],
+                    ),
                   ),
+                  color: Colors.blue,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 0),
@@ -361,7 +369,6 @@ class _SwitchChatState extends State<SwitchChat> {
                   } else {
                     return Center(
                       child: Container(
-                        color: Colors.white,
                         child: Column(
                           children: [
                             SingleChildScrollView(
@@ -430,11 +437,10 @@ class _SwitchChatState extends State<SwitchChat> {
                                                     child: Text(
                                                       "${widget.receiverName.characters.take(10)} ",
                                                       style: TextStyle(
-                                                          color: Colors.black,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontFamily: 'cutes',
-                                                          fontSize: 13),
+                                                          fontSize: 12),
                                                     ),
                                                   ),
                                                 ],
@@ -559,7 +565,6 @@ class _SwitchChatState extends State<SwitchChat> {
                       "",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Colors.black54,
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                           fontFamily: 'cutes'),
@@ -626,14 +631,12 @@ class _SwitchChatState extends State<SwitchChat> {
                             child: Icon(
                               Icons.record_voice_over_outlined,
                               size: 30,
-                              color: Colors.white,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               "Recording..",
-                              style: TextStyle(color: Colors.white),
                             ),
                           ),
                         ],
@@ -654,21 +657,25 @@ class _SwitchChatState extends State<SwitchChat> {
           child: Text(
             "Never visit this chat",
             style: TextStyle(
-                color: Colors.blue, fontSize: 11, fontWeight: FontWeight.bold),
+                 fontSize: 11, fontWeight: FontWeight.bold),
           ),
         );
       } else {
         return Container(
+          width: MediaQuery.of(context).size.width/3,
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 2),
-                child: Text(
-                  "${widget.receiverName} Visit this chat",
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold),
+                child: MarqueeWidget(
+
+                  child: Text(
+                    "${widget.receiverName} Visit this chat",
+                    style: TextStyle(
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.bold),
+                  ),
+
                 ),
               ),
               Padding(
@@ -676,7 +683,7 @@ class _SwitchChatState extends State<SwitchChat> {
                 child: Text(
                   time,
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.grey,
                       fontSize: 8,
                       fontWeight: FontWeight.bold),
                 ),

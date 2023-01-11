@@ -47,7 +47,6 @@ class _ManiaTopicState extends State<ManiaTopic> {
         });
         if (mounted) setState(() {});
       } else {
-        print("null");
       }
     });
   }
@@ -90,7 +89,6 @@ class _ManiaTopicState extends State<ManiaTopic> {
         : Container(
             width: MediaQuery.of(context).size.width / 1.1,
             height: 95,
-            color: Colors.white,
             child: CarouselSlider.builder(
               itemCount: topicList?.length,
               itemBuilder:

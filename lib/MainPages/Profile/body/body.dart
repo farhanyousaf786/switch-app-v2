@@ -3243,12 +3243,65 @@ class _BodyState extends State<Body> {
         setState(() {
           followingsCounter = data.length;
         });
+
         userFollowersCountRtd.child(widget.profileOwner).update({
           "followerCounter": data.length,
           "uid": widget.profileOwner,
           "username": widget.username,
           "photoUrl": widget.mainProfileUrl,
         });
+        if (data.length == 100) {
+          feedRtDatabaseReference
+              .child(widget.profileOwner)
+              .child("feedItems")
+              .child(postId)
+              .set({
+            "type": "planetLevel",
+            "firstName": Constants.myName,
+            "secondName": Constants.mySecondName,
+            "comment": "",
+            "timestamp": DateTime.now().millisecondsSinceEpoch,
+            "url": Constants.myPhotoUrl,
+            "postId": postId,
+            "ownerId": widget.currentUserId,
+            "photourl": "",
+            "isRead": false,
+          });
+        } else if (data.length == 1000) {
+          feedRtDatabaseReference
+              .child(widget.profileOwner)
+              .child("feedItems")
+              .child(postId)
+              .set({
+            "type": "solarLevel",
+            "firstName": Constants.myName,
+            "secondName": Constants.mySecondName,
+            "comment": "",
+            "timestamp": DateTime.now().millisecondsSinceEpoch,
+            "url": Constants.myPhotoUrl,
+            "postId": postId,
+            "ownerId": widget.currentUserId,
+            "photourl": "",
+            "isRead": false,
+          });
+        } else if (data.length == 10000) {
+          feedRtDatabaseReference
+              .child(widget.profileOwner)
+              .child("feedItems")
+              .child(postId)
+              .set({
+            "type": "galaxyLevel",
+            "firstName": Constants.myName,
+            "secondName": Constants.mySecondName,
+            "comment": "",
+            "timestamp": DateTime.now().millisecondsSinceEpoch,
+            "url": Constants.myPhotoUrl,
+            "postId": postId,
+            "ownerId": widget.currentUserId,
+            "photourl": "",
+            "isRead": false,
+          });
+        }
         print("yesssssssssssssssssssssss");
       } else {
         print("nooooooooooooooooooooooooooo");
@@ -3491,15 +3544,21 @@ class _BodyState extends State<Body> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.linear_scale_sharp,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 15),
@@ -3603,17 +3662,24 @@ class _BodyState extends State<Body> {
                                     child: SingleChildScrollView(
                                       child: Column(
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(5.0),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(Icons.linear_scale_sharp),
-                                              ],
+                                          Container(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.linear_scale_sharp,
+                                                    color: Colors.white,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
+                                            color: Colors.blue,
                                           ),
                                           Padding(
                                             padding:
@@ -3704,8 +3770,8 @@ class _BodyState extends State<Body> {
                 children: [
                   SizedBox(
                     height: 30,
-                    child: FlatButton(
-                      color: Colors.grey.withOpacity(0.1),
+                    child: ElevatedButton(
+                      // color: Colors.grey.withOpacity(0.1),
                       child: Text(
                         "Accept Proposal",
                         style: TextStyle(
@@ -3723,8 +3789,8 @@ class _BodyState extends State<Body> {
                   Flexible(
                     child: SizedBox(
                       height: 30,
-                      child: FlatButton(
-                          color: Colors.grey.withOpacity(0.1),
+                      child: ElevatedButton(
+                          // color: Colors.grey.withOpacity(0.1),
                           child: Text(
                             "Not Interested",
                             style: TextStyle(
@@ -3809,7 +3875,7 @@ class _BodyState extends State<Body> {
                 padding: const EdgeInsets.only(right: 0),
                 child: SizedBox(
                   height: 48,
-                  child: FlatButton(
+                  child: ElevatedButton(
                       child: Text(
                         "Cancel",
                         style: TextStyle(
@@ -3869,7 +3935,6 @@ class _BodyState extends State<Body> {
           ),
           Container(
             height: 20,
-            color: Colors.white,
           ),
         ],
       ));
@@ -4056,32 +4121,30 @@ class _BodyState extends State<Body> {
             padding: const EdgeInsets.only(
               top: 12,
             ),
-            child: Container(
-              width: MediaQuery.of(context).size.width / 2,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(5.0),
-                border: Border.all(color: Colors.blue.shade700, width: 1.5),
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditMyProfile(
-                        uid: widget.profileOwner,
-                        profileImage: widget.mainProfileUrl,
-                      ),
+            child: TextButton(
+              onPressed: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditMyProfile(
+                      uid: widget.profileOwner,
+                      profileImage: widget.mainProfileUrl,
                     ),
-                  );
-                },
+                  ),
+                ),
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width / 2,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5.0),
+                  border: Border.all(color: Colors.blue.shade700, width: 1.5),
+                ),
                 child: Container(
                   padding: EdgeInsets.all(5.0),
                   child: Center(
                     child: Text(
                       "Edit Profile",
                       style: TextStyle(
-                          color: Colors.white,
                           fontFamily: 'cutes',
                           fontWeight: FontWeight.bold,
                           fontSize: 12),
@@ -4111,15 +4174,21 @@ class _BodyState extends State<Body> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.linear_scale_sharp,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -4368,7 +4437,7 @@ class _BodyState extends State<Body> {
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(color: Colors.black, width: 1),
                               image: DecorationImage(
-                                image: NetworkImage(widget.mainProfileUrl),
+                                image: NetworkImage(widget.mainProfileUrl != null ? widget.mainProfileUrl : "https://switchappimages.nyc3.digitaloceanspaces.com/StaticUse/1646080905939.jpg"),
                               ),
                             ),
                           ),
@@ -4382,7 +4451,6 @@ class _BodyState extends State<Body> {
                                     borderRadius: BorderRadius.circular(15),
                                     border: Border.all(
                                         color: Colors.white, width: 1),
-                                    color: Colors.white,
                                   ),
                                   height: 15,
                                   width: 15,
@@ -4411,23 +4479,23 @@ class _BodyState extends State<Body> {
                     padding: const EdgeInsets.all(6.0),
                     child: GestureDetector(
                       onTap: () => {
-                        widget.profileOwner == widget.currentUserId ?   Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => EditMyProfile(
-                              uid: widget.profileOwner,
-                              profileImage: widget.mainProfileUrl,
-                            ),
-                          ),
-                        ): null,
+                        widget.profileOwner == widget.currentUserId
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditMyProfile(
+                                    uid: widget.profileOwner,
+                                    profileImage: widget.mainProfileUrl,
+                                  ),
+                                ),
+                              )
+                            : null,
                       },
-
                       child: Text(
                         widget.mainFirstName + " " + widget.mainSecondName,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: "Cutes",
-                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 13,
                         ),
@@ -4472,7 +4540,7 @@ class _BodyState extends State<Body> {
               children: [
                 GestureDetector(
                   child: SizedBox(
-                    height: 45,
+                    height: 40,
                     child: ElevatedButton(
                       child: SingleChildScrollView(
                         child: Column(
@@ -4487,7 +4555,6 @@ class _BodyState extends State<Body> {
                                   style: TextStyle(
                                       fontFamily: "cutes",
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.blue,
                                       fontSize: 12),
                                 ),
                               ),
@@ -4507,10 +4574,10 @@ class _BodyState extends State<Body> {
                                       return Text(
                                         "0",
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'cutes',
-                                            fontSize: 14,
-                                            color: Colors.black),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'cutes',
+                                          fontSize: 12,
+                                        ),
                                       );
                                     } else {
                                       String followers = universalMethods
@@ -4518,17 +4585,20 @@ class _BodyState extends State<Body> {
                                       return Text(
                                         followers,
                                         style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'cutes',
+                                          fontSize: 12,
+                                        ),
                                       );
                                     }
                                   } else {
                                     return Text(
                                       "0",
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'cutes',
+                                        fontSize: 12,
+                                      ),
                                     );
                                   }
                                 }),
@@ -4548,7 +4618,6 @@ class _BodyState extends State<Body> {
                       },
                       style: ElevatedButton.styleFrom(
                           elevation: 0.0,
-                          primary: Colors.white,
                           textStyle: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold)),
                     ),
@@ -4575,7 +4644,7 @@ class _BodyState extends State<Body> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 45,
+                  height: 40,
                   child: ElevatedButton(
                     child: SingleChildScrollView(
                       child: Column(
@@ -4592,14 +4661,12 @@ class _BodyState extends State<Body> {
                                   "Crush ",
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.blue,
                                     fontFamily: "cutes",
                                   ),
                                 ),
                                 Icon(
                                   Icons.favorite_border,
                                   size: 12,
-                                  color: Colors.blue,
                                 ),
                               ],
                             ),
@@ -4608,10 +4675,10 @@ class _BodyState extends State<Body> {
                             child: Text(
                               crushOfCount.toString(),
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'cutes',
-                                  fontSize: 14,
-                                  color: Colors.black),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'cutes',
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         ],
@@ -4630,7 +4697,6 @@ class _BodyState extends State<Body> {
                     },
                     style: ElevatedButton.styleFrom(
                         elevation: 0.0,
-                        primary: Colors.white,
                         textStyle: TextStyle(
                             fontSize: 12, fontWeight: FontWeight.bold)),
                   ),
@@ -4663,7 +4729,6 @@ class _BodyState extends State<Body> {
 
   _relationshipStatusForOwnProfile(int index) {
     return Container(
-      color: Colors.blue.withOpacity(0.03),
       child: Column(
         children: [
           inRelationShipForOwnProfile
@@ -4743,70 +4808,63 @@ class _BodyState extends State<Body> {
                 )
               : GestureDetector(
                   onTap: () => print("Tapped"),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 10.0,
-                      top: 10,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Text(
-                            "Not In Relationship",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontFamily: 'cute',
-                                fontSize: 14,
-                                fontWeight: FontWeight.w100),
+                  child: Container(
+                    color: Colors.blue.withOpacity(0.04),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 10.0,
+                        top: 10,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: Text(
+                              "Not In Relationship",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontFamily: 'cute',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w100),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: Row(
-                            children: [
-                              Text(
-                                "Search for one ",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontFamily: 'cute',
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w100),
-                              ),
-                              Icon(
-                                Icons.search,
-                                color: Colors.grey,
-                                size: 20,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Search for one ",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontFamily: 'cute',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w100),
+                                ),
+                                Icon(
+                                  Icons.search,
+                                  color: Colors.grey,
+                                  size: 20,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-          SizedBox(
-            height: 10,
-            child: Container(
-              color: Colors.white,
-            ),
-          ),
           _breakUpOption(),
           SizedBox(
             height: 10,
-            child: Container(
-              color: Colors.white,
-            ),
+            child: Container(),
           ),
           toAcceptRelationShip(),
           !inRelationShip && pendingRelationShip && youHaveToAccept
               ? SizedBox(
                   height: 20,
-                  child: Container(
-                    color: Colors.white,
-                  ),
+                  child: Container(),
                 )
               : SizedBox(
                   height: 0,
@@ -4884,17 +4942,23 @@ class _BodyState extends State<Body> {
                               child: SingleChildScrollView(
                                 child: Column(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.linear_scale_sharp),
-                                        ],
+                                    Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.linear_scale_sharp,
+                                              color: Colors.white,
+                                            ),
+                                          ],
+                                        ),
                                       ),
+                                      color: Colors.blue,
                                     ),
                                     Padding(
                                         padding: const EdgeInsets.only(top: 10),
@@ -4937,17 +5001,23 @@ class _BodyState extends State<Body> {
                               child: SingleChildScrollView(
                                 child: Column(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.linear_scale_sharp),
-                                        ],
+                                    Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.linear_scale_sharp,
+                                              color: Colors.white,
+                                            ),
+                                          ],
+                                        ),
                                       ),
+                                      color: Colors.blue,
                                     ),
                                     Padding(
                                         padding: const EdgeInsets.only(top: 10),
@@ -5090,6 +5160,7 @@ class _BodyState extends State<Body> {
             Column(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(
@@ -5098,14 +5169,9 @@ class _BodyState extends State<Body> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 50,
-                            child: RaisedButton(
-                                highlightColor: Colors.white,
-                                elevation: 0.0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    side: BorderSide(color: Colors.white)),
-                                color: Colors.white,
+                            height: 40,
+                            child: ElevatedButton(
+
                                 child: SingleChildScrollView(
                                   child: Column(
                                     crossAxisAlignment:
@@ -5132,9 +5198,8 @@ class _BodyState extends State<Body> {
                                           child: Text(
                                             "Followers",
                                             style: TextStyle(
-                                              fontSize: 12,
+                                              fontSize: 11,
                                               fontFamily: "cutes",
-                                              color: Colors.blue,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -5162,9 +5227,10 @@ class _BodyState extends State<Body> {
                                                 return Text(
                                                   "0",
                                                   style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: 'cutes'),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: 'cutes',
+                                                    fontSize: 12,
+                                                  ),
                                                 );
                                               } else {
                                                 String followers =
@@ -5176,17 +5242,20 @@ class _BodyState extends State<Body> {
                                                 return Text(
                                                   followers,
                                                   style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: 'cutes'),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: 'cutes',
+                                                    fontSize: 12,
+                                                  ),
                                                 );
                                               }
                                             } else {
                                               return Text(
                                                 "0",
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: 'cutes'),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'cutes',
+                                                  fontSize: 12,
+                                                ),
                                               );
                                             }
                                           }),
@@ -5198,6 +5267,9 @@ class _BodyState extends State<Body> {
                         ],
                       ),
                     ),
+                    SizedBox(
+                      width: 20,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(
                         bottom: 15,
@@ -5205,14 +5277,9 @@ class _BodyState extends State<Body> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 50,
-                            child: RaisedButton(
-                                highlightColor: Colors.white,
-                                elevation: 0.0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    side: BorderSide(color: Colors.white)),
-                                color: Colors.white,
+                            height: 40,
+                            child: ElevatedButton(
+
                                 child: SingleChildScrollView(
                                   child: Column(
                                     crossAxisAlignment:
@@ -5230,16 +5297,14 @@ class _BodyState extends State<Body> {
                                             Text(
                                               "Crush ",
                                               style: TextStyle(
-                                                fontSize: 12,
-                                                fontFamily: 'cutes',
-                                                color: Colors.blue,
                                                 fontWeight: FontWeight.bold,
+                                                fontFamily: 'cutes',
+                                                fontSize: 12,
                                               ),
                                             ),
                                             Icon(
                                               Icons.favorite_border_outlined,
                                               size: 14,
-                                              color: Colors.blue,
                                             )
                                           ],
                                         ),
@@ -5249,8 +5314,10 @@ class _BodyState extends State<Body> {
                                         child: Text(
                                           crushOfCount.toString(),
                                           style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'cutes'),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'cutes',
+                                            fontSize: 11,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -5290,10 +5357,7 @@ class _BodyState extends State<Body> {
           ? ElevatedButton(
               child: Text(
                 "Following",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
               ),
               onPressed: () {
                 setState(() {
@@ -5546,16 +5610,23 @@ class _BodyState extends State<Body> {
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.linear_scale_sharp),
-                                    ],
+                                Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.linear_scale_sharp,
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    ),
                                   ),
+                                  color: Colors.blue,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 20),
@@ -5779,7 +5850,9 @@ class _BodyState extends State<Body> {
         ),
       );
     } else {
-      return Container();
+      return Container(
+        height: 0,
+      );
     }
   }
 
@@ -6251,7 +6324,7 @@ class _BodyState extends State<Body> {
       padding: const EdgeInsets.only(bottom: 10),
       child: Container(
         height: 40,
-        color: Colors.blue.shade100.withOpacity(0.1),
+        color: Colors.blue.withOpacity(0.05),
         child: Padding(
           padding: const EdgeInsets.only(left: 23, right: 23),
           child: Row(
@@ -6403,17 +6476,18 @@ class _BodyState extends State<Body> {
   _aboutAndMinor() {
     return GestureDetector(
       onTap: () => {
-        widget.profileOwner == widget.currentUserId ?   Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => EditMyProfile(
-              uid: widget.profileOwner,
-              profileImage: widget.mainProfileUrl,
-            ),
-          ),
-        ): null,
+        widget.profileOwner == widget.currentUserId
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditMyProfile(
+                    uid: widget.profileOwner,
+                    profileImage: widget.mainProfileUrl,
+                  ),
+                ),
+              )
+            : null,
       },
-
       child: Column(
         children: [
           Padding(
@@ -6453,7 +6527,6 @@ class _BodyState extends State<Body> {
                           startAfter: Duration(seconds: 3),
                           text: "${widget.mainAbout}   ",
                           style: TextStyle(
-                            color: Colors.black,
                             fontFamily: 'cutes',
                             fontSize: 11,
                           ),
@@ -6464,7 +6537,6 @@ class _BodyState extends State<Body> {
                           widget.mainAbout,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: Colors.black,
                             fontFamily: 'cutes',
                             fontSize: 11,
                           ),
@@ -6497,7 +6569,6 @@ class _BodyState extends State<Body> {
                 Text(
                   widget.username.toString(),
                   style: TextStyle(
-                    color: Colors.black,
                     fontFamily: 'cutes',
                     fontSize: 11,
                   ),
@@ -6626,8 +6697,7 @@ class _BodyState extends State<Body> {
       child: ElevatedButton(
         child: Text(
           "Meme Profile",
-          style: TextStyle(
-              color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold),
         ),
         onPressed: () {
           Navigator.push(
@@ -6664,7 +6734,6 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height,
-      color: Colors.white,
       child: widget.currentUserId == widget.profileOwner
           ? DelayedDisplay(
               delay: Duration(milliseconds: 200),
@@ -6676,7 +6745,6 @@ class _BodyState extends State<Body> {
                     return Column(
                       children: [
                         Material(
-                          color: Colors.white,
                           elevation: 8,
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(15),
@@ -6737,13 +6805,11 @@ class _BodyState extends State<Body> {
               delay: Duration(milliseconds: 222),
               slidingBeginOffset: Offset(0, -0.35),
               child: Container(
-                color: Colors.white,
                 child: ListView(
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   children: [
                     Material(
-                      color: Colors.white,
                       elevation: 6,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(15),
@@ -6849,7 +6915,6 @@ class _BodyState extends State<Body> {
                               child: Container(
                                 padding: EdgeInsets.all(8.0),
                                 decoration: BoxDecoration(
-                                  color: Colors.blue,
                                   borderRadius: BorderRadius.circular(
                                     5,
                                   ),
@@ -6860,9 +6925,7 @@ class _BodyState extends State<Body> {
                                       Text(
                                         "Following",
                                         style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: "cute",
-                                            fontSize: 9),
+                                            fontFamily: "cute", fontSize: 9),
                                       ),
                                       StreamBuilder(
                                           stream: userFollowingRtd
@@ -6880,30 +6943,29 @@ class _BodyState extends State<Body> {
                                                 return Text(
                                                   "0",
                                                   style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: 'cutes',
-                                                      color: Colors.white),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: 'cutes',
+                                                    fontSize: 12,
+                                                  ),
                                                 );
                                               } else {
                                                 return Text(
                                                   data.length.toString(),
                                                   style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: 'cutes',
-                                                      color: Colors.white,
-                                                      fontSize: 12),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: 'cutes',
+                                                    fontSize: 12,
+                                                  ),
                                                 );
                                               }
                                             } else {
                                               return Text(
                                                 "0",
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: 'cutes',
-                                                    color: Colors.white,
-                                                    fontSize: 12),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'cutes',
+                                                  fontSize: 12,
+                                                ),
                                               );
                                             }
                                           }),
@@ -6932,25 +6994,23 @@ class _BodyState extends State<Body> {
                               child: Container(
                                 padding: EdgeInsets.all(8.0),
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Colors.blue),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
                                 child: SingleChildScrollView(
                                   child: Column(
                                     children: [
                                       Text(
                                         "CrushOn",
                                         style: TextStyle(
-                                            fontFamily: "cute",
-                                            color: Colors.white,
-                                            fontSize: 9),
+                                            fontFamily: "cute", fontSize: 9),
                                       ),
                                       Text(
                                         crushOnCount.toString(),
                                         style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'cutes',
-                                            fontSize: 12),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'cutes',
+                                          fontSize: 12,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -7088,15 +7148,21 @@ class _BodyState extends State<Body> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.linear_scale_sharp,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

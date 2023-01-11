@@ -181,7 +181,7 @@ class _WorldRankingState extends State<WorldRanking> {
             child: Text(
               rank,
               style: TextStyle(
-                  fontSize: 15, color: Colors.blue, fontFamily: 'cute'),
+                  fontSize: 15,  fontFamily: 'cute'),
             ),
           );
         }

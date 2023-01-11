@@ -1,3 +1,7 @@
+/*
+ * this is a simple page that show welcome screen.
+ */
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,7 +13,7 @@ import 'package:switchapp/Bridges/landingPage.dart';
 import 'package:timelines/timelines.dart';
 
 class WelcomePage extends StatefulWidget {
-  final String user;
+  final User user;
 
   const WelcomePage({required this.user});
 

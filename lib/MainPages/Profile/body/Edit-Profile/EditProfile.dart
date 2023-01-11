@@ -416,15 +416,22 @@ class _EditProfileState extends State<EditMyProfile> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.linear_scale_sharp,
+                            color: Colors.white,),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
@@ -508,8 +515,7 @@ class _EditProfileState extends State<EditMyProfile> {
         elevation: 0.0,
         backwardsCompatibility: true,
         actions: [
-          FlatButton(
-              textColor: Colors.blue[100],
+          ElevatedButton(
               child: Text(
                 'Save',
                 style: TextStyle(
@@ -689,7 +695,7 @@ class _EditProfileState extends State<EditMyProfile> {
                         child: TextFormField(
                           initialValue: dateOfBirth,
                           maxLength: 10,
-                          maxLengthEnforced: false,
+                          // maxLengthEnforced: false,
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
                           style: TextStyle(
@@ -727,14 +733,14 @@ class _EditProfileState extends State<EditMyProfile> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          FlatButton(
-                              color:
-                                  isMale ? Colors.blue.shade900 : Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  side: BorderSide(
-                                    color: Colors.blue,
-                                  )),
+                          ElevatedButton(
+                              // color:
+                              //     isMale ? Colors.blue.shade900 : Colors.white,
+                              // shape: RoundedRectangleBorder(
+                              //     borderRadius: BorderRadius.circular(15.0),
+                              //     side: BorderSide(
+                              //       color: Colors.blue,
+                              //     )),
                               onPressed: () {
                                 setState(() {
                                   isMale = true;
@@ -751,15 +757,15 @@ class _EditProfileState extends State<EditMyProfile> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12),
                               )),
-                          FlatButton(
-                              color: isFemale
-                                  ? Colors.blue.shade900
-                                  : Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  side: BorderSide(
-                                    color: Colors.blue,
-                                  )),
+                          ElevatedButton(
+                              // color: isFemale
+                              //     ? Colors.blue.shade900
+                              //     : Colors.white,
+                              // shape: RoundedRectangleBorder(
+                              //     borderRadius: BorderRadius.circular(15.0),
+                              //     side: BorderSide(
+                              //       color: Colors.blue,
+                              //     )),
                               onPressed: () {
                                 setState(() {
                                   isFemale = true;
@@ -776,13 +782,13 @@ class _EditProfileState extends State<EditMyProfile> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12),
                               )),
-                          FlatButton(
-                              color: others ? Colors.blue : Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  side: BorderSide(
-                                    color: Colors.blue,
-                                  )),
+                          ElevatedButton(
+                              // color: others ? Colors.blue : Colors.white,
+                              // shape: RoundedRectangleBorder(
+                              //     borderRadius: BorderRadius.circular(15.0),
+                              //     side: BorderSide(
+                              //       color: Colors.blue,
+                              //     )),
                               onPressed: () {
                                 setState(() {
                                   others = true;
@@ -854,9 +860,7 @@ class _EditProfileState extends State<EditMyProfile> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: RaisedButton(
-                          elevation: 0.0,
-                          color: Colors.transparent,
+                      child: ElevatedButton(
                           // shape: RoundedRectangleBorder(
                           //     borderRadius: BorderRadius.circular(15.0),
                           //     side: BorderSide(color: Colors.grey, width: 2)),

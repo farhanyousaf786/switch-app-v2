@@ -29,8 +29,8 @@ class _RankingListState extends State<RankingList> {
         width: 90,
         child: Material(
           elevation: 2,
+          color: Constants.isDark == "true" ? Colors.grey.shade800 : Colors.white,
           borderRadius: BorderRadius.circular(15),
-          shadowColor: Colors.grey,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -42,7 +42,7 @@ class _RankingListState extends State<RankingList> {
                         fontSize: 8,
                         fontFamily: 'cutes',
                         fontWeight: FontWeight.bold,
-                        color: Colors.black54),
+                        ),
                   ),
                 ),
                 Padding(
@@ -52,7 +52,7 @@ class _RankingListState extends State<RankingList> {
                     height: 35,
                     child: SwitchImageCache(width: 35, height: 35, url:  widget.rankingData[widget.index]['photoUrl'], ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(44),
+                      borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.white, width: 1),
                       // image: DecorationImage(
                       //   image: NetworkImage(

@@ -13,6 +13,8 @@ class SimplePageModel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     Future<void> signOut() async {
       userRefRTD.child(user.uid).update({"isOnline": "false"});
 
@@ -86,7 +88,7 @@ class SimplePageModel extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Already Reset your? then Restart App",
+                      "Already Done? then check your INTERNET connection and Restart App.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.blue,

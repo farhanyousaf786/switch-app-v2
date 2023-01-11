@@ -19,14 +19,12 @@ class _ParticipatePageState extends State<ParticipatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         leading: TextButton(
           onPressed: () => Navigator.pop(context),
           child: Icon(
             Icons.arrow_back_ios_rounded,
-            color: Colors.blue,
+            color: Colors.white,
             size: 20,
           ),
         ),
@@ -36,7 +34,7 @@ class _ParticipatePageState extends State<ParticipatePage> {
           style: TextStyle(
             fontSize: 16,
             fontFamily: 'cute',
-            color: Colors.blue,
+            color: Colors.white,
           ),
         ),
         centerTitle: true,

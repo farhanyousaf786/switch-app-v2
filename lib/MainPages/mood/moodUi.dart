@@ -115,7 +115,6 @@ class _FrontSlidesState extends State<FrontSlides> {
             height: 150,
             width: MediaQuery.of(context).size.width,
 
-            color: Colors.white,
             child: Text(""));
       } else {
         return Container(
@@ -131,7 +130,6 @@ class _FrontSlidesState extends State<FrontSlides> {
     } else {
       return Container(
         width: MediaQuery.of(context).size.width,
-        color: Colors.white,
         child: mood == "angry"
             ? Image.network(
                 moodLinks!['angry'],
@@ -186,7 +184,6 @@ class _FrontSlidesState extends State<FrontSlides> {
     } else {
       return Container(
           width: MediaQuery.of(context).size.width / 1.05,
-          color: Colors.white,
           child: CarouselSlider.builder(
               itemCount: memerList!.length,
               itemBuilder: (BuildContext context, int itemIndex,

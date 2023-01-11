@@ -1,3 +1,9 @@
+/*
+ * This class will set some initial var for database
+ * and will set our routes to EmailVerification page
+ * where we will see it user verified email link or not
+ */
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,58 +15,51 @@ import 'package:switchapp/Authentication/SignUp/emailVerification.dart';
 import 'package:switchapp/Authentication/SignUp/signUpPage.dart';
 import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
 
-final GoogleSignIn googleSignIn = GoogleSignIn();
-
 class BridgeToSetEmailVerification extends StatefulWidget {
-
-
   @override
-  _BridgeToSetEmailVerificationState createState() => _BridgeToSetEmailVerificationState();
+  _BridgeToSetEmailVerificationState createState() =>
+      _BridgeToSetEmailVerificationState();
 }
 
-class _BridgeToSetEmailVerificationState extends State<BridgeToSetEmailVerification> {
-  @override
-  void initState() {
-
-    super.initState();
-  }
+class _BridgeToSetEmailVerificationState
+    extends State<BridgeToSetEmailVerification> {
 
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
-
     return StreamBuilder<User?>(
-        stream: auth.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            User? user = snapshot.data;
-
-
-            if (user == null) {
-              return SignUpPage();
-            }
-
-            else {
-              chatMoodReferenceRtd.child(user.uid).set({
+      stream: auth.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          User? user = snapshot.data;
+          if (user == null) {
+            return SignUpPage();
+          } else {
+            chatMoodReferenceRtd.child(user.uid).set(
+              {
                 "mood": "romantic",
                 "theme": "romantic",
                 "loveNote": "Write Something For Love Of Your Life",
-              });
-
-
-              return Provider<User>.value(
-                value: user,
-                child: Provider<AuthBase>(
-                    create: (context) => Auth(), child: EmailVerification(user: user,)),
-              );
-            }
-          } else {
-            return Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
+              },
+            );
+            return Provider<User>.value(
+              value: user,
+              child: Provider<AuthBase>(
+                create: (context) => Auth(),
+                child: EmailVerification(
+                  user: user,
+                ),
               ),
             );
           }
-        });
+        } else {
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
+    );
   }
 }

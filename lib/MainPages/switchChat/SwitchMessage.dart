@@ -1568,8 +1568,6 @@ class _SwitchMessageState extends State<SwitchMessages>
         onRightSwipe: () => {
           widget.onSwipedMessage(content),
         },
-
-
         child: Padding(
           padding: const EdgeInsets.only(left: 23),
           child: Column(
@@ -1577,46 +1575,47 @@ class _SwitchMessageState extends State<SwitchMessages>
               Row(
                 children: [
                   Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black54),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15),
-                        ),
-                        color: Colors.grey.shade300,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black54),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
                       ),
-                      width: 250,
-                      child: Padding(
-                        padding:
-                        const EdgeInsets.only(top: 8, left: 18, bottom: 5, right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              child: Text(
-                                "${isReplyMessage.substring(3)}",
-                                style: TextStyle(color: Colors.grey.shade700),
+                      color: Colors.grey.shade300,
+                    ),
+                    width: 250,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 8, left: 18, bottom: 5, right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "${isReplyMessage.substring(3)}",
+                              style: TextStyle(color: Colors.grey.shade700),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 8, right: 10, bottom: 5, left: 15),
+                            child: Text(
+                              "Reply Of",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 9,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8, right: 10, bottom: 5, left: 15),
-                              child: Text(
-                                "Reply Of",
-                                style: TextStyle(color: Colors.black,
-                                  fontSize: 9,
-                                ),
-                              ),
-                            )
-
-                          ],
-                        ),
-                      ),),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
               Row(
                 children: [
                   Container(
-
                       width: 250,
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.black54),
@@ -1624,11 +1623,10 @@ class _SwitchMessageState extends State<SwitchMessages>
                           bottomLeft: Radius.circular(15),
                           bottomRight: Radius.circular(15),
                         ),
-                        color: Colors.white,
                       ),
                       child: Padding(
-                        padding:
-                            const EdgeInsets.only(top: 8, left: 18, bottom: 5, right: 20),
+                        padding: const EdgeInsets.only(
+                            top: 8, left: 18, bottom: 5, right: 20),
                         child: Text(content),
                       )),
                 ],
@@ -1643,8 +1641,6 @@ class _SwitchMessageState extends State<SwitchMessages>
           onRightSwipe: () => {
             widget.onSwipedMessage(content),
           },
-
-
           child: Container(
             margin: EdgeInsets.only(left: 20.0),
             child: Column(
@@ -1698,7 +1694,6 @@ class _SwitchMessageState extends State<SwitchMessages>
                     ),
                     style: TextStyle(
                       fontSize: 11,
-                      color: Colors.black54,
                     ),
                   ),
                   margin: EdgeInsets.only(left: 5.0, top: 5.0, bottom: 2.0),
@@ -1715,7 +1710,7 @@ class _SwitchMessageState extends State<SwitchMessages>
             children: [
               Container(
                 margin: EdgeInsets.only(right: 20.0),
-                child: FlatButton(
+                child: ElevatedButton(
                   child: Material(
                     elevation: 0,
                     child: CachedNetworkImage(
@@ -1769,7 +1764,7 @@ class _SwitchMessageState extends State<SwitchMessages>
                       ),
                     ),
                   },
-                  padding: EdgeInsets.all(0),
+                  // padding: EdgeInsets.all(0),
                 ),
               ),
               Container(
@@ -1781,7 +1776,6 @@ class _SwitchMessageState extends State<SwitchMessages>
                   ),
                   style: TextStyle(
                     fontSize: 11,
-                    color: Colors.black54,
                   ),
                 ),
                 margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
@@ -1834,7 +1828,6 @@ class _SwitchMessageState extends State<SwitchMessages>
                     ),
                     style: TextStyle(
                       fontSize: 11,
-                      color: Colors.black54,
                     ),
                   ),
                   margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
@@ -2097,15 +2090,21 @@ class _SwitchMessageState extends State<SwitchMessages>
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.linear_scale_sharp,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -2118,10 +2117,7 @@ class _SwitchMessageState extends State<SwitchMessages>
                               int.parse(timeStamp),
                             ),
                           ),
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black54,
-                              fontFamily: 'cute'),
+                          style: TextStyle(fontSize: 12, fontFamily: 'cute'),
                         ),
                       ),
                     ],
@@ -2164,17 +2160,23 @@ class _SwitchMessageState extends State<SwitchMessages>
                                       MediaQuery.of(context).size.height / 1.2,
                                   child: Column(
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(Icons.linear_scale_sharp),
-                                          ],
+                                      Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.linear_scale_sharp,
+                                                color: Colors.white,
+                                              ),
+                                            ],
+                                          ),
                                         ),
+                                        color: Colors.blue,
                                       ),
                                       Container(
                                         color: Colors.lightBlueAccent,
@@ -2390,7 +2392,7 @@ class _SwitchMessageState extends State<SwitchMessages>
   ) {
     if (isReplyMessage[0] != "n") {
       return Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Padding(
             padding: const EdgeInsets.only(right: 23),
@@ -2409,8 +2411,8 @@ class _SwitchMessageState extends State<SwitchMessages>
                       ),
                       width: 250,
                       child: Padding(
-                        padding:
-                        const EdgeInsets.only(top: 8, left: 18, bottom: 5, right: 10),
+                        padding: const EdgeInsets.only(
+                            top: 8, left: 18, bottom: 5, right: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -2421,24 +2423,25 @@ class _SwitchMessageState extends State<SwitchMessages>
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 8, right: 10, bottom: 5, left: 15),
+                              padding: const EdgeInsets.only(
+                                  top: 8, right: 10, bottom: 5, left: 15),
                               child: Text(
                                 "Reply Of",
-                                style: TextStyle(color: Colors.black,
+                                style: TextStyle(
+                                  color: Colors.grey,
                                   fontSize: 9,
                                 ),
                               ),
                             )
-
                           ],
                         ),
-                      ),),
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Container(
-
                         width: 250,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black54),
@@ -2446,11 +2449,10 @@ class _SwitchMessageState extends State<SwitchMessages>
                             bottomLeft: Radius.circular(15),
                             bottomRight: Radius.circular(15),
                           ),
-                          color: Colors.white,
                         ),
                         child: Padding(
-                          padding:
-                          const EdgeInsets.only(top: 8, left: 18, bottom: 5, right: 20),
+                          padding: const EdgeInsets.only(
+                              top: 8, left: 18, bottom: 5, right: 20),
                           child: Text(content),
                         )),
                   ],
@@ -2466,7 +2468,6 @@ class _SwitchMessageState extends State<SwitchMessages>
           onRightSwipe: () => {
             widget.onSwipedMessage(content),
           },
-
           child: Padding(
             padding: const EdgeInsets.only(right: 20),
             child: Column(children: <Widget>[
@@ -2514,7 +2515,6 @@ class _SwitchMessageState extends State<SwitchMessages>
                     ),
                     style: TextStyle(
                       fontSize: 9,
-                      color: Colors.black54,
                     ),
                   ),
                   margin: EdgeInsets.only(left: 5.0, top: 5.0, bottom: 2.0),
@@ -2530,7 +2530,7 @@ class _SwitchMessageState extends State<SwitchMessages>
           children: [
             Container(
               margin: EdgeInsets.only(right: 20.0),
-              child: FlatButton(
+              child: ElevatedButton(
                 child: Material(
                   elevation: 0,
                   child: CachedNetworkImage(
@@ -2584,7 +2584,7 @@ class _SwitchMessageState extends State<SwitchMessages>
                     ),
                   ),
                 },
-                padding: EdgeInsets.all(0),
+                // padding: EdgeInsets.all(0),
               ),
             ),
             Container(
@@ -2596,7 +2596,6 @@ class _SwitchMessageState extends State<SwitchMessages>
                 ),
                 style: TextStyle(
                   fontSize: 11,
-                  color: Colors.black54,
                 ),
               ),
               margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
@@ -2647,7 +2646,6 @@ class _SwitchMessageState extends State<SwitchMessages>
                     ),
                     style: TextStyle(
                       fontSize: 11,
-                      color: Colors.black54,
                     ),
                   ),
                   margin: EdgeInsets.only(top: 5.0, bottom: 5.0),

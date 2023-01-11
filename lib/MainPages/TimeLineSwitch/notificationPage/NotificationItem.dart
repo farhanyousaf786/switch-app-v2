@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
@@ -8,11 +7,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:switchapp/MainPages/Profile/Panelandbody.dart';
 import 'package:switchapp/Models/Constans.dart';
 import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/UniversalResources/UniversalMethods.dart';
 import 'package:time_formatter/time_formatter.dart';
 
 import '../../../Models/SwitchImageCache/SwitchImageCache.dart';
@@ -34,6 +35,7 @@ class BuildItemForNotification extends StatefulWidget {
 class _BuildItemForNotificationState extends State<BuildItemForNotification> {
   bool? isLoading = true;
   int? selectedIndex;
+  UniversalMethods universalMethods = UniversalMethods();
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +63,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                                 child: LinearProgressIndicator(
                                   color: Colors.blue,
                                   backgroundColor: Colors.blue.shade200,
-                                    minHeight: 2,
-
+                                  minHeight: 2,
                                 ),
                               )
                             : Container(
@@ -140,8 +141,13 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
       content = "This Person add you As Bestie";
     } else if (item[index]['type'] == 'unFriend') {
       content = "Sorry, But this Person remove you from Bestie";
+    } else if (item[index]['type'] == 'planetLevel') {
+      content = "Hurray! You have been promoted to PLANET LEVEL.";
+    } else if (item[index]['type'] == 'solarLevel') {
+      content = "Hurray! You have been promoted to SOLAR LEVEL.";
+    } else if (item[index]['type'] == 'galaxyLevel') {
+      content = "Hurray! You have been promoted to GALAXY LEVEL.";
     }
-
     late Map userData;
 
     getUserData(String uid) async {
@@ -252,13 +258,12 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                       Container(
                         width: 35,
                         height: 35,
-                        child: SwitchImageCache(width: 35, height: 35, url: url ),
-
+                        child:
+                            SwitchImageCache(width: 35, height: 35, url: url),
                         decoration: BoxDecoration(
-                          borderRadius:
-                          BorderRadius.circular(13),
-                          border: Border.all(
-                              color: Colors.black54, width: 2),
+                          borderRadius: BorderRadius.circular(13),
+                          border:
+                              Border.all(color: Colors.grey.shade500, width: 2),
 
                           // image: DecorationImage(
                           //   image: NetworkImage(
@@ -284,7 +289,6 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                   padding: const EdgeInsets.only(right: 3, top: 20),
                   child: Icon(
                     Icons.navigate_next_sharp,
-                    color: Colors.black,
                     size: 27,
                   ),
                 ),
@@ -293,7 +297,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
           ),
           ExpansionTileCard(
             elevation: 0.0,
-            baseColor: Colors.white,
+            baseColor: Constants.isDark == "false" ? Colors.white: ThemeData.dark().primaryColor,
             title: Text(""),
 
             subtitle: Column(
@@ -305,7 +309,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                     left: 55,
                   ),
                   child: Text(
-                    'Commented On Your Post',
+                    'Comment On Your Post',
                     style: TextStyle(
                         color: Colors.green.shade700,
                         fontWeight: FontWeight.bold),
@@ -317,7 +321,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                     time,
                     style: TextStyle(
                       fontSize: 9,
-                      color: Colors.black54,
+                      color: Colors.grey.shade500,
                     ),
                   ),
                 ),
@@ -398,13 +402,12 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                           Container(
                             width: 35,
                             height: 35,
-                            child: SwitchImageCache(width: 35, height: 35, url: url ),
-
+                            child: SwitchImageCache(
+                                width: 35, height: 35, url: url),
                             decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.circular(13),
+                              borderRadius: BorderRadius.circular(13),
                               border: Border.all(
-                                  color: Colors.black54, width: 2),
+                                  color: Colors.grey.shade500, width: 2),
 
                               // image: DecorationImage(
                               //   image: NetworkImage(
@@ -428,7 +431,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                               time,
                               style: TextStyle(
                                 fontSize: 7,
-                                color: Colors.black54,
+                                color: Colors.grey.shade500,
                               ),
                             ),
                           ),
@@ -447,10 +450,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                 padding: const EdgeInsets.only(left: 75, bottom: 5),
                 child: Text(
                   'is Starting to Follow You',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 12),
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 12),
                 ),
               ),
               Padding(
@@ -483,7 +483,6 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
               padding: const EdgeInsets.only(left: 18, top: 5),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -492,13 +491,12 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                         Container(
                           width: 35,
                           height: 35,
-                          child: SwitchImageCache(width: 35, height: 35, url: url ),
-
+                          child:
+                              SwitchImageCache(width: 35, height: 35, url: url),
                           decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(13),
+                            borderRadius: BorderRadius.circular(13),
                             border: Border.all(
-                                color: Colors.black54, width: 2),
+                                color: Colors.grey.shade500, width: 2),
 
                             // image: DecorationImage(
                             //   image: NetworkImage(
@@ -522,7 +520,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                             time,
                             style: TextStyle(
                               fontSize: 8,
-                              color: Colors.black54,
+                              color: Colors.grey.shade500,
                             ),
                           ),
                         ),
@@ -576,7 +574,6 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
           children: [
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -587,13 +584,12 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                         Container(
                           width: 35,
                           height: 35,
-                          child: SwitchImageCache(width: 35, height: 35, url: url ),
-
+                          child:
+                              SwitchImageCache(width: 35, height: 35, url: url),
                           decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(13),
+                            borderRadius: BorderRadius.circular(13),
                             border: Border.all(
-                                color: Colors.black54, width: 2),
+                                color: Colors.grey.shade500, width: 2),
 
                             // image: DecorationImage(
                             //   image: NetworkImage(
@@ -617,7 +613,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                             time,
                             style: TextStyle(
                               fontSize: 7,
-                              color: Colors.black54,
+                              color: Colors.grey.shade500,
                             ),
                           ),
                         ),
@@ -635,7 +631,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
             Padding(
               padding: const EdgeInsets.only(left: 75, bottom: 5),
               child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Row(
                     children: [
@@ -653,7 +649,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                       Text(
                         'Go to your profile to respond that.',
                         style: TextStyle(
-                            color: Colors.black54,
+                            color: Colors.grey.shade500,
                             fontWeight: FontWeight.w400,
                             fontSize: 11),
                       ),
@@ -719,7 +715,6 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
           children: [
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -730,13 +725,12 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                         Container(
                           width: 35,
                           height: 35,
-                          child: SwitchImageCache(width: 35, height: 35, url: url ),
-
+                          child:
+                              SwitchImageCache(width: 35, height: 35, url: url),
                           decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(13),
+                            borderRadius: BorderRadius.circular(13),
                             border: Border.all(
-                                color: Colors.black54, width: 2),
+                                color: Colors.grey.shade500, width: 2),
 
                             // image: DecorationImage(
                             //   image: NetworkImage(
@@ -760,7 +754,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                             time,
                             style: TextStyle(
                               fontSize: 7,
-                              color: Colors.black54,
+                              color: Colors.grey.shade500,
                             ),
                           ),
                         ),
@@ -842,7 +836,6 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
           children: [
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -853,13 +846,12 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                         Container(
                           width: 35,
                           height: 35,
-                          child: SwitchImageCache(width: 35, height: 35, url: url ),
-
+                          child:
+                              SwitchImageCache(width: 35, height: 35, url: url),
                           decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(13),
+                            borderRadius: BorderRadius.circular(13),
                             border: Border.all(
-                                color: Colors.black54, width: 2),
+                                color: Colors.grey.shade500, width: 2),
 
                             // image: DecorationImage(
                             //   image: NetworkImage(
@@ -883,7 +875,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                             time,
                             style: TextStyle(
                               fontSize: 7,
-                              color: Colors.black54,
+                              color: Colors.grey.shade500,
                             ),
                           ),
                         ),
@@ -965,7 +957,6 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
           children: [
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -976,13 +967,12 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                         Container(
                           width: 35,
                           height: 35,
-                          child: SwitchImageCache(width: 35, height: 35, url: url ),
-
+                          child:
+                              SwitchImageCache(width: 35, height: 35, url: url),
                           decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(13),
+                            borderRadius: BorderRadius.circular(13),
                             border: Border.all(
-                                color: Colors.black54, width: 2),
+                                color: Colors.grey.shade500, width: 2),
 
                             // image: DecorationImage(
                             //   image: NetworkImage(
@@ -1006,7 +996,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                             time,
                             style: TextStyle(
                               fontSize: 7,
-                              color: Colors.black54,
+                              color: Colors.grey.shade500,
                             ),
                           ),
                         ),
@@ -1025,10 +1015,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
               padding: const EdgeInsets.only(left: 75, bottom: 5),
               child: Text(
                 'Canceled the relationship request',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 12),
+                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 12),
               ),
             ),
             Padding(
@@ -1088,7 +1075,6 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
           children: [
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -1099,13 +1085,12 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                         Container(
                           width: 35,
                           height: 35,
-                          child: SwitchImageCache(width: 35, height: 35, url: url ),
-
+                          child:
+                              SwitchImageCache(width: 35, height: 35, url: url),
                           decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(13),
+                            borderRadius: BorderRadius.circular(13),
                             border: Border.all(
-                                color: Colors.black54, width: 2),
+                                color: Colors.grey.shade500, width: 2),
 
                             // image: DecorationImage(
                             //   image: NetworkImage(
@@ -1129,7 +1114,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                             time,
                             style: TextStyle(
                               fontSize: 7,
-                              color: Colors.black54,
+                              color: Colors.grey.shade500,
                             ),
                           ),
                         ),
@@ -1182,7 +1167,6 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                 value: widget.user,
                 child: SinglePostDetail(
                   url: url,
-
                   postId: postId,
                   ownerId: ownerId,
                 ),
@@ -1202,7 +1186,6 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
           children: [
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -1213,13 +1196,12 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                         Container(
                           width: 35,
                           height: 35,
-                          child: SwitchImageCache(width: 35, height: 35, url: url ),
-
+                          child:
+                              SwitchImageCache(width: 35, height: 35, url: url),
                           decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(13),
+                            borderRadius: BorderRadius.circular(13),
                             border: Border.all(
-                                color: Colors.black54, width: 2),
+                                color: Colors.grey.shade500, width: 2),
 
                             // image: DecorationImage(
                             //   image: NetworkImage(
@@ -1243,7 +1225,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                             time,
                             style: TextStyle(
                               fontSize: 7,
-                              color: Colors.black54,
+                              color: Colors.grey.shade500,
                             ),
                           ),
                         ),
@@ -1269,7 +1251,9 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                             ? "Love your post"
                             : "",
                 style: TextStyle(
-                    color: Colors.red.shade700,
+                    color: item[index]['type'] == 'disLike'
+                        ? Colors.red
+                        : Colors.green,
                     fontSize: 14,
                     fontWeight: FontWeight.w800),
               ),
@@ -1331,7 +1315,6 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
           children: [
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -1342,13 +1325,12 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                         Container(
                           width: 35,
                           height: 35,
-                          child: SwitchImageCache(width: 35, height: 35, url: url ),
-
+                          child:
+                              SwitchImageCache(width: 35, height: 35, url: url),
                           decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(13),
+                            borderRadius: BorderRadius.circular(13),
                             border: Border.all(
-                                color: Colors.black54, width: 2),
+                                color: Colors.grey.shade500, width: 2),
 
                             // image: DecorationImage(
                             //   image: NetworkImage(
@@ -1372,7 +1354,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                             time,
                             style: TextStyle(
                               fontSize: 7,
-                              color: Colors.black54,
+                              color: Colors.grey.shade500,
                             ),
                           ),
                         ),
@@ -1391,10 +1373,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
               padding: const EdgeInsets.only(left: 75, bottom: 5),
               child: Text(
                 "This Person Rated Your Profile by ${item[index]['rating']}/5",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w800),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
               ),
             ),
             Padding(
@@ -1454,7 +1433,6 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
           children: [
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -1465,13 +1443,12 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                         Container(
                           width: 35,
                           height: 35,
-                          child: SwitchImageCache(width: 35, height: 35, url: url ),
-
+                          child:
+                              SwitchImageCache(width: 35, height: 35, url: url),
                           decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(13),
+                            borderRadius: BorderRadius.circular(13),
                             border: Border.all(
-                                color: Colors.black54, width: 2),
+                                color: Colors.grey.shade500, width: 2),
 
                             // image: DecorationImage(
                             //   image: NetworkImage(
@@ -1495,7 +1472,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                             time,
                             style: TextStyle(
                               fontSize: 7,
-                              color: Colors.black54,
+                              color: Colors.grey.shade500,
                             ),
                           ),
                         ),
@@ -1514,10 +1491,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
               padding: const EdgeInsets.only(left: 75, bottom: 5),
               child: Text(
                 "This Person has Rated Your Meme Profile by ${item[index]['rating']}/5",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w800),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
               ),
             ),
             Padding(
@@ -1580,7 +1554,6 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
           children: [
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -1591,13 +1564,12 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                         Container(
                           width: 35,
                           height: 35,
-                          child: SwitchImageCache(width: 35, height: 35, url: url ),
-
+                          child:
+                              SwitchImageCache(width: 35, height: 35, url: url),
                           decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(13),
+                            borderRadius: BorderRadius.circular(13),
                             border: Border.all(
-                                color: Colors.black54, width: 2),
+                                color: Colors.grey.shade500, width: 2),
 
                             // image: DecorationImage(
                             //   image: NetworkImage(
@@ -1621,7 +1593,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                             time,
                             style: TextStyle(
                               fontSize: 7,
-                              color: Colors.black54,
+                              color: Colors.grey.shade500,
                             ),
                           ),
                         ),
@@ -1703,7 +1675,6 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
           children: [
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -1714,13 +1685,12 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                         Container(
                           width: 35,
                           height: 35,
-                          child: SwitchImageCache(width: 35, height: 35, url: url ),
-
+                          child:
+                              SwitchImageCache(width: 35, height: 35, url: url),
                           decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(13),
+                            borderRadius: BorderRadius.circular(13),
                             border: Border.all(
-                                color: Colors.black54, width: 2),
+                                color: Colors.grey.shade500, width: 2),
 
                             // image: DecorationImage(
                             //   image: NetworkImage(
@@ -1744,7 +1714,7 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
                             time,
                             style: TextStyle(
                               fontSize: 7,
-                              color: Colors.black54,
+                              color: Colors.grey.shade500,
                             ),
                           ),
                         ),
@@ -1774,6 +1744,287 @@ class _BuildItemForNotificationState extends State<BuildItemForNotification> {
               child: Divider(),
             ),
           ],
+        ),
+      );
+    } else if (type == "planetLevel") {
+      return GestureDetector(
+        onTap: () => {
+          universalMethods.bottomSheetForMemerLevel(context),
+          setState(() {
+            selectedIndex = index;
+          }),
+          _checkRead(postId),
+          Future.delayed(const Duration(seconds: 1), () {
+            setState(() {
+              selectedIndex = null;
+            });
+          }),
+        },
+        child: Container(
+          child: Center(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Column(
+                children: [
+                  // unReadWidget(isRead),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      "Double Slit || Notification",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: SizedBox(
+                      child: Lottie.asset(
+                        "images/level_images/level_planet.json",
+                      ),
+                      height: 60,
+                      width: 60,
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      'Hurray! You have been promoted to PLANET LEVEL.',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w800, fontSize: 12),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      time,
+                      style: TextStyle(
+                        fontSize: 7,
+                        color: Colors.grey.shade500,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, left: 10, right: 10),
+                    child: Divider(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    } else if (type == "solarLevel") {
+      return GestureDetector(
+        onTap: () => {
+          universalMethods.bottomSheetForMemerLevel(context),
+          setState(() {
+            selectedIndex = index;
+          }),
+          _checkRead(postId),
+          Future.delayed(const Duration(seconds: 1), () {
+            setState(() {
+              selectedIndex = null;
+            });
+          }),        },
+        child: Container(
+          child: Center(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Column(
+                children: [
+                  // unReadWidget(isRead),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      "Double Slit || Notification",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: SizedBox(
+                      child: Lottie.asset(
+                        "images/level_images/level_solar.json",
+                      ),
+                      height: 60,
+                      width: 60,
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      'Hurray! You have been promoted to SOLAR LEVEL.',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w800, fontSize: 12),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      time,
+                      style: TextStyle(
+                        fontSize: 7,
+                        color: Colors.grey.shade500,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, left: 10, right: 10),
+                    child: Divider(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    } else if (type == "galaxyLevel") {
+      return GestureDetector(
+        onTap: () => {
+          universalMethods.bottomSheetForMemerLevel(context),
+          setState(() {
+            selectedIndex = index;
+          }),
+          _checkRead(postId),
+          Future.delayed(const Duration(seconds: 1), () {
+            setState(() {
+              selectedIndex = null;
+            });
+          }),        },
+        child: Container(
+          child: Center(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Column(
+                children: [
+                  // unReadWidget(isRead),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      "Double Slit || Notification",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: SizedBox(
+                      child: Lottie.asset(
+                        "images/level_images/level_galaxy.json",
+                      ),
+                      height: 60,
+                      width: 60,
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      'Hurray! You have been promoted to GALAXY LEVEL.',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w800, fontSize: 12),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      time,
+                      style: TextStyle(
+                        fontSize: 7,
+                        color: Colors.grey.shade500,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, left: 10, right: 10),
+                    child: Divider(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    } else if (type == "levelZero") {
+      return GestureDetector(
+        onTap: () => {
+          universalMethods.bottomSheetForMemerLevel(context),
+          setState(() {
+            selectedIndex = index;
+          }),
+          _checkRead(postId),
+          Future.delayed(const Duration(seconds: 1), () {
+            setState(() {
+              selectedIndex = null;
+            });
+          }),        },
+        child: Container(
+          child: Center(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Column(
+                children: [
+                  // unReadWidget(isRead),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      "Double Slit || Notification",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: SizedBox(
+                      child: Lottie.asset(
+                        "images/level_images/level_zero.json",
+                      ),
+                      height: 60,
+                      width: 60,
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      'Hi, You are in LEVEL ZERO as a memer.',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w800, fontSize: 12),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      time,
+                      style: TextStyle(
+                        fontSize: 7,
+                        color: Colors.grey.shade500,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, left: 10, right: 10),
+                    child: Divider(),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       );
     }

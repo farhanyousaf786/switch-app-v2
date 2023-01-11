@@ -2200,8 +2200,6 @@ class _SwitchChatComposerState extends State<SwitchChatComposer> {
                           toastLength: Toast.LENGTH_LONG,
                           gravity: ToastGravity.TOP,
                           timeInSecForIosWeb: 3,
-                          backgroundColor: Colors.blue.withOpacity(0.8),
-                          textColor: Colors.white,
                           fontSize: 16.0,
                         );
                       },
@@ -2227,7 +2225,6 @@ class _SwitchChatComposerState extends State<SwitchChatComposer> {
                               bottom: 7, left: 5, right: 5),
                           child: TextField(
                             focusNode: widget.focusNode,
-                            cursorColor: Colors.grey,
                             cursorHeight: 20,
                             controller: textController,
                             onChanged: (String text) {
@@ -2244,16 +2241,14 @@ class _SwitchChatComposerState extends State<SwitchChatComposer> {
                               border: new OutlineInputBorder(
                                 borderSide: BorderSide.none,
                                 borderRadius: const BorderRadius.all(
-                                  const Radius.circular(30.0),
+                                  const Radius.circular(20.0),
                                 ),
                               ),
                               filled: true,
                               hintStyle: new TextStyle(
-                                  color: Colors.grey,
                                   fontSize: 13,
                                   fontFamily: 'cute'),
                               hintText: "Type here...",
-                              fillColor: Colors.white60,
                             ),
                           ),
                         ),
@@ -2401,15 +2396,22 @@ class _SwitchChatComposerState extends State<SwitchChatComposer> {
           height: MediaQuery.of(context).size.height / 1.2,
           child: Stack(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.linear_scale_sharp),
-                  ],
+              Container(
+
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Row(
+                    crossAxisAlignment:
+                    CrossAxisAlignment.center,
+                    mainAxisAlignment:
+                    MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.linear_scale_sharp,
+                        color: Colors.white,),
+                    ],
+                  ),
                 ),
+                color: Colors.blue,
               ),
               SingleChildScrollView(
                 child: Column(
@@ -2573,15 +2575,22 @@ class _SwitchChatComposerState extends State<SwitchChatComposer> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.linear_scale_sharp,
+                            color: Colors.white,),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 25),
@@ -2685,15 +2694,22 @@ class _SwitchChatComposerState extends State<SwitchChatComposer> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.linear_scale_sharp,
+                            color: Colors.white,),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 12),
@@ -2892,7 +2908,6 @@ class _SwitchChatComposerState extends State<SwitchChatComposer> {
             topLeft: Radius.circular(15),
             topRight: Radius.circular(15),
           ),
-          color: Colors.grey.shade300,
         ),
         width: 300,
         child: Column(
@@ -2924,7 +2939,6 @@ class _SwitchChatComposerState extends State<SwitchChatComposer> {
                     height: 20,
 
 
-                  color: Colors.blue,
                   width: 3,),
                 ),
                 Flexible(

@@ -39,7 +39,7 @@ class _MemePageForCurrentUserState extends State<MemePageForCurrentUser> {
               child: Icon(Icons.navigate_before,
               color: Colors.blue,)),
           title: Text(
-            "Shot Memes",
+            "Photo Memes",
             style: TextStyle(
               color: Colors.blue,
               fontFamily: 'cute',

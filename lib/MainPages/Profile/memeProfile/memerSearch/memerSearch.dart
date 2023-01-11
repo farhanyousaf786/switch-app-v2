@@ -69,7 +69,6 @@ class _MemerSearchState extends State<MemerSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
@@ -85,7 +84,6 @@ class _MemerSearchState extends State<MemerSearch> {
           ),
         ),
         elevation: 0,
-        backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
           "Memers Ranking",
@@ -108,7 +106,6 @@ class _MemerSearchState extends State<MemerSearch> {
                   ),
                 ),
                 Container(
-                  color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(

@@ -194,7 +194,6 @@ class _AllMemePostsState extends State<AllMemePosts> {
               ),
         isLoading
             ? Container(
-                color: Colors.white,
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20),
@@ -292,7 +291,6 @@ class _AllMemePostsState extends State<AllMemePosts> {
                               type == "videoMeme" || type == "videoMemeT"
                                   ? Container(
                                       height: 360.0,
-                                      color: Colors.white,
                                       // decoration: BoxDecoration(
                                       //   color: Colors.white,
                                       //   borderRadius:
@@ -337,7 +335,6 @@ class _AllMemePostsState extends State<AllMemePosts> {
                                                   index: index,
                                                 )),
                                           ),
-                                          color: Colors.white,
                                         )
                                       : SizedBox(
                                           height: 0,
@@ -369,7 +366,6 @@ class _AllMemePostsState extends State<AllMemePosts> {
                                       type == "memeT"
                                   ? Container(
                                       height: 10,
-                                      color: Colors.white,
                                     )
                                   : SizedBox(
                                       height: 0,
@@ -393,7 +389,6 @@ class _AllMemePostsState extends State<AllMemePosts> {
                                       type == "memeT"
                                   ? Container(
                                       height: 20,
-                                      color: Colors.white,
                                     )
                                   : SizedBox(
                                       height: 0,
@@ -644,7 +639,6 @@ class _AllMemePostsState extends State<AllMemePosts> {
             Map data = snapshot.value;
             return Container(
               width: MediaQuery.of(context).size.width,
-              color: Colors.white,
               child: ListTile(
                 trailing: GestureDetector(
                   onTap: () {
@@ -661,17 +655,22 @@ class _AllMemePostsState extends State<AllMemePosts> {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.linear_scale_sharp),
-                                      ],
+                                  Container(
+
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.linear_scale_sharp,
+                                            color: Colors.white,),
+                                        ],
+                                      ),
                                     ),
+                                    color: Colors.blue,
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -743,9 +742,12 @@ class _AllMemePostsState extends State<AllMemePosts> {
                                             Text(
                                               "Add/Remove from Meme ShowCase ",
                                               style: TextStyle(
-                                                  color: Colors.black,
                                                   fontFamily: 'cutes',
                                                   fontSize: 14,
+                                                  color: Constants.isDark ==
+                                                      "true"
+                                                      ? Colors.white
+                                                      : Colors.blue,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Padding(
@@ -754,12 +756,15 @@ class _AllMemePostsState extends State<AllMemePosts> {
                                               child: Icon(
                                                 Icons.apps,
                                                 size: 17,
+                                                color: Constants.isDark ==
+                                                    "true"
+                                                    ? Colors.white
+                                                    : Colors.blue,
                                                 // color: selectedIndex == index
                                                 //     ? Colors.pink
                                                 //     : selectedIndex == 121212
                                                 //         ? Colors.grey
                                                 //         : Colors.teal,
-                                                color: Colors.black,
                                               ),
                                             ),
                                           ],
@@ -777,16 +782,22 @@ class _AllMemePostsState extends State<AllMemePosts> {
                                                 Text(
                                                   'Delete Post',
                                                   style: TextStyle(
-                                                      color: Colors.black,
                                                       fontFamily: 'cutes',
                                                       fontSize: 14,
+                                                      color: Constants.isDark ==
+                                                          "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
                                                 Icon(
                                                   Icons.delete_outline,
-                                                  color: Colors.black,
                                                   size: 20,
+                                                  color: Constants.isDark ==
+                                                      "true"
+                                                      ? Colors.white
+                                                      : Colors.blue,
                                                 ),
                                               ],
                                             ),
@@ -812,15 +823,21 @@ class _AllMemePostsState extends State<AllMemePosts> {
                                                 Text(
                                                   'Report Post ',
                                                   style: TextStyle(
-                                                      color: Colors.black,
                                                       fontFamily: 'cutes',
                                                       fontSize: 14,
+                                                      color: Constants.isDark ==
+                                                          "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
                                                 Icon(
                                                   Icons.error_outline,
-                                                  color: Colors.black,
+                                                  color: Constants.isDark ==
+                                                      "true"
+                                                      ? Colors.white
+                                                      : Colors.blue,
                                                   size: 20,
                                                 ),
                                               ],
@@ -861,16 +878,22 @@ class _AllMemePostsState extends State<AllMemePosts> {
                                                 Text(
                                                   'Report User ',
                                                   style: TextStyle(
-                                                      color: Colors.black,
                                                       fontFamily: 'cutes',
+                                                      color: Constants.isDark ==
+                                                          "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                       fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
                                                 Icon(
                                                   Icons.account_circle_outlined,
-                                                  color: Colors.black,
                                                   size: 20,
+                                                  color: Constants.isDark ==
+                                                      "true"
+                                                      ? Colors.white
+                                                      : Colors.blue,
                                                 ),
                                               ],
                                             ),
@@ -907,16 +930,22 @@ class _AllMemePostsState extends State<AllMemePosts> {
                                                 Text(
                                                   'Block User ',
                                                   style: TextStyle(
-                                                      color: Colors.black,
                                                       fontFamily: 'cutes',
+                                                      color: Constants.isDark ==
+                                                          "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                       fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
                                                 Icon(
                                                   Icons.block,
-                                                  color: Colors.black,
                                                   size: 20,
+                                                  color: Constants.isDark ==
+                                                      "true"
+                                                      ? Colors.white
+                                                      : Colors.blue,
                                                 ),
                                               ],
                                             ),
@@ -966,7 +995,7 @@ class _AllMemePostsState extends State<AllMemePosts> {
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(color: Colors.black, width: 1),
                             image: DecorationImage(
-                              image: NetworkImage(data['url']),
+                              image: NetworkImage(data['url'] == null ? "https://switchappimages.nyc3.digitaloceanspaces.com/StaticUse/1646080905939.jpg" : data['url']),
                             ),
                           ),
                         ),
@@ -996,7 +1025,6 @@ class _AllMemePostsState extends State<AllMemePosts> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
-                                      color: Colors.black,
                                     ),
                                   ),
                                   data['isVerified'] == "true"
@@ -1018,7 +1046,7 @@ class _AllMemePostsState extends State<AllMemePosts> {
                                         : " share $postTheme",
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: Colors.black54,
+                                      color: Colors.grey,
                                     ),
                                   ),
                                 ],
@@ -1076,15 +1104,22 @@ class _AllMemePostsState extends State<AllMemePosts> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.linear_scale_sharp,
+                            color: Colors.white,),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15),
@@ -1299,7 +1334,6 @@ class _AllMemePostsState extends State<AllMemePosts> {
               });
         },
         text: description,
-        style: TextStyle(color: Colors.black),
         linkStyle: TextStyle(color: Colors.blue, fontWeight: FontWeight.w700),
       ),
     );
@@ -1330,7 +1364,6 @@ class _AllMemePostsState extends State<AllMemePosts> {
           )
         : Container(
             width: MediaQuery.of(context).size.width,
-            color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.only(right: 8),
               child: SingleChildScrollView(
@@ -1413,7 +1446,7 @@ class _AllMemePostsState extends State<AllMemePosts> {
                                   child: Text(
                                     "Read More...",
                                     style: TextStyle(
-                                        color: Colors.black,
+                                        color: Colors.blue,
                                         fontSize: 12,
                                         fontFamily: 'cute'),
                                   ),
@@ -1701,22 +1734,28 @@ class _AllMemePostsState extends State<AllMemePosts> {
         context: context,
         builder: (context) {
           return Container(
-            color: Colors.white,
             height: MediaQuery.of(context).size.height / 3.5,
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.linear_scale_sharp,
+                            color: Colors.white,),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 0, left: 10, right: 10),
@@ -1960,7 +1999,6 @@ class _AllMemePostsState extends State<AllMemePosts> {
                 ),
         ],
       ),
-      color: Colors.white,
     );
   }
 
@@ -2078,7 +2116,6 @@ class _AllMemePostsState extends State<AllMemePosts> {
                                     child: Text(
                                       "${reactorList[index]['reactorName']}",
                                       style: TextStyle(
-                                          color: Colors.black,
                                           fontFamily: 'cutes',
                                           fontSize: 14),
                                     ),
@@ -2149,27 +2186,29 @@ class _AllMemePostsState extends State<AllMemePosts> {
       setState(() {
         limitedPostList.removeAt(index);
       });
-      switchMemeCompRTD
-          .child('live')
-          .child(ownerId)
-          .once()
-          .then((DataSnapshot dataSnapshot) {
-        if (dataSnapshot.exists) {
-          switchMemerSlitsRTD
-              .child(ownerId)
-              .once()
-              .then((DataSnapshot dataSnapshot) {
-            Map data = dataSnapshot.value;
-            int slits = data['totalSlits'];
-            setState(() {
-              slits = slits - (1000 + total);
-            });
-            Future.delayed(const Duration(milliseconds: 100), () {
-              switchMemerSlitsRTD.child(ownerId).update({
-                'totalSlits': slits,
-              });
-            });
-          });
+
+      ///Slit is here
+      // switchMemeCompRTD
+      //     .child('live')
+      //     .child(ownerId)
+      //     .once()
+      //     .then((DataSnapshot dataSnapshot) {
+      //   if (dataSnapshot.exists) {
+      //     switchMemerSlitsRTD
+      //         .child(ownerId)
+      //         .once()
+      //         .then((DataSnapshot dataSnapshot) {
+      //       Map data = dataSnapshot.value;
+      //       int slits = data['totalSlits'];
+      //       setState(() {
+      //         slits = slits - (1000 + total);
+      //       });
+      //       Future.delayed(const Duration(milliseconds: 100), () {
+      //         switchMemerSlitsRTD.child(ownerId).update({
+      //           'totalSlits': slits,
+      //         });
+      //       });
+      //     });
 
           switchMemeCompRTD
               .child(ownerId)
@@ -2201,51 +2240,51 @@ class _AllMemePostsState extends State<AllMemePosts> {
               fontSize: 16.0,
             );
           });
-        } else {
-          if (type == 'meme' ||
-              type == "memeT" ||
-              type == "videoMeme" ||
-              type == "videoMemeT") {
-            switchMemerSlitsRTD
-                .child(ownerId)
-                .once()
-                .then((DataSnapshot dataSnapshot) {
-              Map data = dataSnapshot.value;
-              int slits = data['totalSlits'];
-              setState(() {
-                slits = slits - (20 + total);
-              });
-              Future.delayed(const Duration(milliseconds: 100), () {
-                switchMemerSlitsRTD.child(ownerId).update({
-                  'totalSlits': slits,
-                });
-
-                Navigator.pop(context);
-                Fluttertoast.showToast(
-                  msg: "Deleted! Refresh App :)",
-                  toastLength: Toast.LENGTH_LONG,
-                  gravity: ToastGravity.SNACKBAR,
-                  timeInSecForIosWeb: 5,
-                  backgroundColor: Colors.white,
-                  textColor: Colors.blue,
-                  fontSize: 16.0,
-                );
-              });
-            });
-          } else {
-            Navigator.pop(context);
-            Fluttertoast.showToast(
-              msg: "Deleted! Refresh App :)",
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.SNACKBAR,
-              timeInSecForIosWeb: 5,
-              backgroundColor: Colors.white,
-              textColor: Colors.blue,
-              fontSize: 16.0,
-            );
-          }
-        }
-      });
+      //   } else {
+      //     if (type == 'meme' ||
+      //         type == "memeT" ||
+      //         type == "videoMeme" ||
+      //         type == "videoMemeT") {
+      //       switchMemerSlitsRTD
+      //           .child(ownerId)
+      //           .once()
+      //           .then((DataSnapshot dataSnapshot) {
+      //         Map data = dataSnapshot.value;
+      //         int slits = data['totalSlits'];
+      //         setState(() {
+      //           slits = slits - (20 + total);
+      //         });
+      //         Future.delayed(const Duration(milliseconds: 100), () {
+      //           switchMemerSlitsRTD.child(ownerId).update({
+      //             'totalSlits': slits,
+      //           });
+      //
+      //           Navigator.pop(context);
+      //           Fluttertoast.showToast(
+      //             msg: "Deleted! Refresh App :)",
+      //             toastLength: Toast.LENGTH_LONG,
+      //             gravity: ToastGravity.SNACKBAR,
+      //             timeInSecForIosWeb: 5,
+      //             backgroundColor: Colors.white,
+      //             textColor: Colors.blue,
+      //             fontSize: 16.0,
+      //           );
+      //         });
+      //       });
+      //     } else {
+      //       Navigator.pop(context);
+      //       Fluttertoast.showToast(
+      //         msg: "Deleted! Refresh App :)",
+      //         toastLength: Toast.LENGTH_LONG,
+      //         gravity: ToastGravity.SNACKBAR,
+      //         timeInSecForIosWeb: 5,
+      //         backgroundColor: Colors.white,
+      //         textColor: Colors.blue,
+      //         fontSize: 16.0,
+      //       );
+      //     }
+      //   }
+      // });
     } on SocketException catch (_) {
       Fluttertoast.showToast(
         msg: "Wifi/Data not connected",
@@ -2258,109 +2297,6 @@ class _AllMemePostsState extends State<AllMemePosts> {
       );
     }
   }
-// deleteFunc(
-//     String postId,
-//     String ownerId,
-//     String type,
-//     ) {
-//   if (type == 'meme' || type == "memeT") {
-//     reactRtDatabaseReference
-//         .child(postId)
-//         .once()
-//         .then((DataSnapshot dataSnapshot) {
-//       if (dataSnapshot.value != null) {
-//         Map data = dataSnapshot.value;
-//
-//         if (mounted)
-//           setState(() {
-//             like = data['like'];
-//             disLike = data['disLike'];
-//             heartReact = data['heartReact'];
-//           });
-//
-//         total = (like + disLike + heartReact) * 10;
-//
-//         print(
-//             "Yes this React is EXIST total = =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${total.toString()}");
-//       } else {
-//         print("there is no react on this post");
-//       }
-//     });
-//   } else {
-//     print("Not a mememmmmmmmmmmmmmmmmmmmmmmmmmm");
-//   }
-//
-//   print("ownerId : : : : : : : : : : : : : : : ${ownerId}");
-//   postsRtd.child(ownerId).child("usersPost").child(postId).remove();
-//   switchAllUserFeedPostsRTD.child("UserPosts").child(postId).remove();
-//   switchMemeCompRTD
-//       .child('live')
-//       .child(ownerId)
-//       .once()
-//       .then((DataSnapshot dataSnapshot) {
-//     if (dataSnapshot.exists) {
-//       switchMemerSlitsRTD
-//           .child(ownerId)
-//           .once()
-//           .then((DataSnapshot dataSnapshot) {
-//         Map data = dataSnapshot.value;
-//         int slits = data['totalSlits'];
-//         setState(() {
-//           slits = slits - (1000 + total);
-//         });
-//         Future.delayed(const Duration(milliseconds: 100), () {
-//           switchMemerSlitsRTD.child(ownerId).update({
-//             'totalSlits': slits,
-//           });
-//           print("Slitsssssssssssssssssssssssssssssssssssssssss $slits");
-//         });
-//       });
-//
-//       switchMemeCompRTD
-//           .child(ownerId)
-//           .once()
-//           .then((DataSnapshot dataSnapshot) {
-//         Map data = dataSnapshot.value;
-//         int takePart = data['takePart'];
-//         setState(() {
-//           takePart = takePart - 1;
-//         });
-//
-//         Future.delayed(const Duration(milliseconds: 200), () {
-//           switchMemeCompRTD.child(ownerId).update({
-//             'takePart': takePart,
-//           });
-//           print("takepartssssssssssssssssssssssssssssssss $takePart");
-//         });
-//       });
-//       Future.delayed(const Duration(milliseconds: 400), () {
-//         switchMemeCompRTD.child('live').child(ownerId).remove();
-//
-//         Navigator.pop(context);
-//         Fluttertoast.showToast(
-//           msg: "Deleted! Refresh App :)",
-//           toastLength: Toast.LENGTH_LONG,
-//           gravity: ToastGravity.SNACKBAR,
-//           timeInSecForIosWeb: 5,
-//           backgroundColor: Colors.white,
-//           textColor: Colors.blue,
-//           fontSize: 16.0,
-//         );
-//       });
-//     } else {
-//       print("meme comp does not exists");
-//       Navigator.pop(context);
-//       Fluttertoast.showToast(
-//         msg: "Deleted! Refresh App :)",
-//         toastLength: Toast.LENGTH_LONG,
-//         gravity: ToastGravity.SNACKBAR,
-//         timeInSecForIosWeb: 5,
-//         backgroundColor: Colors.white,
-//         textColor: Colors.blue,
-//         fontSize: 16.0,
-//       );
-//     }
-//   });
-// }
+
 
 }

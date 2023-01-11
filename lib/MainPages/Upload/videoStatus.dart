@@ -76,15 +76,22 @@ class _VideoStatusState extends State<VideoStatus> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.linear_scale_sharp),
-                            ],
+                        Container(
+
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Row(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.center,
+                              mainAxisAlignment:
+                              MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.linear_scale_sharp,
+                                  color: Colors.white,),
+                              ],
+                            ),
                           ),
+                          color: Colors.blue,
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -288,24 +295,25 @@ class _VideoStatusState extends State<VideoStatus> {
       'statusTheme': statusTheme,
     });
 
-    if (widget.type == 'meme' || widget.type == "videoMeme") {
-      switchMemerSlitsRTD
-          .child(widget.user.uid)
-          .once()
-          .then((DataSnapshot dataSnapshot) {
-        Map data = dataSnapshot.value;
-        int slits = data['totalSlits'];
-        setState(() {
-          slits = slits + 20;
-        });
-        Future.delayed(const Duration(milliseconds: 100), () {
-          switchMemerSlitsRTD.child(widget.user.uid).update({
-            'totalSlits': slits,
-          });
-          print("Slitsssssssssssssssssssssssssssssssssssssssss $slits");
-        });
-      });
-    } else {}
+    ///Slit is here
+    // if (widget.type == 'meme' || widget.type == "videoMeme") {
+    //   switchMemerSlitsRTD
+    //       .child(widget.user.uid)
+    //       .once()
+    //       .then((DataSnapshot dataSnapshot) {
+    //     Map data = dataSnapshot.value;
+    //     int slits = data['totalSlits'];
+    //     setState(() {
+    //       slits = slits + 20;
+    //     });
+    //     Future.delayed(const Duration(milliseconds: 100), () {
+    //       switchMemerSlitsRTD.child(widget.user.uid).update({
+    //         'totalSlits': slits,
+    //       });
+    //       print("Slitsssssssssssssssssssssssssssssssssssssssss $slits");
+    //     });
+    //   });
+    // } else {}
 
     Future.delayed(const Duration(milliseconds: 300), () {
       isMeme = "false";
@@ -722,15 +730,22 @@ class _VideoStatusState extends State<VideoStatus> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.linear_scale_sharp),
-                      ],
+                  Container(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.linear_scale_sharp,
+                            color: Colors.white,),
+                        ],
+                      ),
                     ),
+                    color: Colors.blue,
                   ),
                   SizedBox(
                     height: 10,
@@ -749,14 +764,15 @@ class _VideoStatusState extends State<VideoStatus> {
                   SizedBox(
                     height: 10,
                   ),
-                  widget.type == "meme" || widget.type == "videoMeme"
-                      ? CongratsForSlits(
-                          text: "You earn 20 slits",
-                        )
-                      : Container(
-                          height: 0,
-                          width: 0,
-                        ),
+                  ///Slit is here
+                  // widget.type == "meme" || widget.type == "videoMeme"
+                  //     ? CongratsForSlits(
+                  //         text: "You earn 20 slits",
+                  //       )
+                  //     : Container(
+                  //         height: 0,
+                  //         width: 0,
+                  //       ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(

@@ -41,7 +41,6 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
   @override
   void initState() {
     super.initState();
-    print("profile Posts");
     Constants.myId != widget.profileOwner
         ? getAllProfilePost(widget.profileOwner)
         : getAllProfilePost(Constants.myId);
@@ -57,7 +56,8 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
   getAllProfilePost(String uid) async {
     postsRtd
         .child(uid)
-        .child("usersPost").orderByChild('timestamp')
+        .child("usersPost")
+        .orderByChild('timestamp')
         .limitToLast(5)
         .once()
         .then((DataSnapshot dataSnapshot) {
@@ -71,7 +71,6 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
       }
     });
     Constants.allMemes = posts;
-    print("getItyo!");
   }
 
   getAllProfilePostForDirectMemeProfile(String uid) async {
@@ -90,7 +89,6 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
       }
     });
     Constants.allMemes = posts;
-    print("getItyo!");
   }
 
   @override
@@ -127,14 +125,14 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
     String postTheme = posts[index]['statusTheme'];
     String time = formatTime(timestamp);
 
-    if (type == "videoMeme") {
+    if (type == "videoMeme" || type == "videoMemeT") {
       return Container(
         height: 0,
         width: 0,
       );
     } else {
-      return _mainPosts(
-          ownerId, postId, postTheme, time, description, type, url, user, index);
+      return _mainPosts(ownerId, postId, postTheme, time, description, type,
+          url, user, index);
     }
   }
 
@@ -296,7 +294,6 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
               });
         },
         text: description,
-        style: TextStyle(color: Colors.black),
         linkStyle: TextStyle(color: Colors.blue, fontWeight: FontWeight.w700),
       ),
     );
@@ -327,7 +324,6 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
           )
         : Container(
             width: MediaQuery.of(context).size.width,
-            color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.only(right: 8),
               child: SingleChildScrollView(
@@ -410,7 +406,7 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
                                   child: Text(
                                     "Read More...",
                                     style: TextStyle(
-                                        color: Colors.black,
+                                        color: Colors.blue,
                                         fontSize: 12,
                                         fontFamily: 'cute'),
                                   ),
@@ -772,9 +768,9 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
         ),
         TextButton(
             onPressed: () => {
-              reactorList.clear(),
-              getPostDetail(postId),
-            },
+                  reactorList.clear(),
+                  getPostDetail(postId),
+                },
             child: Row(
               children: [
                 Padding(
@@ -836,17 +832,23 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.linear_scale_sharp),
-                                      ],
+                                  Container(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.linear_scale_sharp,
+                                            color: Colors.white,
+                                          ),
+                                        ],
+                                      ),
                                     ),
+                                    color: Colors.blue,
                                   ),
                                   ownerId == Constants.myId
                                       ? Padding(
@@ -858,7 +860,10 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
                                                 Text(
                                                   'Delete Post',
                                                   style: TextStyle(
-                                                      color: Colors.black,
+                                                      color: Constants.isDark ==
+                                                              "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                       fontFamily: 'cutes',
                                                       fontSize: 14,
                                                       fontWeight:
@@ -866,18 +871,18 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
                                                 ),
                                                 Icon(
                                                   Icons.delete_outline,
-                                                  color: Colors.black,
+                                                  color:
+                                                      Constants.isDark == "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                   size: 20,
                                                 ),
                                               ],
                                             ),
                                             onPressed: () => {
-
-                                              deleteFunc(postsId, ownerId, type, index),
-
-
+                                              deleteFunc(postsId, ownerId, type,
+                                                  index),
                                             },
-
                                           ),
                                         )
                                       : Padding(
@@ -889,7 +894,10 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
                                                 Text(
                                                   'Report Post ',
                                                   style: TextStyle(
-                                                      color: Colors.black,
+                                                      color: Constants.isDark ==
+                                                              "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                       fontFamily: 'cutes',
                                                       fontSize: 14,
                                                       fontWeight:
@@ -897,7 +905,10 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
                                                 ),
                                                 Icon(
                                                   Icons.error_outline,
-                                                  color: Colors.black,
+                                                  color:
+                                                      Constants.isDark == "true"
+                                                          ? Colors.white
+                                                          : Colors.blue,
                                                   size: 20,
                                                 ),
                                               ],
@@ -977,7 +988,6 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
-                                      color: Colors.black,
                                     ),
                                   ),
                                   data['isVerified'] == "true"
@@ -999,7 +1009,7 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
                                         : " share $postTheme",
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: Colors.black54,
+                                      color: Colors.grey,
                                     ),
                                   ),
                                 ],
@@ -1110,9 +1120,7 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
                                     child: Text(
                                       "${reactorList[index]['reactorName']}",
                                       style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: 'cutes',
-                                          fontSize: 14),
+                                          fontFamily: 'cutes', fontSize: 14),
                                     ),
                                   ),
                                 ],
@@ -1139,18 +1147,13 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
       }
     });
   }
+
   int like = 0;
   int disLike = 0;
   int heartReact = 0;
   int total = 0;
 
-
-  deleteFunc(
-      String postId,
-      String ownerId,
-      String type,
-      int index
-      ) {
+  deleteFunc(String postId, String ownerId, String type, int index) {
     if (type == 'meme' ||
         type == "memeT" ||
         type == "videoMeme" ||
@@ -1171,225 +1174,111 @@ class _RecentProfilePostsState extends State<RecentProfilePosts> {
 
           total = (like + disLike + heartReact) * 1;
         } else {
-          print("there is no react on this post");
         }
       });
     } else {
-      print("Not a mememmmmmmmmmmmmmmmmmmmmmmmmmm");
     }
 
     postsRtd.child(ownerId).child("usersPost").child(postId).remove();
     switchAllUserFeedPostsRTD.child("UserPosts").child(postId).remove();
     setState(() {
       posts.removeAt(index);
-
     });
-    switchMemeCompRTD
-        .child('live')
-        .child(ownerId)
-        .once()
-        .then((DataSnapshot dataSnapshot) {
-      if (dataSnapshot.exists) {
-        switchMemerSlitsRTD
-            .child(ownerId)
-            .once()
-            .then((DataSnapshot dataSnapshot) {
-          Map data = dataSnapshot.value;
-          int slits = data['totalSlits'];
-          setState(() {
-            slits = slits - (1000 + total);
-          });
-          Future.delayed(const Duration(milliseconds: 100), () {
-            switchMemerSlitsRTD.child(ownerId).update({
-              'totalSlits': slits,
-            });
-          });
+
+    ///Slit is here
+    // switchMemeCompRTD
+    //     .child('live')
+    //     .child(ownerId)
+    //     .once()
+    //     .then((DataSnapshot dataSnapshot) {
+    //   if (dataSnapshot.exists) {
+    //     switchMemerSlitsRTD
+    //         .child(ownerId)
+    //         .once()
+    //         .then((DataSnapshot dataSnapshot) {
+    //       Map data = dataSnapshot.value;
+    //       int slits = data['totalSlits'];
+    //       setState(() {
+    //         slits = slits - (1000 + total);
+    //       });
+    //       Future.delayed(const Duration(milliseconds: 100), () {
+    //         switchMemerSlitsRTD.child(ownerId).update({
+    //           'totalSlits': slits,
+    //         });
+    //       });
+    //     });
+    //
+    switchMemeCompRTD.child(ownerId).once().then((DataSnapshot dataSnapshot) {
+      Map data = dataSnapshot.value;
+      int takePart = data['takePart'];
+      setState(() {
+        takePart = takePart - 1;
+      });
+
+      Future.delayed(const Duration(milliseconds: 200), () {
+        switchMemeCompRTD.child(ownerId).update({
+          'takePart': takePart,
         });
-
-        switchMemeCompRTD
-            .child(ownerId)
-            .once()
-            .then((DataSnapshot dataSnapshot) {
-          Map data = dataSnapshot.value;
-          int takePart = data['takePart'];
-          setState(() {
-            takePart = takePart - 1;
-          });
-
-          Future.delayed(const Duration(milliseconds: 200), () {
-            switchMemeCompRTD.child(ownerId).update({
-              'takePart': takePart,
-            });
-          });
-        });
-        Future.delayed(const Duration(milliseconds: 400), () {
-          switchMemeCompRTD.child('live').child(ownerId).remove();
-
-          Navigator.pop(context);
-          Fluttertoast.showToast(
-            msg: "Deleted! Refresh App :)",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.SNACKBAR,
-            timeInSecForIosWeb: 5,
-            backgroundColor: Colors.white,
-            textColor: Colors.blue,
-            fontSize: 16.0,
-          );
-        });
-      } else {
-        if (type == 'meme' ||
-            type == "memeT" ||
-            type == "videoMeme" ||
-            type == "videoMemeT") {
-          switchMemerSlitsRTD
-              .child(ownerId)
-              .once()
-              .then((DataSnapshot dataSnapshot) {
-            Map data = dataSnapshot.value;
-            int slits = data['totalSlits'];
-            setState(() {
-              slits = slits - (20 + total);
-            });
-            Future.delayed(const Duration(milliseconds: 100), () {
-              switchMemerSlitsRTD.child(ownerId).update({
-                'totalSlits': slits,
-              });
-
-              Navigator.pop(context);
-              Fluttertoast.showToast(
-                msg: "Deleted! Refresh App :)",
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.SNACKBAR,
-                timeInSecForIosWeb: 5,
-                backgroundColor: Colors.white,
-                textColor: Colors.blue,
-                fontSize: 16.0,
-              );
-            });
-          });
-        } else {
-          Navigator.pop(context);
-          Fluttertoast.showToast(
-            msg: "Deleted! Refresh App :)",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.SNACKBAR,
-            timeInSecForIosWeb: 5,
-            backgroundColor: Colors.white,
-            textColor: Colors.blue,
-            fontSize: 16.0,
-          );
-        }
-      }
+      });
     });
+    Future.delayed(const Duration(milliseconds: 400), () {
+      switchMemeCompRTD.child('live').child(ownerId).remove();
+
+      Navigator.pop(context);
+      Fluttertoast.showToast(
+        msg: "Deleted! Refresh App :)",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.SNACKBAR,
+        timeInSecForIosWeb: 5,
+        backgroundColor: Colors.white,
+        textColor: Colors.blue,
+        fontSize: 16.0,
+      );
+    });
+    //   } else {
+    //     if (type == 'meme' ||
+    //         type == "memeT" ||
+    //         type == "videoMeme" ||
+    //         type == "videoMemeT") {
+    //       switchMemerSlitsRTD
+    //           .child(ownerId)
+    //           .once()
+    //           .then((DataSnapshot dataSnapshot) {
+    //         Map data = dataSnapshot.value;
+    //         int slits = data['totalSlits'];
+    //         setState(() {
+    //           slits = slits - (20 + total);
+    //         });
+    //         Future.delayed(const Duration(milliseconds: 100), () {
+    //           switchMemerSlitsRTD.child(ownerId).update({
+    //             'totalSlits': slits,
+    //           });
+    //
+    //           Navigator.pop(context);
+    //           Fluttertoast.showToast(
+    //             msg: "Deleted! Refresh App :)",
+    //             toastLength: Toast.LENGTH_LONG,
+    //             gravity: ToastGravity.SNACKBAR,
+    //             timeInSecForIosWeb: 5,
+    //             backgroundColor: Colors.white,
+    //             textColor: Colors.blue,
+    //             fontSize: 16.0,
+    //           );
+    //         });
+    //       });
+    //     } else {
+    //       Navigator.pop(context);
+    //       Fluttertoast.showToast(
+    //         msg: "Deleted! Refresh App :)",
+    //         toastLength: Toast.LENGTH_LONG,
+    //         gravity: ToastGravity.SNACKBAR,
+    //         timeInSecForIosWeb: 5,
+    //         backgroundColor: Colors.white,
+    //         textColor: Colors.blue,
+    //         fontSize: 16.0,
+    //       );
+    //     }
+    //   }
+    // });
   }
-
-  // deleteFunc(
-  //     String postId,
-  //     String ownerId,
-  //     String type,
-  //     ) {
-  //   if (type == 'meme' || type == "memeT") {
-  //     reactRtDatabaseReference
-  //         .child(postId)
-  //         .once()
-  //         .then((DataSnapshot dataSnapshot) {
-  //       if (dataSnapshot.value != null) {
-  //         Map data = dataSnapshot.value;
-  //
-  //         if (mounted)
-  //           setState(() {
-  //             like = data['like'];
-  //             disLike = data['disLike'];
-  //             heartReact = data['heartReact'];
-  //           });
-  //
-  //         total = (like + disLike + heartReact) * 10;
-  //
-  //         print(
-  //             "Yes this React is EXIST total = =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${total.toString()}");
-  //       } else {
-  //         print("there is no react on this post");
-  //       }
-  //     });
-  //   } else {
-  //     print("Not a mememmmmmmmmmmmmmmmmmmmmmmmmmm");
-  //   }
-  //
-  //   print("ownerId : : : : : : : : : : : : : : : ${ownerId}");
-  //   postsRtd.child(ownerId).child("usersPost").child(postId).remove();
-  //   switchAllUserFeedPostsRTD.child("UserPosts").child(postId).remove();
-  //   switchMemeCompRTD
-  //       .child('live')
-  //       .child(ownerId)
-  //       .once()
-  //       .then((DataSnapshot dataSnapshot) {
-  //     if (dataSnapshot.exists) {
-  //       switchMemerSlitsRTD
-  //           .child(ownerId)
-  //           .once()
-  //           .then((DataSnapshot dataSnapshot) {
-  //         Map data = dataSnapshot.value;
-  //         int slits = data['totalSlits'];
-  //         setState(() {
-  //           slits = slits - (1000 + total);
-  //         });
-  //         Future.delayed(const Duration(milliseconds: 100), () {
-  //           switchMemerSlitsRTD.child(ownerId).update({
-  //             'totalSlits': slits,
-  //           });
-  //           print("Slitsssssssssssssssssssssssssssssssssssssssss $slits");
-  //         });
-  //       });
-  //
-  //       switchMemeCompRTD
-  //           .child(ownerId)
-  //           .once()
-  //           .then((DataSnapshot dataSnapshot) {
-  //         Map data = dataSnapshot.value;
-  //         int takePart = data['takePart'];
-  //         setState(() {
-  //           takePart = takePart - 1;
-  //         });
-  //
-  //         Future.delayed(const Duration(milliseconds: 200), () {
-  //           switchMemeCompRTD.child(ownerId).update({
-  //             'takePart': takePart,
-  //           });
-  //           print("takepartssssssssssssssssssssssssssssssss $takePart");
-  //         });
-  //       });
-  //       Future.delayed(const Duration(milliseconds: 400), () {
-  //         switchMemeCompRTD.child('live').child(ownerId).remove();
-  //
-  //         Navigator.pop(context);
-  //         Fluttertoast.showToast(
-  //           msg: "Deleted! Refresh App :)",
-  //           toastLength: Toast.LENGTH_LONG,
-  //           gravity: ToastGravity.SNACKBAR,
-  //           timeInSecForIosWeb: 5,
-  //           backgroundColor: Colors.white,
-  //           textColor: Colors.blue,
-  //           fontSize: 16.0,
-  //         );
-  //       });
-  //     } else {
-  //       print("meme comp does not exists");
-  //       Navigator.pop(context);
-  //       Fluttertoast.showToast(
-  //         msg: "Deleted! Refresh App :)",
-  //         toastLength: Toast.LENGTH_LONG,
-  //         gravity: ToastGravity.SNACKBAR,
-  //         timeInSecForIosWeb: 5,
-  //         backgroundColor: Colors.white,
-  //         textColor: Colors.blue,
-  //         fontSize: 16.0,
-  //       );
-  //     }
-  //   });
-  // }
-  //
-
-
-
-
 }

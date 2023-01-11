@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:switchapp/Models/Constans.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {
@@ -17,6 +20,7 @@ class VideoWidget extends StatefulWidget {
 class _VideoWidgetState extends State<VideoWidget> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
+  bool isHide = true;
 
   @override
   void initState() {
@@ -51,7 +55,10 @@ class _VideoWidgetState extends State<VideoWidget> {
 
   @override
   void dispose() {
+    _controller.setVolume(0);
+    _controller.pause();
     _controller.dispose();
+
     super.dispose();
   }
 
@@ -63,29 +70,146 @@ class _VideoWidgetState extends State<VideoWidget> {
         future: _initializeVideoPlayerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Stack(
-              children: <Widget>[
-                SizedBox.expand(
-                  child: FittedBox(
-                    fit: BoxFit.contain,
-                    child: SizedBox(
-                      width: _controller.value.size.width,
-                      height: _controller.value.size.height,
-                      child: ClipRRect(
-                          borderRadius:
-                          BorderRadius
-                              .circular(15.0),
-                          child: VideoPlayer(_controller)),
+            return SizedBox.expand(
+              child: Stack(
+                children: [
+                  Center(
+                    child: FittedBox(
+                      // fit: BoxFit.contain,
+                      child: SizedBox(
+                        width: _controller.value.size.width,
+                        height: _controller.value.size.height,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15.0),
+                          child: GestureDetector(
+                            onTap: () => {
+                              if (isHide)
+                                {
+                                  setState(() {
+                                    isHide = false;
+                                  }),
+                                }
+                              else
+                                {
+                                  isHide = true,
+                                },
+                              setState(() {
+                                _controller.value.isPlaying
+                                    ? _controller.pause()
+                                    : _controller.play();
+                              }),
+                            },
+                            child: Stack(
+                              children: [
+                                VideoPlayer(_controller),
+                                Positioned(
+                                  bottom: 0.0,
+                                  right: 0.0,
+                                  top: 0.0,
+                                  left: 0.0,
+                                  child: Container(
+                                    padding: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Center(
+                                          child: Icon(
+                                            _controller.value.isPlaying
+                                                ? Icons.pause
+                                                : Icons.play_arrow,
+                                            color: isHide
+                                                ? Colors.transparent
+                                                : Colors.white,
+                                            size: 40,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                //FURTHER IMPLEMENTATION
-              ],
+                  Positioned(
+                    bottom: 6.0,
+                    right: 10.0,
+                    child: Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: ValueListenableBuilder(
+                        valueListenable: _controller,
+                        builder: (context, VideoPlayerValue value, child) {
+                          final noMute = (_controller.value.volume) > 0;
+
+                          return GestureDetector(
+                            onTap: () => {
+                              if (noMute)
+                                {
+                                  _controller.setVolume(0),
+                                }
+                              else
+                                {
+                                  _controller.setVolume(1.0),
+                                }
+                            },
+                            child: Icon(
+                              !noMute ? Icons.volume_off : Icons.volume_down,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 5.0,
+                    left: 8.0,
+                    child: Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: ValueListenableBuilder(
+                        valueListenable: _controller,
+                        builder: (context, VideoPlayerValue value, child) {
+                          final remained = max(
+                              0,
+                              value.duration.inSeconds -
+                                  value.position.inSeconds);
+                          final minutes = convertTwo(remained ~/ 60);
+                          final seconds = convertTwo(remained % 60);
+
+                          return Text(
+                            "$minutes:$seconds",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             );
           } else {
             return Center(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -105,5 +229,9 @@ class _VideoWidgetState extends State<VideoWidget> {
         },
       ),
     );
+  }
+
+  String convertTwo(int value) {
+    return value < 10 ? "0$value" : "$value";
   }
 }
