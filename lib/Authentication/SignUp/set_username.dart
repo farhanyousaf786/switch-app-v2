@@ -301,13 +301,8 @@ class _SetUsernameForGoogleSignInState
   }
 
   Future<void> signOut() async {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => LandingPage(),
-      ),
-          (route) => false,
-    );
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    auth.signOut();
   }
 
   @override
@@ -360,7 +355,7 @@ class _SetUsernameForGoogleSignInState
                             child: Text(
                               "This username Already taken",
                               style: TextStyle(
-                                  color: Colors.yellow.shade600,
+                                  color: Colors.red.shade600,
                                   fontSize: 12,
                                   fontFamily: 'cutes'),
                             ),
@@ -440,7 +435,7 @@ class _SetUsernameForGoogleSignInState
                     "Already Done? then check your INTERNET connection and Restart App.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: Colors.yellow,
+                        color: Colors.white,
                         fontSize: 12,
                         fontFamily: 'cutes',
                         fontWeight: FontWeight.bold),

@@ -130,9 +130,7 @@ class _EmailVerificationState extends State<EmailVerification> {
 
   @override
   Widget build(BuildContext context) {
-    timer = Timer.periodic(Duration(seconds: 30), (timer) {
-      checkEmailVerified();
-    });
+
     return Scaffold(
       backgroundColor: Colors.lightBlue,
       appBar: AppBar(
@@ -241,21 +239,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                         'images/authLogo.riv',
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.blue.shade700,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Text(
-                        "Note: Stay Here",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'cute',
-                          color: Colors.white,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
+
                     Padding(
                       padding: const EdgeInsets.all(15),
                       child: Text(
@@ -305,6 +289,24 @@ class _EmailVerificationState extends State<EmailVerification> {
                         ),
                       ),
                     ),
+                    GestureDetector(
+                      onTap: ()=> user.sendEmailVerification(),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.blue.shade700,
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Text(
+                          "Click to Resend Again",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'cute',
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 5.5,
                     ),
@@ -324,7 +326,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            "Kindly, Check your email Spam Folder.",
+                            "Kindly check your email Spam Folder.",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontFamily: 'cutes',

@@ -169,7 +169,7 @@ class _SetUserDataState extends State<SetUserData> {
             lastName.text[0].toUpperCase() + lastName.text.substring(1),
         "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
         "email": user.email,
-        "dob": dateOfBirth,
+        "dob": "01/01/2000",
         "gender": "Not Set Yet",
         "country": countryName,
         'url':
@@ -327,7 +327,7 @@ class _SetUserDataState extends State<SetUserData> {
           style: TextStyle(
             fontFamily: "Cute",
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 20,
           ),
         ),
 
@@ -606,13 +606,8 @@ class _SetUserDataState extends State<SetUserData> {
               //             ),
               //           }),
               // ),
-              ElevatedButton(
-                child: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)
-                  ),
+              Center(
+                child: ElevatedButton(
                   child: Text(
                     'Save',
                     style: TextStyle(
@@ -621,15 +616,17 @@ class _SetUserDataState extends State<SetUserData> {
                       color: userExists ? Colors.blue.shade200 : Colors.blue,
                     ),
                   ),
+                  onPressed: () {
+                    setUserInfo();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      elevation: 0.0,
+                      primary: Colors.lightBlue,
+                      backgroundColor: Colors.white,
+                      textStyle:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
                 ),
-                onPressed: () {
-                  setUserInfo();
-                },
-                style: ElevatedButton.styleFrom(
-                    elevation: 0.0,
-                    primary: Colors.lightBlue,
-                    textStyle:
-                    TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
               ),
 
               SizedBox(
