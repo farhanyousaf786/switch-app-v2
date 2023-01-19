@@ -76,7 +76,6 @@ class _SetUserDataState extends State<SetUserData> {
     if (firstName.text.isEmpty ||
         lastName.text.isEmpty ||
         userNameTextEditingController.text.length > 29 ||
-        dateOfBirth.isEmpty ||
         userNameTextEditingController.text.isEmpty ||
         userExists == true) {
       showModalBottomSheet(
@@ -319,6 +318,7 @@ class _SetUserDataState extends State<SetUserData> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.lightBlue,
       appBar: AppBar(
         leading: Text(""),
         backgroundColor: Colors.lightBlue,
@@ -330,26 +330,7 @@ class _SetUserDataState extends State<SetUserData> {
             fontSize: 16,
           ),
         ),
-        actions: [
-          ElevatedButton(
-            child: Text(
-              'Next',
-              style: TextStyle(
-                fontFamily: "Cute",
-                fontSize: 16,
-                color: userExists ? Colors.white60 : Colors.white,
-              ),
-            ),
-            onPressed: () {
-              setUserInfo();
-            },
-            style: ElevatedButton.styleFrom(
-                elevation: 0.0,
-                primary: Colors.lightBlue,
-                textStyle:
-                    TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-          ),
-        ],
+
         centerTitle: true,
         elevation: 0,
       ),
@@ -516,110 +497,141 @@ class _SetUserDataState extends State<SetUserData> {
                   ),
                 ),
               ),
-              Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.only(top: 20),
-                child: Text(
-                  "Date Of Birth",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: "Cute",
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
+              // Container(
+              //   alignment: Alignment.center,
+              //   padding: EdgeInsets.only(top: 20),
+              //   child: Text(
+              //     "Date Of Birth",
+              //     style: TextStyle(
+              //       fontSize: 14,
+              //       fontFamily: "Cute",
+              //       color: Colors.white,
+              //     ),
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.all(15.0),
+              //   child: Container(
+              //     height: 80,
+              //     padding: EdgeInsets.fromLTRB(80, 0, 80, 0),
+              //     child: TextFormField(
+              //       maxLength: 10,
+              //       // maxLengthEnforced: false,
+              //       keyboardType: TextInputType.emailAddress,
+              //       textInputAction: TextInputAction.next,
+              //       style: TextStyle(
+              //           color: Colors.blue.shade800,
+              //           fontFamily: "Cute",
+              //           fontWeight: FontWeight.bold,
+              //           fontSize: 12),
+              //       onChanged: (value) => {
+              //         dateOfBirth = value,
+              //       },
+              //       decoration: InputDecoration(
+              //         fillColor: Colors.transparent,
+              //         isDense: true,
+              //         enabledBorder: OutlineInputBorder(
+              //           borderRadius: BorderRadius.all(Radius.circular(20)),
+              //           borderSide:
+              //               new BorderSide(color: Colors.white, width: 2),
+              //         ),
+              //         filled: true,
+              //         focusedBorder: OutlineInputBorder(
+              //           borderRadius: BorderRadius.all(Radius.circular(20)),
+              //           borderSide: new BorderSide(
+              //             color: Colors.white,
+              //             width: 2,
+              //           ),
+              //         ),
+              //         labelText: 'Exp : 12/30/1999',
+              //         labelStyle: TextStyle(
+              //             color: Colors.blue.shade800,
+              //             fontSize: 12,
+              //             fontFamily: 'cute'),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 20),
+              //   child: Center(
+              //     child: Text(
+              //       "Your Country",
+              //       style: TextStyle(
+              //         fontFamily: "Cute",
+              //         fontSize: 14,
+              //         color: Colors.white,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 10),
+              //   child: ElevatedButton(
+              //       style: ElevatedButton.styleFrom(
+              //         backgroundColor: Colors.transparent,
+              //         shadowColor: Colors.transparent,
+              //         elevation: 0.0,
+              //       ),
+              //       child: Container(
+              //         padding: EdgeInsets.only(
+              //             top: 11, left: 8, right: 8, bottom: 10),
+              //         height: 40,
+              //         decoration: BoxDecoration(
+              //           color: Colors.blue.shade50,
+              //           border:
+              //               Border.all(color: Colors.blue.shade700, width: 1),
+              //           borderRadius: BorderRadius.circular(15),
+              //         ),
+              //         child: Text(
+              //           '$countryName',
+              //           style: TextStyle(
+              //               color: Colors.blue.shade800,
+              //               fontFamily: "Cute",
+              //               fontSize: 10),
+              //         ),
+              //       ),
+              //       onPressed: () => {
+              //             showCountryPicker(
+              //               context: context,
+              //               //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
+              //               exclude: <String>['KN', 'MF'],
+              //               //Optional. Shows phone code before the country name.
+              //               showPhoneCode: true,
+              //               onSelect: (Country country) {
+              //                 setState(() {
+              //                   countryName = country.name;
+              //                 });
+              //               },
+              //             ),
+              //           }),
+              // ),
+              ElevatedButton(
                 child: Container(
-                  height: 80,
-                  padding: EdgeInsets.fromLTRB(80, 0, 80, 0),
-                  child: TextFormField(
-                    maxLength: 10,
-                    // maxLengthEnforced: false,
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    style: TextStyle(
-                        color: Colors.blue.shade800,
-                        fontFamily: "Cute",
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12),
-                    onChanged: (value) => {
-                      dateOfBirth = value,
-                    },
-                    decoration: InputDecoration(
-                      fillColor: Colors.transparent,
-                      isDense: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        borderSide:
-                            new BorderSide(color: Colors.white, width: 2),
-                      ),
-                      filled: true,
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        borderSide: new BorderSide(
-                          color: Colors.white,
-                          width: 2,
-                        ),
-                      ),
-                      labelText: 'Exp : 12/30/1999',
-                      labelStyle: TextStyle(
-                          color: Colors.blue.shade800,
-                          fontSize: 12,
-                          fontFamily: 'cute'),
-                    ),
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Center(
                   child: Text(
-                    "Your Country",
+                    'Save',
                     style: TextStyle(
                       fontFamily: "Cute",
-                      fontSize: 14,
-                      color: Colors.white,
+                      fontSize: 16,
+                      color: userExists ? Colors.blue.shade200 : Colors.blue,
                     ),
                   ),
                 ),
+                onPressed: () {
+                  setUserInfo();
+                },
+                style: ElevatedButton.styleFrom(
+                    elevation: 0.0,
+                    primary: Colors.lightBlue,
+                    textStyle:
+                    TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: ElevatedButton(
-                    child: Container(
-                      padding: EdgeInsets.only(
-                          top: 11, left: 8, right: 8, bottom: 10),
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.blue.shade50,
-                        border:
-                            Border.all(color: Colors.blue.shade700, width: 1),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Text(
-                        '$countryName',
-                        style: TextStyle(
-                            color: Colors.blue.shade800,
-                            fontFamily: "Cute",
-                            fontSize: 10),
-                      ),
-                    ),
-                    onPressed: () => {
-                          showCountryPicker(
-                            context: context,
-                            //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
-                            exclude: <String>['KN', 'MF'],
-                            //Optional. Shows phone code before the country name.
-                            showPhoneCode: true,
-                            onSelect: (Country country) {
-                              setState(() {
-                                countryName = country.name;
-                              });
-                            },
-                          ),
-                        }),
-              ),
+
               SizedBox(
                 height: 30,
               ),

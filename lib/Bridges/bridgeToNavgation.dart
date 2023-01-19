@@ -24,7 +24,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 class BridgeToNavigationPage extends StatefulWidget {
   final User user;
-
   const BridgeToNavigationPage({required this.user});
 
   @override
@@ -167,6 +166,7 @@ class _BridgeToNavigationPageState extends State<BridgeToNavigationPage> {
     } else if (isAppLive == "yes") {
       if (userMap!['isBan'] == "true") {
         return Scaffold(
+          backgroundColor: Colors.lightBlue,
           appBar: AppBar(
             elevation: 0,
             title: Text(
@@ -174,7 +174,7 @@ class _BridgeToNavigationPageState extends State<BridgeToNavigationPage> {
               style: TextStyle(
                   color: Colors.white, fontFamily: 'cute', fontSize: 25),
             ),
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.lightBlue,
             actions: [
               Center(
                   child: Text(
@@ -198,9 +198,9 @@ class _BridgeToNavigationPageState extends State<BridgeToNavigationPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "You are Ban!",
+                    "You are Ban from Switch!",
                     style: TextStyle(
-                        fontFamily: 'cute', fontSize: 18, color: Colors.red),
+                        fontFamily: 'cute', fontSize: 15, color: Colors.red),
                   ),
                 ),
                 Padding(
@@ -209,7 +209,7 @@ class _BridgeToNavigationPageState extends State<BridgeToNavigationPage> {
                     "There could be many reasons for this, If you think this is by mistake. \n\n Or Send us report And email us at mail@switchapp.live",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: 'cute', fontSize: 18, color: Colors.blue),
+                        fontFamily: 'cute', fontSize: 14, color: Colors.blue),
                   ),
                 ),
                 SizedBox(
@@ -281,7 +281,8 @@ class _BridgeToNavigationPageState extends State<BridgeToNavigationPage> {
                 controlData: controlData,
                 userMap: userMap,
                 appVersion: appVersion,
-              ))
+              ),
+            )
           : Scaffold(
               body: Center(
                 child: Column(

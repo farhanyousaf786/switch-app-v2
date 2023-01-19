@@ -4,7 +4,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class AuthBase {
   Stream<User?> authStateChanges();
-
   User? get currentUser;
 
   Future<User?> signInAnonymously();

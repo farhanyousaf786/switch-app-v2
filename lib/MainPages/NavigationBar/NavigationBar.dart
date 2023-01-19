@@ -517,7 +517,6 @@ class _CheckAppControlState extends State<CheckAppControl> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getInt("doActionOnce") == null) {
       prefs.setInt("doActionOnce", 0);
-
       ///Slit is here Do not remove below comment
       // switchMemerSlitsRTD
       //     .child(widget.user.uid)
