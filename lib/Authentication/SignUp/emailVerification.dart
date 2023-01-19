@@ -17,6 +17,7 @@ import 'package:switchapp/Authentication/SignIn/SignInPage.dart';
 import 'package:switchapp/Authentication/SignUp/SetUserData.dart';
 import 'package:switchapp/Bridges/bridgeToSetEmailVerification.dart';
 import 'package:switchapp/Models/Constans.dart';
+import 'package:switchapp/Models/SwitchTimer.dart';
 import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
 
 class EmailVerification extends StatefulWidget {
@@ -45,8 +46,12 @@ class _EmailVerificationState extends State<EmailVerification> {
   @override
   void initState() {
     user = auth.currentUser!;
-    user.sendEmailVerification();
+    // user.sendEmailVerification();
     defaultUserInfo();
+    Timer.periodic(Duration(seconds: 1), (t) {
+      var timerInfo = Provider.of<SwitchTimer>(context, listen: false);
+      timerInfo.updateRemainingTime();
+    });
     super.initState();
   }
 
@@ -122,15 +127,9 @@ class _EmailVerificationState extends State<EmailVerification> {
     } else {}
   }
 
-  @override
-  void dispose() {
-    timer.cancel();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.lightBlue,
       appBar: AppBar(
@@ -239,7 +238,6 @@ class _EmailVerificationState extends State<EmailVerification> {
                         'images/authLogo.riv',
                       ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(15),
                       child: Text(
@@ -253,9 +251,11 @@ class _EmailVerificationState extends State<EmailVerification> {
                         ),
                       ),
                     ),
-
                     Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20, ),
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                      ),
                       child: Text(
                         "A Link sent to your email, kindly open that email and click on link to verify.",
                         textAlign: TextAlign.center,
@@ -290,20 +290,37 @@ class _EmailVerificationState extends State<EmailVerification> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: ()=> user.sendEmailVerification(),
+                      onTap: () => user.sendEmailVerification(),
                       child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             color: Colors.blue.shade700,
                             borderRadius: BorderRadius.circular(15)),
-                        child: Text(
-                          "Click to Resend Again",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'cute',
-                            color: Colors.white,
-                            fontSize: 15,
-                          ),
+                        child: Row(
+
+                          children: [
+                            Text(
+                              "Click to Resend Again in",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'cute',
+                                color: Colors.white,
+                                fontSize: 15,
+                              ),
+                            ),
+
+                            Container(
+                              height: 100,
+                              width: 100,
+                              child: Consumer<SwitchTimer>(
+                                builder: (context, data, child) {
+                                  return Text(
+                                      data.getRemainingTime()?.toString() ?? '',
+                                      style: TextStyle(fontSize: 72));
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

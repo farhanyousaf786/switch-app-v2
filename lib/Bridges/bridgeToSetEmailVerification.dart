@@ -13,6 +13,7 @@ import 'package:switchapp/Authentication/Auth.dart';
 import 'package:switchapp/Authentication/SignUp/SetUserData.dart';
 import 'package:switchapp/Authentication/SignUp/emailVerification.dart';
 import 'package:switchapp/Authentication/SignUp/signUpPage.dart';
+import 'package:switchapp/Models/SwitchTimer.dart';
 import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
 
 class BridgeToSetEmailVerification extends StatefulWidget {
@@ -23,7 +24,6 @@ class BridgeToSetEmailVerification extends StatefulWidget {
 
 class _BridgeToSetEmailVerificationState
     extends State<BridgeToSetEmailVerification> {
-
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
@@ -42,13 +42,18 @@ class _BridgeToSetEmailVerificationState
                 "loveNote": "Write Something For Love Of Your Life",
               },
             );
-            return Provider<User>.value(
-              value: user,
-              child: Provider<AuthBase>(
-                create: (context) => Auth(),
-                child: EmailVerification(
-                  user: user,
+            return MultiProvider(
+              providers: [
+                Provider<AuthBase>(
+                  create: (_) => Auth(),
                 ),
+                Provider<User>.value(value: user),
+                ChangeNotifierProvider(
+                  create: (context) => SwitchTimer(),
+                )
+              ],
+              child: EmailVerification(
+                user: user,
               ),
             );
           }
