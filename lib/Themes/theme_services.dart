@@ -10,7 +10,7 @@ class ThemeService {
     if (prefs.getString("isDarkTheme") == null) {
       prefs.setString("isDarkTheme", "false");
       Constants.isDark = "false";
-
+//check
       print("isDarkTheme: ${prefs.getString("isDarkTheme")}");
 
       return "false";
