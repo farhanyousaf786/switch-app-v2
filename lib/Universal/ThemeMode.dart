@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+//hide
 class SwitchThemeArea extends StatefulWidget {
   @override
   _SwitchThemeAreaState createState() => _SwitchThemeAreaState();

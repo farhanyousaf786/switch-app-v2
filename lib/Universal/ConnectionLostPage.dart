@@ -1,3 +1,4 @@
+//hide
 import 'package:flutter/material.dart';
 
 class ConnectionLost extends StatefulWidget {
@@ -26,6 +27,7 @@ class _ConnectionLostState extends State<ConnectionLost> {
                       color: Colors.white, fontSize: 20, fontFamily: 'cute'),
                 ),
               ),
+
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
