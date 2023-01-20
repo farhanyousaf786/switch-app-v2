@@ -29,7 +29,7 @@ class _ConnectionLostState extends State<ConnectionLost> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Make sure that Your WIFI or Mobile Network in On",
+                  "Make sure that Your WIFI or Mobile Network in On.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white, fontSize: 10, fontFamily: 'cute'),
