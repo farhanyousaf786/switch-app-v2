@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:switchapp/Models/Constans.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:uuid/uuid.dart';
 
 import '../Profile/Panelandbody.dart';

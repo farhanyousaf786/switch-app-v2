@@ -1167,8 +1167,8 @@ import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../Models/Constans.dart';
-import '../../../UniversalResources/DataBaseRefrences.dart';
-import '../../../UniversalResources/UniversalMethods.dart';
+import '../../../Universal/DataBaseRefrences.dart';
+import '../../../Universal/UniversalMethods.dart';
 import '../../Upload/addStatuse.dart';
 import '../../Upload/videoStatus.dart';
 import '../Panelandbody.dart';

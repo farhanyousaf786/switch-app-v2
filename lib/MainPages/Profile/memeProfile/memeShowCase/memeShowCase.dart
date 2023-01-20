@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:switchapp/Models/Constans.dart';
 import '../../../../Models/postModel/SinglePostDetail.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 
 class MemeShowCase extends StatefulWidget {
   late final User user;

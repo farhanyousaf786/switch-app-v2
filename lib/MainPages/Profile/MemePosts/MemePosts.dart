@@ -13,7 +13,7 @@ import 'package:switchapp/MainPages/TimeLineSwitch/MainFeed/CacheImageTemplate.d
 import 'package:switchapp/MainPages/TimeLineSwitch/MainFeed/MainFeed.dart';
 import 'package:switchapp/Models/Constans.dart';
 import 'package:switchapp/Models/Marquee.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:time_formatter/time_formatter.dart';
 import 'package:url_launcher/url_launcher.dart';
 

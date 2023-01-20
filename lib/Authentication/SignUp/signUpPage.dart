@@ -16,7 +16,7 @@ import 'package:switchapp/Authentication/SignUp/emailVerification.dart';
 import 'package:switchapp/Authentication/userAgreementPage.dart';
 import 'package:switchapp/Bridges/bridgeToSetEmailVerification.dart';
 import 'package:switchapp/Models/Constans.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 
 class SignUpPage extends StatefulWidget {
   @override

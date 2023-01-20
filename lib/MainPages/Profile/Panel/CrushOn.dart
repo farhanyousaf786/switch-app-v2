@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 
 class CrushOnPage extends StatefulWidget {
   final String profileOwner;

@@ -19,7 +19,7 @@ import 'package:switchapp/Models/Marquee.dart';
 import 'package:switchapp/Models/postModel/CommentsPage.dart';
 import 'package:switchapp/Models/postModel/PostsReactCounters.dart';
 import 'package:switchapp/Models/postModel/TextStatus.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:time_formatter/time_formatter.dart';
 
 import '../ReportAndComplaints/postReportPage.dart';

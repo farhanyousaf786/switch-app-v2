@@ -9,7 +9,7 @@ import '../../../Models/SwitchImageCache/SwitchImageCache.dart';
 import 'package:switchapp/MainPages/Profile/Panelandbody.dart';
 import '../../Profile/memeProfile/memerSearch/memerSearch.dart';
 import 'package:switchapp/Models/Constans.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:uuid/uuid.dart';
 
 class FirstFollowing extends StatefulWidget {

@@ -15,7 +15,7 @@ import '../../../../Models/postModel/PostsReactCounters.dart';
 import '../../../../Models/postModel/TextStatus.dart';
 import 'package:switchapp/Models/Constans.dart';
 import 'package:switchapp/Models/Marquee.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:timeago/timeago.dart' as tAgo;
 
 class AllProfileMemes extends StatefulWidget {

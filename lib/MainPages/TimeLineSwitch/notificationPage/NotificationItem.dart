@@ -12,8 +12,8 @@ import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:switchapp/MainPages/Profile/Panelandbody.dart';
 import 'package:switchapp/Models/Constans.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
-import 'package:switchapp/UniversalResources/UniversalMethods.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/UniversalMethods.dart';
 import 'package:time_formatter/time_formatter.dart';
 
 import '../../../Models/SwitchImageCache/SwitchImageCache.dart';

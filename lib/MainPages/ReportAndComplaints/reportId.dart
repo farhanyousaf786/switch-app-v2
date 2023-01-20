@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:switchapp/Models/Constans.dart';
 
-import '../../UniversalResources/DataBaseRefrences.dart';
+import '../../Universal/DataBaseRefrences.dart';
 
 class ReportId extends StatefulWidget {
   late final String profileId;

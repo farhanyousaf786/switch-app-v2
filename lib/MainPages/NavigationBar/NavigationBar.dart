@@ -23,7 +23,7 @@ import 'package:switchapp/MainPages/switchChat/SwitchChatList.dart';
 import 'package:switchapp/Models/Constans.dart';
 import 'package:switchapp/Models/UsernameNotSetPage.dart';
 import 'package:switchapp/Models/inAppNotificationModel.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:uuid/uuid.dart';
 

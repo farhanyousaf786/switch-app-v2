@@ -2020,7 +2020,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:rive/rive.dart';
 import 'package:switchapp/MainPages/switchChat/MessageDatabase.dart';
 import 'package:switchapp/Models/Constans.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:uuid/uuid.dart';
 
 MessageDataBase messageDataBase = MessageDataBase();

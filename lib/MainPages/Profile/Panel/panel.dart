@@ -807,8 +807,8 @@ import 'package:switchapp/MainPages/SearchPages/MainSearchPage.dart';
 import 'package:switchapp/MainPages/switchChat/SwitchChat.dart';
 import 'package:switchapp/Models/Constans.dart';
 import 'package:switchapp/Models/Marquee.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
-import 'package:switchapp/UniversalResources/UniversalMethods.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/UniversalMethods.dart';
 import 'package:uuid/uuid.dart';
 
 import '../profilePosts.dart';

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:switchapp/MainPages/Profile/Panelandbody.dart';
 import 'package:switchapp/MainPages/Profile/memeProfile/memerSearch/memerProfileList.dart';
 import 'package:switchapp/Models/Marquee.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 
 class MemerSearch extends StatefulWidget {
   final List memerList;

@@ -1259,7 +1259,7 @@ import 'package:switchapp/MainPages/switchChat/ChatFullImage.dart';
 import 'package:switchapp/MainPages/switchChat/SwitchChat.dart';
 import 'package:switchapp/MainPages/switchChat/audioMessageStateManager.dart';
 import 'package:switchapp/Models/Constans.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:uuid/uuid.dart';
 import 'MessageDatabase.dart';
 import 'package:just_audio/just_audio.dart';

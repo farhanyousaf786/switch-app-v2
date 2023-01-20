@@ -343,7 +343,7 @@ import 'package:switchapp/Bridges/landingPage.dart';
 import 'package:switchapp/MainPages/Profile/Panel/EditProfilePic.dart';
 import 'package:switchapp/Models/Constans.dart';
 import 'package:switchapp/Models/UserMap.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 
 timeStamp() => DateTime.now().toIso8601String();
 Timestamp date = Timestamp.now();

@@ -18,7 +18,7 @@ import 'package:switchapp/Authentication/SignUp/SetUserData.dart';
 import 'package:switchapp/Bridges/bridgeToSetEmailVerification.dart';
 import 'package:switchapp/Models/Constans.dart';
 import 'package:switchapp/Models/SwitchTimer.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 
 class EmailVerification extends StatefulWidget {
   // This is object of class User and we passed it as parameter, it has basic info of our user

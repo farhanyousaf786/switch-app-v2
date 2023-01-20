@@ -17,8 +17,8 @@ import 'package:switchapp/MainPages/ReportAndComplaints/complaintPage.dart';
 import 'package:switchapp/Models/Constans.dart';
 import 'package:switchapp/Themes/switchThemes.dart';
 import 'package:switchapp/Themes/theme_services.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
-import 'package:switchapp/UniversalResources/ThemeMode.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/ThemeMode.dart';
 import 'package:switchapp/main.dart';
 import 'package:timelines/timelines.dart';
 

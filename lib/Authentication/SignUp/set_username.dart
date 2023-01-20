@@ -7,7 +7,7 @@ import 'package:rive/rive.dart';
 import 'package:switchapp/Authentication/Auth.dart';
 import 'package:switchapp/Authentication/welcomePage/welcomepage.dart';
 import 'package:switchapp/Bridges/landingPage.dart';
-import '../../UniversalResources/DataBaseRefrences.dart';
+import '../../Universal/DataBaseRefrences.dart';
 
 class SetUsernameForGoogleSignIn extends StatefulWidget {
   late final User user;

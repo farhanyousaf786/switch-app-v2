@@ -14,7 +14,7 @@ import 'package:switchapp/MainPages/ReportAndComplaints/postReportPage.dart';
 import 'package:switchapp/MainPages/switchChat/SwitchChat.dart';
 import 'package:switchapp/MainPages/switchChat/SwitchChatHelper.dart';
 import 'package:switchapp/Models/Constans.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:timeago/timeago.dart' as tAgo;
 import 'package:uuid/uuid.dart';
 

@@ -1,22 +1,17 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:dospace/dospace.dart' as dospace;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:minio/io.dart';
-import 'package:minio/minio.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:switchapp/Models/Constans.dart';
-import 'package:switchapp/Models/bottomBarModel/congratsModel.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:video_player/video_player.dart';
 

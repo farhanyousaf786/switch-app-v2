@@ -285,7 +285,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_panel/sliding_panel.dart';
 import 'package:switchapp/MainPages/Profile/Panel/panel.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'body/Edit-Profile/EditProfile.dart';
 import 'package:switchapp/MainPages/Profile/body/body.dart';
 

@@ -19,7 +19,7 @@ import 'package:switchapp/Bridges/landingPage.dart';
 import 'package:switchapp/MainPages/NavigationBar/NavigationBar.dart';
 import 'package:switchapp/MainPages/ReportAndComplaints/postReportPage.dart';
 import 'package:switchapp/Models/Constans.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BridgeToNavigationPage extends StatefulWidget {

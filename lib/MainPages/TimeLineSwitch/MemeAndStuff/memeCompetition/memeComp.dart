@@ -10,7 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:switchapp/MainPages/TimeLineSwitch/MemeAndStuff/memeCompetition/participatePage.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../../../Models/Constans.dart';

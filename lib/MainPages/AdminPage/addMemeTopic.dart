@@ -2,7 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../UniversalResources/DataBaseRefrences.dart';
+import '../../Universal/DataBaseRefrences.dart';
 
 class AddMemePage extends StatefulWidget {
   @override

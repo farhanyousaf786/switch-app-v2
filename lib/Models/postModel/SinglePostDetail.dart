@@ -20,7 +20,7 @@ import 'PostsReactCounters.dart';
 import 'package:switchapp/Models/Constans.dart';
 import 'package:switchapp/Models/Marquee.dart';
 import 'TextStatus.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 
 class SinglePostDetail extends StatefulWidget {
   final String url;

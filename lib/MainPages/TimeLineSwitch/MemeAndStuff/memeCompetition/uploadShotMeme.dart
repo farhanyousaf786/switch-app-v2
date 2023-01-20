@@ -16,7 +16,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:switchapp/Models/Constans.dart';
 import 'package:switchapp/Models/bottomBarModel/congratsModel.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:image/image.dart' as ImD;
 import 'package:video_player/video_player.dart';

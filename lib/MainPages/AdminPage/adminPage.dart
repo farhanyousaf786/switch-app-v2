@@ -15,7 +15,7 @@ import 'package:switchapp/MainPages/AdminPage/appControlAdmin.dart';
 import 'package:switchapp/MainPages/AdminPage/removeWinners.dart';
 import 'package:switchapp/MainPages/Profile/Panelandbody.dart';
 import 'package:switchapp/Models/Marquee.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:time_formatter/time_formatter.dart';
 import 'package:uuid/uuid.dart';
 

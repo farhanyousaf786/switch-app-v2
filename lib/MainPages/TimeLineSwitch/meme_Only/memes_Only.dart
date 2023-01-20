@@ -31,7 +31,7 @@ import '../../../../Models/postModel/PostsReactCounters.dart';
 import 'package:switchapp/MainPages/Profile/Panelandbody.dart';
 import 'package:switchapp/Models/Constans.dart';
 import 'package:switchapp/Models/Marquee.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:time_formatter/time_formatter.dart';
 
 import '../../../learning/video_widget.dart';

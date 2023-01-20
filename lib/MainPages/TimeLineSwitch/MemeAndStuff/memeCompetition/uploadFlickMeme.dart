@@ -14,7 +14,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:switchapp/MainPages/Upload/videoStatus.dart';
 import 'package:switchapp/Models/Constans.dart';
 import 'package:switchapp/Models/bottomBarModel/congratsModel.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:video_player/video_player.dart';
 

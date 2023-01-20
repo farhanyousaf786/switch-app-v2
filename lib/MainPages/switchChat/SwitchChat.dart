@@ -14,7 +14,7 @@ import 'SwitchChatComposer.dart';
 import 'package:switchapp/MainPages/switchChat/SwitchMessage.dart';
 import 'package:switchapp/MainPages/switchChat/relationShipButtons.dart';
 import 'package:switchapp/Models/Constans.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 
 late Map data; // for passing it as parameter
 

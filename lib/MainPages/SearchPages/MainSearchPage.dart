@@ -369,7 +369,7 @@ import 'package:switchapp/MainPages/switchChat/SwitchChatHelper.dart';
 import 'package:switchapp/Models/Constans.dart';
 import 'package:switchapp/Models/Marquee.dart';
 import '../Profile/Panelandbody.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 
 
 class MainSearchPage extends StatefulWidget {

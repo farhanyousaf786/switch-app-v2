@@ -22,8 +22,7 @@ import 'package:switchapp/Models/postModel/TextStatus.dart';
 import 'package:switchapp/learning/video_widget.dart';
 import 'package:time_formatter/time_formatter.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../../UniversalResources/DataBaseRefrences.dart';
+import '../../../../Universal/DataBaseRefrences.dart';
 
 class AllParticipants extends StatefulWidget {
   late User user;

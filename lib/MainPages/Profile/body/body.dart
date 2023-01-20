@@ -3095,7 +3095,7 @@ import 'package:switchapp/MainPages/Profile/body/profieDecency/followerPage.dart
 import 'package:switchapp/MainPages/ReportAndComplaints/reportId.dart';
 import 'package:switchapp/MainPages/switchChat/SwitchChat.dart';
 import 'package:switchapp/Models/Marquee.dart';
-import 'package:switchapp/UniversalResources/UniversalMethods.dart';
+import 'package:switchapp/Universal/UniversalMethods.dart';
 import 'package:uuid/uuid.dart';
 import '../Panel/CrushOn.dart';
 import '../memeProfile/Meme-profile.dart';
@@ -3110,7 +3110,7 @@ import 'package:switchapp/MainPages/Profile/body/profieDecency/Buttons/ButtonFor
 import 'package:switchapp/MainPages/SearchPages/MainSearchPage.dart';
 import 'closFriendList/bestFriendList.dart';
 import 'package:switchapp/Models/Constans.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 
 class Body extends StatefulWidget {
   final String profileOwner;

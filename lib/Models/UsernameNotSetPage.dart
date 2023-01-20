@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:switchapp/Authentication/Auth.dart';
 import 'package:switchapp/Bridges/landingPage.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 
 class SimplePageModel extends StatelessWidget {
   final User user;

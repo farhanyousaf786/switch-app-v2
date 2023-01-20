@@ -16,7 +16,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:switchapp/Authentication/Auth.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 import 'SetProfilePicture.dart';
 
 timeStamp() => DateTime.now().toIso8601String();

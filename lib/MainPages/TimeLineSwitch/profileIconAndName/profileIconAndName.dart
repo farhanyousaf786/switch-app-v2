@@ -195,7 +195,7 @@ import 'package:switchapp/Models/Constans.dart';
 import 'package:switchapp/Models/Marquee.dart';
 import 'package:switchapp/Models/UserMap.dart';
 import '../../Profile/Panelandbody.dart';
-import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
+import 'package:switchapp/Universal/DataBaseRefrences.dart';
 
 class ProfileIconAndName extends StatefulWidget {
   final User user;
