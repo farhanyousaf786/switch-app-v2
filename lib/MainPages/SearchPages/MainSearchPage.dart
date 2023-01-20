@@ -495,7 +495,7 @@ class _MainSearchPageState extends State<MainSearchPage> {
         child: Text(
           "",
           style: TextStyle(
-              fontSize: 18, fontFamily: 'cute', color: Colors.blueAccent),
+              fontSize: 18, fontFamily: 'cute', color: Colors.lightBlue),
         ));
   }
 

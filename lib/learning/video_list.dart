@@ -38,8 +38,10 @@ class VideoList extends StatelessWidget {
                         (BuildContext context, bool isInView, Widget? child) {
                       return VideoWidget(
                           play: isInView,
+                          time: DateTime.now(),
                           url:
                               'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+
                     },
                   );
                 },

@@ -315,7 +315,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: 'cute',
-                                    color: Colors.blueAccent,
+                                    color: Colors.lightBlue,
                                     fontSize: 15,
                                   ),
                                 ),
@@ -329,7 +329,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                                       data.getRemainingTime()?.toString() ?? '',
                                       style: TextStyle(
                                         fontFamily: 'cute',
-                                        color: Colors.blueAccent,
+                                        color: Colors.lightBlue,
                                         fontSize: 15,
                                       ),
                                     ),
@@ -343,7 +343,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontFamily: 'cute',
-                                        color: Colors.blueAccent,
+                                        color: Colors.lightBlue,
                                         fontSize: 15,
                                       ),
                                     ),

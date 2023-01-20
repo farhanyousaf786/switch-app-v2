@@ -467,7 +467,7 @@ class _MemesOnlyState extends State<MemesOnly> {
             padding: const EdgeInsets.only(top: 50),
             child: Center(
                 child: SpinKitThreeBounce(
-              color: Colors.blueAccent,
+              color: Colors.lightBlue,
               size: 15,
             )),
           )
@@ -2391,7 +2391,9 @@ class _MemesOnlyState extends State<MemesOnly> {
               id: '$index',
               builder: (BuildContext context, bool isInView, Widget? child) {
                 return VideoWidget(
-                    play: isInView, url: limitedPostList[index]['url']);
+                    play: isInView, url: limitedPostList[index]['url'],
+                  time: limitedPostList[index]['timestamp'],
+                );
               },
             );
           },

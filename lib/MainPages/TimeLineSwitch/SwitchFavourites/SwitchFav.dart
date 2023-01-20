@@ -34,7 +34,7 @@ class _SwitchFavState extends State<SwitchFav> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: SpinKitThreeBounce(
-                  color: Colors.blueAccent,
+                  color: Colors.lightBlue,
                   size: 15,
                 ),
               ),

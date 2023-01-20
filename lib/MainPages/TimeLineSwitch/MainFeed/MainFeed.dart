@@ -293,7 +293,7 @@ class _MainFeedState extends State<MainFeed> {
                                 ? Colors.white.withOpacity(0.5)
                                 : Colors.white)
                         : MaterialStateColor.resolveWith(
-                            (states) => Colors.blueAccent.withOpacity(0.1)),
+                            (states) => Colors.lightBlue.withOpacity(0.1)),
                   ),
                 ),
               ),
@@ -4766,7 +4766,9 @@ class _MainFeedState extends State<MainFeed> {
               id: '$index',
               builder: (BuildContext context, bool isInView, Widget? child) {
                 return VideoWidget(
-                    play: isInView, url: limitedPostList[index]['url']);
+                    play: isInView, url: limitedPostList[index]['url'],
+                  time: limitedPostList[index]['timestamp'],
+                );
               },
             );
           },

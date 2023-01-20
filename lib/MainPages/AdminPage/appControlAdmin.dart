@@ -82,7 +82,7 @@ class _AppControlAdminState extends State<AppControlAdmin> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Comp. Status",
-                      style: TextStyle(color: Colors.blueAccent),
+                      style: TextStyle(color: Colors.lightBlue),
                     ),
                   ),
                   Padding(
@@ -95,7 +95,7 @@ class _AppControlAdminState extends State<AppControlAdmin> {
                             "End",
                             style: TextStyle(
                                 color: currentStatus == 'End'
-                                    ? Colors.blueAccent
+                                    ? Colors.lightBlue
                                     : Colors.grey),
                           ),
                           onPressed: () => {
@@ -122,7 +122,7 @@ class _AppControlAdminState extends State<AppControlAdmin> {
                             "Live",
                             style: TextStyle(
                                 color: currentStatus == 'Live'
-                                    ? Colors.blueAccent
+                                    ? Colors.lightBlue
                                     : Colors.grey),
                           ),
                         ),
@@ -140,7 +140,7 @@ class _AppControlAdminState extends State<AppControlAdmin> {
                             "Not Live",
                             style: TextStyle(
                                 color: currentStatus == 'NotLiveYet'
-                                    ? Colors.blueAccent
+                                    ? Colors.lightBlue
                                     : Colors.grey),
                           ),
                         )
@@ -156,7 +156,7 @@ class _AppControlAdminState extends State<AppControlAdmin> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "App Status",
-                            style: TextStyle(color: Colors.blueAccent),
+                            style: TextStyle(color: Colors.lightBlue),
                           ),
                         ),
                         Row(
@@ -173,7 +173,7 @@ class _AppControlAdminState extends State<AppControlAdmin> {
                                 "Live",
                                 style: TextStyle(
                                     color: appStatus == 'yes'
-                                        ? Colors.blueAccent
+                                        ? Colors.lightBlue
                                         : Colors.grey),
                               ),
                             ),
@@ -188,7 +188,7 @@ class _AppControlAdminState extends State<AppControlAdmin> {
                                 "Not Live",
                                 style: TextStyle(
                                     color: appStatus == 'no'
-                                        ? Colors.blueAccent
+                                        ? Colors.lightBlue
                                         : Colors.grey),
                               ),
                             ),

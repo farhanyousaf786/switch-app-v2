@@ -237,7 +237,7 @@ class _SwitchUpdatesState extends State<SwitchUpdates> {
         child: Text(
           "",
           style: TextStyle(
-              fontSize: 18, fontFamily: 'cute', color: Colors.blueAccent),
+              fontSize: 18, fontFamily: 'cute', color: Colors.lightBlue),
         ));
   }
 
@@ -283,7 +283,7 @@ class _SwitchUpdatesState extends State<SwitchUpdates> {
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'cute',
-                                    color: Colors.blueAccent),
+                                    color: Colors.lightBlue),
                               ),
                             ),
                           ),
@@ -378,7 +378,8 @@ class _SwitchUpdatesState extends State<SwitchUpdates> {
                                 return VideoWidget(
                                     play: isInView,
                                     url: userPosts[index]
-                                    ['url']);
+                                    ['url'],
+                                    time: userPosts[index]['timestamp'],);
                               },
                             );
                           },

@@ -266,7 +266,9 @@ class _AllParticipantsState extends State<AllParticipants> {
                                                     return VideoWidget(
                                                         play: isInView,
                                                         url: limitedMemeList![
-                                                            index]['url']);
+                                                            index]['url'],
+                                                      time: limitedMemeList![index]['timestamp'],
+                                                    );
                                                   },
                                                 );
                                               },

@@ -3576,7 +3576,7 @@ class _BodyState extends State<Body> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               elevation: 0.0,
-                              primary: Colors.blueAccent,
+                              primary: Colors.lightBlue,
                               textStyle: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.bold)),
                           child: Text("Confirm"),
@@ -5645,7 +5645,7 @@ class _BodyState extends State<Body> {
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontFamily: "cute",
-                                        color: Colors.blueAccent),
+                                        color: Colors.lightBlue),
                                   ),
                                 ),
                                 Padding(
@@ -5801,7 +5801,7 @@ class _BodyState extends State<Body> {
                                           child: Text('Confirm'),
                                           style: ElevatedButton.styleFrom(
                                               elevation: 0.0,
-                                              primary: Colors.blueAccent,
+                                              primary: Colors.lightBlue,
                                               textStyle: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold)),

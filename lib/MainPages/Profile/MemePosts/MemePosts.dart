@@ -198,7 +198,7 @@ class _AllMemePostsState extends State<AllMemePosts> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: SpinKitThreeBounce(
-                      color: Colors.blueAccent,
+                      color: Colors.lightBlue,
                       size: 15,
                     ),
                   ),
@@ -312,7 +312,9 @@ class _AllMemePostsState extends State<AllMemePosts> {
                                                 return VideoWidget(
                                                     play: isInView,
                                                     url: limitedPostList[index]
-                                                        ['url']);
+                                                        ['url'],
+                                                  time: limitedPostList[index]['timestamp'],
+                                                );
                                               },
                                             );
                                           },

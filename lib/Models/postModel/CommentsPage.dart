@@ -416,7 +416,7 @@ class _CommentsPageState extends State<CommentsPage> {
                         child: Text(
                           "publish",
                           style: TextStyle(
-                            color: Colors.blueAccent,
+                            color: Colors.lightBlue,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

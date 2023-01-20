@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:switchapp/Authentication/Auth.dart';
+import 'package:switchapp/Authentication/SignUp/signUpPage.dart';
 
 import '../../Bridges/landingPage.dart';
 import '../../Models/need_help/need_help_page.dart';
@@ -24,6 +25,113 @@ class HomeLanding extends StatefulWidget {
 }
 
 class _HomeLandingState extends State<HomeLanding> {
+
+
+  void signOption(){
+
+
+
+    showModalBottomSheet(
+        useRootNavigator: true,
+        isScrollControlled: true,
+        barrierColor: Colors.red.withOpacity(0.2),
+        elevation: 0,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        context: context,
+        builder: (context) {
+          return Container(
+            height: MediaQuery.of(context).size.height / 2.5,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.linear_scale_sharp,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                    color: Colors.lightBlue,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      "Please chose an option",
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontFamily: 'cute',
+                          fontSize: 17),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Material(
+                        color: Colors.lightBlue,
+                        borderRadius: BorderRadius.circular(12),
+                        child: TextButton(
+
+                          onPressed: () =>{
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignInPage(),
+                              ),
+                            ),
+                          },
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'cute',
+                                fontSize: 17),
+                          ),
+
+                        ),
+                      ),
+
+                      Material(
+                        color: Colors.lightBlue,
+                        borderRadius: BorderRadius.circular(12),
+                        child: TextButton(
+                          onPressed: () =>{
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignUpPage(),
+                              ),
+                            ),
+                          },
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'cute',
+                                fontSize: 17),
+                          ),
+                        ),
+                      ),
+
+                    ],
+                  ),
+
+                ],
+              ),
+            ),
+          );
+        });
+
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,12 +224,7 @@ class _HomeLandingState extends State<HomeLanding> {
                         borderRadius: BorderRadius.circular(10),
                         child: TextButton(
                           onPressed: () => {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignInPage(),
-                              ),
-                            ),
+                            signOption()
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

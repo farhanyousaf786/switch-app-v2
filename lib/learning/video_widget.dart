@@ -1,16 +1,19 @@
 import 'dart:math';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:switchapp/Models/Constans.dart';
+import 'package:time_formatter/time_formatter.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {
   final String url;
   final bool play;
+  final time;
 
-  const VideoWidget({Key? key, required this.url, required this.play})
+  const VideoWidget(
+      {Key? key, required this.url, required this.play, required this.time})
       : super(key: key);
 
   @override
@@ -21,13 +24,26 @@ class _VideoWidgetState extends State<VideoWidget> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
   bool isHide = true;
+  late DateTime dt1;
+  late DateTime dt2 = DateTime.parse("2023-01-01");
 
   @override
   void initState() {
+    var dt = DateTime.fromMillisecondsSinceEpoch(widget.time);
+    var date = DateFormat('yyyy-MM-dd').format(dt); // 12/31/2000, 10:00 PM
+    dt1 = DateTime.parse(date);
     super.initState();
-    _controller = VideoPlayerController.network(
-      widget.url,
-    );
+
+    if (dt1.isBefore(dt2)) {
+      _controller = VideoPlayerController.network(
+        "https://firebasestorage.googleapis.com/v0/b/double-slit-world.appspot.com/o/5%20second%20relaxing%20music.mp4?alt=media&token=5f289012-5bc5-49f9-88c5-4a9c568f93a7",
+      );
+    } else {
+      _controller = VideoPlayerController.network(
+        widget.url,
+      );
+    }
+
     _initializeVideoPlayerFuture = _controller.initialize().then((_) {
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
 
@@ -73,65 +89,68 @@ class _VideoWidgetState extends State<VideoWidget> {
             return SizedBox.expand(
               child: Stack(
                 children: [
-                  Center(
-                    child: FittedBox(
-                      // fit: BoxFit.contain,
-                      child: SizedBox(
-                        width: _controller.value.size.width,
-                        height: _controller.value.size.height,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15.0),
-                          child: GestureDetector(
-                            onTap: () => {
-                              if (isHide)
-                                {
-                                  setState(() {
-                                    isHide = false;
-                                  }),
-                                }
-                              else
-                                {
-                                  isHide = true,
-                                },
-                              setState(() {
-                                _controller.value.isPlaying
-                                    ? _controller.pause()
-                                    : _controller.play();
-                              }),
-                            },
-                            child: Stack(
-                              children: [
-                                VideoPlayer(_controller),
-                                Positioned(
-                                  bottom: 0.0,
-                                  right: 0.0,
-                                  top: 0.0,
-                                  left: 0.0,
-                                  child: Container(
-                                    padding: EdgeInsets.all(5),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Center(
-                                          child: Icon(
-                                            _controller.value.isPlaying
-                                                ? Icons.pause
-                                                : Icons.play_arrow,
-                                            color: isHide
-                                                ? Colors.transparent
-                                                : Colors.white,
-                                            size: 40,
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                    child: Center(
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: SizedBox(
+                          width: _controller.value.size.width,
+                          height: _controller.value.size.height,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15.0),
+                            child: GestureDetector(
+                              onTap: () => {
+                                if (isHide)
+                                  {
+                                    setState(() {
+                                      isHide = false;
+                                    }),
+                                  }
+                                else
+                                  {
+                                    isHide = true,
+                                  },
+                                setState(() {
+                                  _controller.value.isPlaying
+                                      ? _controller.pause()
+                                      : _controller.play();
+                                }),
+                              },
+                              child: Stack(
+                                children: [
+                                  VideoPlayer(_controller),
+                                  Positioned(
+                                    bottom: 0.0,
+                                    right: 0.0,
+                                    top: 0.0,
+                                    left: 0.0,
+                                    child: Container(
+                                      padding: EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Center(
+                                            child: Icon(
+                                              _controller.value.isPlaying
+                                                  ? Icons.pause
+                                                  : Icons.play_arrow,
+                                              color: isHide
+                                                  ? Colors.transparent
+                                                  : Colors.white,
+                                              size: 40,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),

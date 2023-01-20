@@ -480,7 +480,7 @@ class _YourFeedState extends State<YourFeed> {
             padding: const EdgeInsets.only(top: 50),
             child: Center(
                 child: SpinKitThreeBounce(
-              color: Colors.blueAccent,
+              color: Colors.lightBlue,
               size: 15,
             )),
           )

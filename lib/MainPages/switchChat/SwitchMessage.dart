@@ -2179,7 +2179,7 @@ class _SwitchMessageState extends State<SwitchMessages>
                                         color: Colors.blue,
                                       ),
                                       Container(
-                                        color: Colors.lightBlueAccent,
+                                        color: Colors.lightBlue,
                                         height: 50,
                                         child: Center(
                                             child: Text(

@@ -2329,7 +2329,7 @@ class _SwitchChatComposerState extends State<SwitchChatComposer> {
                                           : widget.mood == 'ignore'
                                               ? Colors.teal
                                               : Colors.purpleAccent
-                          : Colors.blueAccent,
+                          : Colors.lightBlue,
                       size: 22,
                     )),
               ),
@@ -2362,7 +2362,7 @@ class _SwitchChatComposerState extends State<SwitchChatComposer> {
                                               : widget.mood == 'ignore'
                                                   ? Colors.teal
                                                   : Colors.purpleAccent
-                              : Colors.blueAccent,
+                              : Colors.lightBlue,
                         ),
                         onPressed: _isComposing
                             ? () => {
