@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:rive/rive.dart';
 import 'package:switchapp/Authentication/Auth.dart';
 import 'package:switchapp/UniversalResources/DataBaseRefrences.dart';
 import 'SetProfilePicture.dart';
@@ -330,7 +331,6 @@ class _SetUserDataState extends State<SetUserData> {
             fontSize: 20,
           ),
         ),
-
         centerTitle: true,
         elevation: 0,
       ),
@@ -341,9 +341,14 @@ class _SetUserDataState extends State<SetUserData> {
           slidingBeginOffset: Offset(0.0, -1),
           child: ListView(
             children: <Widget>[
-              SizedBox(
-                height: 10,
+              Container(
+                height: 150,
+                width: 120,
+                child: RiveAnimation.asset(
+                  'images/authLogo.riv',
+                ),
               ),
+
               userExistsText
                   ? userExists
                       ? Center(
@@ -620,11 +625,11 @@ class _SetUserDataState extends State<SetUserData> {
                     setUserInfo();
                   },
                   style: ElevatedButton.styleFrom(
-                      elevation: 0.0,
-                      primary: Colors.lightBlue,
-                      backgroundColor: Colors.white,
-                      textStyle:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    elevation: 0.0,
+                    primary: Colors.lightBlue,
+                    backgroundColor: Colors.white,
+                    textStyle:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

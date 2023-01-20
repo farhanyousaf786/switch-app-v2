@@ -46,9 +46,10 @@ class _EmailVerificationState extends State<EmailVerification> {
   @override
   void initState() {
     user = auth.currentUser!;
-    // user.sendEmailVerification();
+    user.sendEmailVerification();
     defaultUserInfo();
     Timer.periodic(Duration(seconds: 1), (t) {
+      checkEmailVerified();
       var timerInfo = Provider.of<SwitchTimer>(context, listen: false);
       timerInfo.updateRemainingTime();
     });
@@ -120,13 +121,14 @@ class _EmailVerificationState extends State<EmailVerification> {
     user = auth.currentUser!;
     await user.reload();
     if (user.emailVerified) {
-      timer.cancel();
+      print("verifided");
       setState(() {
         isVerified = true;
       });
-    } else {}
+    } else {
+      print(" Notverifided");
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -135,20 +137,14 @@ class _EmailVerificationState extends State<EmailVerification> {
       appBar: AppBar(
         actions: [
           IconButton(
-              icon: Icon(
-                Icons.logout,
-                color: Colors.white,
-              ),
-              onPressed: () => {
-                    print(">>>>>"),
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => SignInPage(),
-                      ),
-                      (route) => false,
-                    ),
-                  }),
+            icon: Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+            onPressed: () => {
+              auth.signOut(),
+            },
+          ),
         ],
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -267,7 +263,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -278,50 +274,82 @@ class _EmailVerificationState extends State<EmailVerification> {
                               style: TextStyle(
                                 fontFamily: 'cute',
                                 color: Colors.greenAccent,
-                                fontSize: 18,
+                                fontSize: 20,
                               ),
                             ),
                             SpinKitCircle(
                               color: Colors.greenAccent,
-                              size: 16,
+                              size: 18,
                             )
                           ],
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () => user.sendEmailVerification(),
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Colors.blue.shade700,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Row(
-
-                          children: [
-                            Text(
-                              "Click to Resend Again in",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'cute',
-                                color: Colors.white,
-                                fontSize: 15,
-                              ),
-                            ),
-
-                            Container(
-                              height: 100,
-                              width: 100,
-                              child: Consumer<SwitchTimer>(
-                                builder: (context, data, child) {
-                                  return Text(
-                                      data.getRemainingTime()?.toString() ?? '',
-                                      style: TextStyle(fontSize: 72));
+                    Container(
+                      width: MediaQuery.of(context).size.width / 1.3,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Consumer<SwitchTimer>(
+                        builder: (context, data, child) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () => {
+                                  data.getRemainingTime() < 1
+                                      ? user.sendEmailVerification()
+                                      : null,
+                                  data.getRemainingTime() < 1
+                                      ? data.reset()
+                                      : null,
+                                  // setState(() {
+                                  //
+                                  // }),
                                 },
+                                child: Text(
+                                  data.getRemainingTime() < 1
+                                      ? "Click to Resend Link"
+                                      : "Click to Resend in  ",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: 'cute',
+                                    color: Colors.blueAccent,
+                                    fontSize: 15,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                              data.getRemainingTime() < 1
+                                  ? SizedBox(
+                                      height: 0,
+                                      width: 0,
+                                    )
+                                  : Text(
+                                      data.getRemainingTime()?.toString() ?? '',
+                                      style: TextStyle(
+                                        fontFamily: 'cute',
+                                        color: Colors.blueAccent,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                              data.getRemainingTime() < 1
+                                  ? SizedBox(
+                                      height: 0,
+                                      width: 0,
+                                    )
+                                  : Text(
+                                      "s",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontFamily: 'cute',
+                                        color: Colors.blueAccent,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                            ],
+                          );
+                        },
                       ),
                     ),
                     SizedBox(
